@@ -3,8 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
-    "dev": "dotenv -e ./.env -- tsnd --respawn src/server.ts"
+    "build": "npx tsc",
+    "start": "node ./dist/server.js",
+    "migreate:deploy": "npx prisma migrate deploy",
+    "dev": "dotenv -e ./.env -- tsnd --respawn src/server.ts",
+    "prod": "dotenv -e ./.env.prod -- tsnd --respawn src/server.ts",
+    "migrate:dev": "dotenv -e ./.env -- npx prisma migrate dev",
+    "migrate:prod": "dotenv -e ./.env.prod -- npx prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
