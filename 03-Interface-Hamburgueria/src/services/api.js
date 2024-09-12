@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://api-hamburgueria-00xc.onrender.com/',
   timeout: 8000,
 });
