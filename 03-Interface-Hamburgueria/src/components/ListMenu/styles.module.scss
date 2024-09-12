@@ -1,0 +1,12 @@
+.listMenu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  padding: 20px;
+  gap: 1rem;
+}
+
+@media (max-width: 540px) {
+  .listMenu {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+}
