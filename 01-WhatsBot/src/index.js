@@ -1,5 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const db = require('./database/db');
 
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -34,42 +35,46 @@ Opções de Pagamento:
 Por favor, responda com o número da opção desejada.
 `;
 
-// Listening to all incoming messages
 client.on('message_create', async (message) => {
   console.log(message.body); // Exibe o conteúdo da mensagem no console
 
-  // Evita responder às mensagens que o próprio bot enviou
-  // if (message.fromMe) return;
+  const match = message.body.match(/pedido:\s*#(\d+)/i);
 
-  // Verifica se message.body é uma string e responde com uma lista de mensagens
+  if (match) {
+    const pedidoNumero = match[1];
 
-  if (message.body.toLocaleLowerCase() === 'env') {
-    await client.sendMessage(message.from, actions);
-  }
+    try {
+      const result = await db.query(
+        `SELECT * FROM "Hamburguer" WHERE id = $1`,
+        [pedidoNumero]
+      );
 
-  if (message.body.includes('Nome')) {
-    await client.sendMessage(message.from, paymentOptions);
-  }
+      if (result.rows.length > 0) {
+        const pedidoInfo = result.rows[0];
+        console.log(pedidoInfo);
 
-  switch (message.body) {
-    case '1':
+        const responseMessage =
+          `Informações do Pedido: #${pedidoNumero}\n` +
+          `Nome: ${pedidoInfo.name}\n` +
+          `Descrição: ${pedidoInfo.description}\n` +
+          `Preço: ${pedidoInfo.price}\n` +
+          `Ingredientes: ${pedidoInfo.ingredients}\n` +
+          `Tamanho: ${pedidoInfo.size}\n`;
+
+        await client.sendMessage(message.from, responseMessage);
+      } else {
+        await client.sendMessage(
+          message.from,
+          `Pedido: #${pedidoNumero} não encontrado.`
+        );
+      }
+    } catch (err) {
+      console.error('Erro ao consultar o banco:', err);
       await client.sendMessage(
         message.from,
-        'Na opção cartão de Crédito você faz o pagamento na hora da entrega e sem desconto'
+        'Ocorreu um erro ao consultar o pedido.'
       );
-      break;
-    case '2':
-      await client.sendMessage(
-        message.from,
-        'Na opção cartão de Débito você faz o pagamento na hora da entrega e sem desconto'
-      );
-      break;
-    case '3':
-      await client.sendMessage(
-        message.from,
-        'Na opção Pix vc efetua o pagamento e tem 3% de desconto'
-      );
-      break;
+    }
   }
 });
 
