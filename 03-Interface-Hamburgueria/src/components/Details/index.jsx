@@ -21,7 +21,7 @@ export const Details = ({ id, size, ingredients, price }) => {
         </span>
       </div>
 
-      <WhatsAppButton phoneNumber={'98985598696'} message={'Pedido'} />
+      <WhatsAppButton phoneNumber={'98985598696'} message={`Pedido: #${id}`} />
     </div>
   );
 };
