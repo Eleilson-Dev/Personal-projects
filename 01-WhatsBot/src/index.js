@@ -1,5 +1,5 @@
 const client = require('./config/client');
-const { handleMessage } = require('./handlers/messageHandler');
+const { messageHandler } = require('./handlers/MessageHandler');
 const qrcode = require('qrcode-terminal');
 
 client.on('qr', (qr) => {
@@ -11,7 +11,7 @@ client.on('ready', () => {
 });
 
 client.on('message_create', async (message) => {
-  await handleMessage(message);
+  await messageHandler.replyMessage(message);
 });
 
 client.initialize();
