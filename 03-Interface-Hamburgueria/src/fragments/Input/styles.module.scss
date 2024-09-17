@@ -1,0 +1,22 @@
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 100%;
+  margin-bottom: 0.5rem;
+
+  label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  input {
+    padding: 1rem;
+    font-size: 1.3rem;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    background-color: rgb(241, 239, 239);
+  }
+}

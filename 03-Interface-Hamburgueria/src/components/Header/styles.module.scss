@@ -1,12 +1,36 @@
 .headerContent {
+  display: flex;
   padding: 10px;
   text-align: center;
   color: #ffffff;
   box-shadow: 1px 1px 8px black;
   margin-bottom: 1rem;
 
-  p {
-    margin-top: 0.5rem;
-    font-weight: 600;
+  .boxContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 1.2rem;
+  }
+
+  .title {
+    a {
+      text-decoration: none;
+      font-size: clamp(1.5rem, 1.257rem + 0.914vw, 2.2rem);
+      font-weight: 600;
+      color: #ffffff;
+    }
+  }
+
+  .links {
+    font-size: clamp(1.2rem, 0.922rem + 1.045vw, 2rem);
+    gap: 1rem;
+
+    a {
+      margin-right: clamp(0.5rem, 0.327rem + 0.653vw, 1rem);
+
+      font-weight: 600;
+      color: #ffffff;
+    }
   }
 }

@@ -1,13 +1,11 @@
 import { Header } from './components/Header';
-import { ListMenu } from './components/ListMenu';
+import { RoutesMain } from './routes/RoutesMain';
 
 function App() {
   return (
     <>
       <Header />
-      <main>
-        <ListMenu />
-      </main>
+      <RoutesMain />
     </>
   );
 }
