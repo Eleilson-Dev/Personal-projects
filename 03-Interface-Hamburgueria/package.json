@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "vercel:prod": "NODE_OPTIONS='--no-deprecation' vercel --prod",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
