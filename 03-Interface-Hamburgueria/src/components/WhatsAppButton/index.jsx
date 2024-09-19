@@ -8,7 +8,7 @@ export const WhatsAppButton = ({ phoneNumber, message }) => {
   return (
     <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
       <button className={styles.btn} style={styles.button}>
-        Fazer Pedido
+        Add to cart
       </button>
     </a>
   );
