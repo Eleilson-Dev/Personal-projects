@@ -1,44 +1,84 @@
 .cardItem {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: end;
   list-style: none;
-  height: 500px;
-  background-color: #1f1f1f;
-  border-radius: 10px;
-  background-image: url(../../../public/assets/hamburguer.png);
-  background-position: center;
-  background-size: cover;
-  box-shadow: 1px 5px 10px black;
+  color: black;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.265);
+  border: 3px solid rgb(200, 200, 200);
 
-  > h1 {
-    font-size: clamp(1.5rem, 1.291rem + 0.788vw, 2rem);
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #e9e9e9;
-    text-shadow: 1px 1px 5px rgb(248, 15, 15);
+  .boxImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #e6e6e6;
+
+    img {
+      width: 70%;
+    }
   }
 
-  .description {
-    padding: 10px;
-    width: 100%;
+  .details {
+    height: 50%;
+    margin: 0.5rem 0.5rem 0.5rem 1rem;
 
-    h1 {
-      font-size: clamp(1.5rem, 1.374rem + 0.473vw, 1.8rem);
+    h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
     }
 
-    p {
-      margin-top: 10px;
-      font-size: clamp(1rem, 0.916rem + 0.315vw, 1.2rem);
+    span {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 1.5rem;
       font-weight: 600;
+      color: #34b164;
+    }
+
+    .cardAction {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .btn1,
+      .btn2 {
+        width: 85%;
+        border: none;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .btn1 {
+        background-color: rgb(11, 202, 132);
+        color: #ffffff;
+
+        &:hover {
+          background-color: rgb(10, 159, 104);
+        }
+      }
+
+      .btn2 {
+        background-color: #d9e7fa;
+        color: #3483fa;
+
+        &:hover {
+          background-color: #cfd9e7;
+        }
+      }
     }
   }
-}
 
-@media (max-width: 500px) {
-  .cardItem {
-    height: 400px;
+  &:hover {
+    border: 3px solid rgb(11, 202, 132);
   }
 }

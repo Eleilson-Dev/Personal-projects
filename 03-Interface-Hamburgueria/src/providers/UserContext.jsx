@@ -1,81 +1,80 @@
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { fetchCurrentUser } from '../utils/fetchCurrentUser';
+import { saveToken, getToken, removeToken } from '../utils/tokenActions';
+import { errorToast, successToast } from '../utils/toasts';
+import { loadProductData } from '../utils/loadProductsData';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
+  const [list, setList] = useState([]);
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [cartList, setCartList] = useState(() => {
+    const saveItems = localStorage.getItem('@CARTLIST');
+    return saveItems ? JSON.parse(saveItems) : [];
+  });
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCurrentUser(setUser, navigate);
+    loadProductData(setList);
+    console.log(cartList);
+
+    localStorage.setItem('@CARTLIST', JSON.stringify(cartList));
+  }, [navigate, loadProductData, cartList]);
 
   const userRegister = async (userCreateData) => {
     try {
       await api.post('/users', userCreateData);
       navigate('/login');
     } catch (error) {
-      console.error(
-        'Erro ao registrar usuário:',
-        error.response?.data || error.message
-      );
+      errorToast(error.response?.data.message);
     }
   };
-
-  const loadUser = useCallback(async () => {
-    const token = localStorage.getItem('@TOKEN');
-
-    if (token) {
-      try {
-        const { data } = await api.get(`/users/current`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setUser(data);
-        navigate('/');
-      } catch (error) {
-        navigate('/login');
-        console.log(error);
-        localStorage.removeItem('@TOKEN');
-        setUser(null);
-      }
-    }
-  }, [navigate]);
-
-  useEffect(() => {
-    loadUser();
-  }, [loadUser]);
 
   const userLogin = async (userLoginData) => {
     try {
       const { data } = await api.post('/users/login', userLoginData);
-      setUser(data.user);
-      setAccessToken(data.accessToken);
+
+      successToast(`Login success`);
       navigate('/');
-      localStorage.setItem('@TOKEN', data.accessToken);
+      saveToken('@TOKEN', data.accessToken);
     } catch (err) {
       navigate('/login');
-      console.error(
-        'Erro ao registrar usuário:',
-        err.response?.data || err.message
-      );
+      errorToast(err.response?.data.message);
     }
   };
 
-  const userIsLoged = !localStorage.getItem('@TOKEN');
+  const isUserLoggedIn = !getToken('@TOKEN');
 
   const userLogout = () => {
     setUser(null);
-    setAccessToken(null);
+    removeToken('@TOKEN');
+  };
 
-    localStorage.removeItem('@USERID');
-    localStorage.removeItem('@TOKEN');
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
     <UserContext.Provider
-      value={{ userRegister, userLogin, userLogout, userIsLoged, user }}
+      value={{
+        userRegister,
+        userLogin,
+        userLogout,
+        isUserLoggedIn,
+        user,
+        isModalOpen,
+        toggleModal,
+        list,
+        cartList,
+        setCartList,
+      }}
     >
       {children}
     </UserContext.Provider>

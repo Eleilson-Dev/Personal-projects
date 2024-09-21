@@ -1,10 +1,11 @@
 .headerContent {
   display: flex;
-  padding: 10px;
+  padding: 1rem;
   text-align: center;
-  color: #ffffff;
-  box-shadow: 1px 1px 8px black;
+  color: #000000;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.096);
   margin-bottom: 1rem;
+  background-color: #f5f5f5;
 
   .boxContent {
     display: flex;
@@ -18,24 +19,28 @@
       text-decoration: none;
       font-size: clamp(1.5rem, 1.257rem + 0.914vw, 2.2rem);
       font-weight: 600;
-      color: #ffffff;
+      color: #000000;
+
+      .redColor {
+        color: red;
+      }
     }
   }
 
-  .links {
-    font-size: clamp(1.2rem, 0.922rem + 1.045vw, 2rem);
-    gap: 1rem;
-
-    span {
-      margin-right: clamp(0.5rem, -0.02rem + 1.959vw, 2rem);
-      font-weight: 600;
-    }
+  .headerContentRigth {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 2rem;
+    gap: 1.5rem;
 
     a {
-      margin-right: clamp(0.5rem, 0.327rem + 0.653vw, 1rem);
+      color: #000000;
+    }
 
-      font-weight: 600;
-      color: #ffffff;
+    span {
+      color: #bdbdbd;
+      margin-top: 6px;
       cursor: pointer;
     }
   }

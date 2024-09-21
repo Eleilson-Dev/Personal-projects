@@ -1,0 +1,17 @@
+.iconCart {
+  position: relative;
+  color: #bdbdbd;
+  margin-top: 6px;
+  cursor: pointer;
+
+  .counter {
+    position: absolute;
+    top: -14px;
+    right: -10px;
+    background-color: #27ae60;
+    color: #ffff;
+    padding: 4px 6px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+  }
+}
