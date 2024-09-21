@@ -1,0 +1,49 @@
+.modalFotter {
+  .contentBox {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    span {
+      font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+      color: rgb(35, 35, 35);
+      display: block;
+      font-weight: 600;
+      padding-inline: 0.5rem;
+    }
+  }
+
+  .contentBtns {
+    display: flex;
+    gap: 1rem;
+
+    .finish,
+    .empty {
+      padding: 0.5rem;
+      width: 100%;
+      font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .finish {
+      background-color: rgb(11, 202, 132);
+      color: #ffffff;
+
+      &:hover {
+        background-color: rgb(10, 159, 104);
+      }
+    }
+
+    .empty {
+      background-color: #d9e7fa;
+      color: #3483fa;
+
+      &:hover {
+        background-color: #cfd9e7;
+      }
+    }
+  }
+}

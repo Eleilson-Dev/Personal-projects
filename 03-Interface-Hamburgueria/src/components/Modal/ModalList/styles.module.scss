@@ -1,22 +1,22 @@
 .modalList {
   color: black;
-  border: solid black;
-  padding: 1rem;
+  border-bottom: 2px solid rgb(157, 157, 157);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 
   li {
     display: flex;
     align-items: center;
-    border: solid red;
     list-style: none;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 
     .imgBox {
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 8px;
-      width: 110px;
-      height: 80px;
+      width: 5.875rem;
+      height: 4rem;
       margin-right: 1rem;
       background-color: rgb(210, 210, 210);
 
@@ -31,13 +31,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border: solid blue;
 
       .nameAndPrice {
-        border: solid red;
-
         > h3 {
-          width: 185px;
+          width: clamp(9rem, 7.938rem + 4vw, 11.563rem);
+          font-size: clamp(0.9rem, 0.817rem + 0.312vw, 1.1rem);
           padding: 0;
           white-space: nowrap; /* Impede o texto de quebrar para a próxima linha */
           overflow: hidden; /* Esconde o texto que ultrapassar a largura definida */
@@ -48,28 +46,28 @@
         span {
           color: #34b164;
           font-weight: 600;
-          font-size: 1.2rem;
+          font-size: clamp(0.9rem, 0.817rem + 0.312vw, 1.1rem);
         }
       }
 
       .qtd {
-        width: 100px;
+        width: clamp(4rem, 3.067rem + 3.512vw, 6.25rem);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 1.5rem;
+        font-size: clamp(1rem, 0.793rem + 0.78vw, 1.5rem);
 
         > button {
           display: flex;
           border: none;
-          font-size: 1.5rem;
+          font-size: clamp(1rem, 0.793rem + 0.78vw, 1.5rem);
           cursor: pointer;
           background-color: transparent;
         }
       }
 
       .trash {
-        font-size: 1.4rem;
+        font-size: clamp(1.2rem, 1.117rem + 0.312vw, 1.4rem);
         color: rgb(242, 0, 0);
         cursor: pointer;
         margin-top: 5px;

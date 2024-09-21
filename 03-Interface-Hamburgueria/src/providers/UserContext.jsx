@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
   const [list, setList] = useState([]);
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(false);
 
   const [cartList, setCartList] = useState(() => {
     const saveItems = localStorage.getItem('@CARTLIST');
@@ -23,7 +24,6 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     fetchCurrentUser(setUser, navigate);
     loadProductData(setList);
-    console.log(cartList);
 
     localStorage.setItem('@CARTLIST', JSON.stringify(cartList));
   }, [navigate, loadProductData, cartList]);
@@ -55,6 +55,7 @@ export const UserProvider = ({ children }) => {
   const userLogout = () => {
     setUser(null);
     removeToken('@TOKEN');
+    setCartList([]);
   };
 
   const toggleModal = () => {
@@ -74,6 +75,8 @@ export const UserProvider = ({ children }) => {
         list,
         cartList,
         setCartList,
+        orderLoading,
+        setOrderLoading,
       }}
     >
       {children}
