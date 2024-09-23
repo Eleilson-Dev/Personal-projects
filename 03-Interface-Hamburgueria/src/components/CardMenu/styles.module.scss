@@ -1,4 +1,5 @@
 .cardItem {
+  position: relative;
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -11,7 +12,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     background-color: #e6e6e6;
 
     img {
@@ -74,6 +74,18 @@
         &:hover {
           background-color: #cfd9e7;
         }
+      }
+
+      .btn1:disabled {
+        background-color: rgb(101, 156, 105);
+        color: #c4c7cb;
+        cursor: not-allowed;
+      }
+
+      .btn2:disabled {
+        background-color: rgba(155, 154, 154, 0.672);
+        color: #cfd9e7;
+        cursor: not-allowed;
       }
     }
   }

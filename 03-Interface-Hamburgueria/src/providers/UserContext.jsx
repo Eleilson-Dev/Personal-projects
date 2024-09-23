@@ -13,6 +13,10 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderLoading, setOrderLoading] = useState(false);
+  const [itemLoad, setItemLoad] = useState(false);
+  const [pendingOrder, setPendingOrder] = useState(false);
+  const [order, setOrder] = useState(null);
+  const [cancelOrderLoad, setCancelOrderLoad] = useState(false);
 
   const [cartList, setCartList] = useState(() => {
     const saveItems = localStorage.getItem('@CARTLIST');
@@ -62,6 +66,21 @@ export const UserProvider = ({ children }) => {
     setIsModalOpen(!isModalOpen);
   };
 
+  const dataProps = {
+    cartList,
+    toggleModal,
+    setCartList,
+    setOrderLoading,
+    itemLoad,
+    setItemLoad,
+    orderLoading,
+    setPendingOrder,
+    cancelOrderLoad,
+    setCancelOrderLoad,
+    order,
+    setOrder,
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -71,12 +90,9 @@ export const UserProvider = ({ children }) => {
         isUserLoggedIn,
         user,
         isModalOpen,
-        toggleModal,
         list,
-        cartList,
-        setCartList,
-        orderLoading,
-        setOrderLoading,
+        pendingOrder,
+        dataProps,
       }}
     >
       {children}

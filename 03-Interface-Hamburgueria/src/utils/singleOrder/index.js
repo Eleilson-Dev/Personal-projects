@@ -1,23 +1,20 @@
-import { shoppingCart } from '../shoppingCart';
+import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { getToken } from '../tokenActions';
-import { toast } from 'react-toastify';
 import { checkingPendingOrder } from '../chekingPendingOrder';
 
-export const finalizeOrder = async (dataProps) => {
+export const singleOrder = async (item, setLoadingCard, dataProps) => {
   try {
     const token = getToken('@TOKEN');
 
     const order = {
       status: 'pendente',
-      hamburgers: dataProps.cartList.map((item) => ({
-        id: item.id,
-        quantity: item.quantity,
-      })),
-      priceOrder: shoppingCart(dataProps.cartList),
+      hamburgers: [{ id: item.id, quantity: 1 }],
+      priceOrder: item.price,
     };
 
-    dataProps.setOrderLoading(true);
+    setLoadingCard(item.id);
+    dataProps.setItemLoad(true);
 
     const { data } = await api.post('/orders/create', order, {
       headers: { Authorization: `Bearer ${token}` },
@@ -25,8 +22,6 @@ export const finalizeOrder = async (dataProps) => {
 
     if (data?.message) {
       checkingPendingOrder({ data, dataProps });
-      dataProps.toggleModal();
-
       const resultData = data.order[0];
 
       dataProps.setOrder({
@@ -36,15 +31,19 @@ export const finalizeOrder = async (dataProps) => {
         createdAt: resultData.createdAt,
       });
 
+      setLoadingCard(null);
+      dataProps.setItemLoad(false);
       return;
     }
 
-    dataProps.setOrderLoading(false);
-
-    dataProps.setCartList([]);
     toast.success('Pedido enviado');
+    setLoadingCard(null);
+    dataProps.setItemLoad(false);
   } catch (err) {
     console.log(err);
-    toast.error(err.response?.data.message);
+    toast.err(err.response?.data.message);
+    setLoadingCard(null);
+    dataProps.setItemLoad(false);
+    dataProps.setPendingOrder(true);
   }
 };

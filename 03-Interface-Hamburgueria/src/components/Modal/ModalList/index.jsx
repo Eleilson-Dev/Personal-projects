@@ -7,10 +7,10 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';
 
 export const ModalList = () => {
-  const { cartList, setCartList } = useUserContext();
+  const { dataProps } = useUserContext();
 
   const quantityPlus = (itemId) => {
-    setCartList((prevCartList) =>
+    dataProps.setCartList((prevCartList) =>
       prevCartList.map((item) =>
         item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
       )
@@ -18,7 +18,7 @@ export const ModalList = () => {
   };
 
   const quantityMinos = (itemId) => {
-    setCartList((prevCartList) =>
+    dataProps.setCartList((prevCartList) =>
       prevCartList.map((item) =>
         item.id === itemId && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
@@ -29,7 +29,7 @@ export const ModalList = () => {
 
   return (
     <ul className={styles.modalList}>
-      {cartList.map((item) => (
+      {dataProps.cartList.map((item) => (
         <li key={item.id}>
           <div className={styles.imgBox}>
             <img src={imgBurguer} />
@@ -50,7 +50,7 @@ export const ModalList = () => {
             </div>
             <div
               className={styles.trash}
-              onClick={() => removeItemOfModal(item.id, cartList, setCartList)}
+              onClick={() => removeItemOfModal(item.id, dataProps)}
             >
               <FaTrash />
             </div>

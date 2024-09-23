@@ -1,26 +1,28 @@
 import { toast } from 'react-toastify';
 
-export const addItemIntoModal = (item, cartList, setCartList) => {
-  const itemExists = cartList.some((cartItem) => cartItem.id === item.id);
+export const addItemIntoModal = (item, dataProps) => {
+  const itemExists = dataProps.cartList.some(
+    (cartItem) => cartItem.id === item.id
+  );
 
   if (itemExists) {
     toast.warn('Pedido já existe no carrinho!');
     return;
   }
 
-  setCartList((prevState) => {
+  dataProps.setCartList((prevState) => {
     return [...prevState, item];
   });
 
   toast.success('Pedido adicionado ao carrinho');
 };
 
-export const removeItemOfModal = (itemId, cartList, setCartList) => {
-  const itensFiltered = cartList.filter((item) => {
+export const removeItemOfModal = (itemId, dataProps) => {
+  const itensFiltered = dataProps.cartList.filter((item) => {
     return item.id !== itemId;
   });
 
-  setCartList(itensFiltered);
+  dataProps.setCartList(itensFiltered);
 };
 
 export const cleanCart = (setCartList) => {

@@ -41,11 +41,6 @@ main {
   overflow: auto;
 }
 
-.off-scroll {
-  overflow: hidden;
-  padding-right: 0.9rem;
-}
-
 .container {
   width: 100%;
   max-width: 1450px;

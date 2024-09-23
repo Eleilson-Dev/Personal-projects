@@ -1,0 +1,105 @@
+.boxPendingOrder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.boxContent {
+  position: relative;
+  width: clamp(25rem, 22.409rem + 9.756vw, 32.25rem);
+  background-color: #ffff;
+  border-radius: 10px;
+  margin: 1rem;
+
+  .top {
+    padding: 1rem;
+    background-color: #27ae60;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+
+    > h3 {
+      color: #ffff;
+      text-align: center;
+    }
+  }
+}
+
+.order {
+  padding: 0.5rem;
+
+  .imgAndDetails {
+    padding: 0.5rem;
+    margin: 1rem 0rem;
+    width: 100%;
+    border: solid rgba(233, 232, 232, 0.797);
+    display: flex;
+    align-items: center;
+
+    .imgBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      background-color: rgb(207, 204, 204);
+      width: 5.875rem;
+      height: 4rem;
+      margin-right: clamp(0.7rem, 0.576rem + 0.468vw, 1rem);
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .details {
+      width: 50%;
+      color: black;
+      border-right: 2px solid rgb(146, 146, 146);
+      margin-right: clamp(0.5rem, 0.293rem + 0.78vw, 1rem);
+
+      > h4 {
+        font-weight: 600;
+        font-size: clamp(1.2rem, 1.117rem + 0.312vw, 1.4rem);
+        margin-bottom: 0.5rem;
+      }
+
+      span {
+        font-weight: 600;
+        font-size: clamp(1rem, 0.917rem + 0.312vw, 1.2rem);
+        display: block;
+
+        > strong {
+          color: #27ae60;
+        }
+      }
+    }
+
+    .createdAt {
+      width: 50%;
+      color: black;
+
+      > h4 {
+        font-weight: 600;
+        font-size: clamp(1.2rem, 1.117rem + 0.312vw, 1.4rem);
+        margin-bottom: 0.5rem;
+      }
+
+      > span {
+        display: block;
+        font-weight: 600;
+        font-size: clamp(1rem, 0.917rem + 0.312vw, 1.2rem);
+
+        strong {
+          text-transform: capitalize;
+          color: #ff0000;
+        }
+      }
+    }
+  }
+}
