@@ -6,7 +6,7 @@ export const addItemIntoModal = (item, dataProps) => {
   );
 
   if (itemExists) {
-    toast.warn('Pedido já existe no carrinho!');
+    toast.warn('Pedido já existe no carrinho!', { autoClose: 500 });
     return;
   }
 
@@ -14,7 +14,7 @@ export const addItemIntoModal = (item, dataProps) => {
     return [...prevState, item];
   });
 
-  toast.success('Pedido adicionado ao carrinho');
+  toast.success('Pedido adicionado ao carrinho', { autoClose: 500 });
 };
 
 export const removeItemOfModal = (itemId, dataProps) => {

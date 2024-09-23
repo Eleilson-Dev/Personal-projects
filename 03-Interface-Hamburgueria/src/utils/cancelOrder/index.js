@@ -16,9 +16,9 @@ export const cancelOrder = async (dataProps) => {
     dataProps.setCancelOrderLoad(false);
     dataProps.setPendingOrder(false);
 
-    toast.success('Pedido cancelado');
+    toast.success('Pedido cancelado', { autoClose: 500 });
   } catch (err) {
     console.log(err);
-    toast.error(err.response?.data.message);
+    toast.error(err.response?.data.message, { autoClose: 500 });
   }
 };

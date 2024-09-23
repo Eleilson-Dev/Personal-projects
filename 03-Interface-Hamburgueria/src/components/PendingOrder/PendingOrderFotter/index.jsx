@@ -19,7 +19,7 @@ export const PendingOrderFotter = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <button onClick={() => console.log(dataProps)}>
+          <button onClick={() => dataProps.setPendingOrder(false)}>
             Concluir pedido
           </button>
         </a>

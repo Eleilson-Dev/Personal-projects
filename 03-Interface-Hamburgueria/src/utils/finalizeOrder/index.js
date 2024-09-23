@@ -43,14 +43,16 @@ export const finalizeOrder = async (dataProps) => {
     dataProps.setOrderLoading(false);
 
     dataProps.setCartList([]);
-    toast.success('Pedido enviado');
+    toast.success('Pedido enviado', { autoClose: 500 });
 
     window.location.href = callWhatsApp({
       phoneNumber: '+5598985598696',
       message: `Pedido N: #${dataProps.order.id}`,
     });
+
+    dataProps.toggleModal();
   } catch (err) {
     console.log(err);
-    toast.error(err.response?.data.message);
+    toast.error(err.response?.data.message, { autoClose: 500 });
   }
 };
