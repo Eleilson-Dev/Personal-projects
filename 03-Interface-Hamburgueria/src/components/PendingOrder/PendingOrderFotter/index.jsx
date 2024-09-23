@@ -12,7 +12,10 @@ export const PendingOrderFotter = () => {
       <div className={styles.contentBtns}>
         <a
           className={styles.complete}
-          href={callWhatsApp('98985598696', `Pedido N: #${id}`)}
+          href={callWhatsApp({
+            phoneNumber: '+5598985598696',
+            message: `Pedido N: #${id}`,
+          })}
           target="_blank"
           rel="noopener noreferrer"
         >

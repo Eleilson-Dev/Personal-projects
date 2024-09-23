@@ -17,7 +17,23 @@
     display: flex;
     gap: 1rem;
 
-    .finish,
+    .finish {
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+
+      > button {
+        padding: 0.5rem;
+        font-weight: 600;
+        font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+        cursor: pointer;
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        color: #ffffff;
+      }
+    }
+
     .empty {
       padding: 0.5rem;
       width: 100%;

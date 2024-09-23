@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { getToken } from '../tokenActions';
 import { checkingPendingOrder } from '../chekingPendingOrder';
+import { callWhatsApp } from '../callWhatsApp';
 
 export const singleOrder = async (item, setLoadingCard, dataProps) => {
   try {
@@ -39,9 +40,14 @@ export const singleOrder = async (item, setLoadingCard, dataProps) => {
     toast.success('Pedido enviado');
     setLoadingCard(null);
     dataProps.setItemLoad(false);
+
+    window.location.href = callWhatsApp({
+      phoneNumber: '+5598985598696',
+      message: `Pedido N: #${dataProps.order.id}`,
+    });
   } catch (err) {
     console.log(err);
-    toast.err(err.response?.data.message);
+    toast.error(err.response?.data.message);
     setLoadingCard(null);
     dataProps.setItemLoad(false);
     dataProps.setPendingOrder(true);

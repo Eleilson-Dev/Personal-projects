@@ -9,7 +9,6 @@ import { singleOrder } from '../../utils/singleOrder';
 
 export const CardMenu = ({ item }) => {
   const { dataProps } = useUserContext();
-
   const [loadingCard, setLoadingCard] = useState(null);
 
   return (
@@ -25,13 +24,19 @@ export const CardMenu = ({ item }) => {
         </span>
         <span className={styles.price}>{convertToLocalMoney(item.price)}</span>
         <div className={styles.cardAction}>
-          <button
-            onClick={() => singleOrder(item, setLoadingCard, dataProps)}
+          <a
             className={styles.btn1}
-            disabled={dataProps.itemLoad}
+            onClick={() => singleOrder(item, setLoadingCard, dataProps)}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Compre agora
-          </button>
+            <button
+              className={styles.btnDisabled}
+              disabled={dataProps.itemLoad}
+            >
+              Compre agora
+            </button>
+          </a>
         </div>
         <div className={styles.cardAction}>
           <button

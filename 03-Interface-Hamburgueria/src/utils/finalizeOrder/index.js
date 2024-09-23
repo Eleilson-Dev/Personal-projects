@@ -3,6 +3,7 @@ import { api } from '../../services/api';
 import { getToken } from '../tokenActions';
 import { toast } from 'react-toastify';
 import { checkingPendingOrder } from '../chekingPendingOrder';
+import { callWhatsApp } from '../callWhatsApp';
 
 export const finalizeOrder = async (dataProps) => {
   try {
@@ -43,6 +44,11 @@ export const finalizeOrder = async (dataProps) => {
 
     dataProps.setCartList([]);
     toast.success('Pedido enviado');
+
+    window.location.href = callWhatsApp({
+      phoneNumber: '+5598985598696',
+      message: `Pedido N: #${dataProps.order.id}`,
+    });
   } catch (err) {
     console.log(err);
     toast.error(err.response?.data.message);

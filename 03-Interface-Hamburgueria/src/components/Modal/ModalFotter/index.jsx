@@ -14,12 +14,15 @@ export const ModalFotter = () => {
         <span>{convertToLocalMoney(shoppingCart(dataProps.cartList))}</span>
       </div>
       <div className={styles.contentBtns}>
-        <button
-          onClick={() => finalizeOrder(dataProps)}
+        <a
           className={styles.finish}
+          onClick={() => finalizeOrder(dataProps)}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Finalizar pedido
-        </button>
+          <button>Finalizar pedido</button>
+        </a>
+
         <button
           onClick={() => dataProps.setCartList([])}
           className={styles.empty}

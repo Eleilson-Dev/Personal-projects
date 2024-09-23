@@ -12,6 +12,6 @@
     color: #ffff;
     padding: 4px 6px;
     border-radius: 8px;
-    font-size: 1.2rem;
+    font-size: clamp(0.7rem, 0.634rem + 0.624vw, 1.2rem);
   }
 }
