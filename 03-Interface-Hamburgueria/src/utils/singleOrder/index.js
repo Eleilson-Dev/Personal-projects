@@ -37,13 +37,15 @@ export const singleOrder = async (item, setLoadingCard, dataProps) => {
       return;
     }
 
+    console.log(data);
+
     toast.success('Pedido enviado', { autoClose: 500 });
     setLoadingCard(null);
     dataProps.setItemLoad(false);
 
     window.location.href = callWhatsApp({
       phoneNumber: '+5598985598696',
-      message: `Pedido N: #${item.id}`,
+      message: `Pedido N: #${data.id}`,
     });
   } catch (err) {
     console.log(err);

@@ -8,6 +8,7 @@ import { Loading } from '../Loading';
 
 export const PendingOrder = () => {
   const { dataProps } = useUserContext();
+  const formatOrderId = (id) => `#${id % 100}`;
 
   return (
     <div className={styles.boxPendingOrder}>
@@ -23,7 +24,7 @@ export const PendingOrder = () => {
             </div>
             <div className={styles.details}>
               <h4>
-                Pedido N: #<strong>{dataProps.order.id}</strong>
+                Pedido N: <strong>{formatOrderId(dataProps.order.id)}</strong>
               </h4>
               <span>
                 Preço:

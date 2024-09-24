@@ -35,6 +35,8 @@ export const UserProvider = ({ children }) => {
   const userRegister = async (userCreateData) => {
     try {
       await api.post('/users', userCreateData);
+
+      successToast(`Cadastro realizado`);
       navigate('/login');
     } catch (error) {
       errorToast(error.response?.data.message);
