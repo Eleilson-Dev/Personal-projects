@@ -12,9 +12,12 @@ export const fetchCurrentUser = async (setUser, navigate) => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setUser(data);
       navigate('/');
     } catch (error) {
+      console.log(error);
+      console.log(error.response?.data.message);
       errorToast(error.response?.data.message);
       navigate('/login');
       removeToken('@TOKEN');

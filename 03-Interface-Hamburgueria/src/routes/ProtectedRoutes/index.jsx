@@ -10,3 +10,8 @@ export const ProtectedActions = () => {
   const { isUserLoggedIn } = useUserContext();
   return isUserLoggedIn ? <Outlet /> : <Navigate to="/" />;
 };
+
+export const ProtectedValidate = () => {
+  const userId = sessionStorage.getItem('@USERID');
+  return userId ? <Outlet /> : <Navigate to="/register" />;
+};

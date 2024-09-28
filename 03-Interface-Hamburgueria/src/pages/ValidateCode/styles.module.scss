@@ -1,0 +1,48 @@
+.sendCodeContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+
+  .boxContent {
+    position: relative;
+    border: solid rgba(49, 210, 137, 0.596);
+    width: clamp(20rem, 17.098rem + 10.927vw, 27rem);
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(241, 241, 241);
+    padding: 0rem;
+    border-radius: 5px;
+
+    > h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: black;
+    }
+  }
+
+  .resendButton {
+    width: 220px;
+    font-size: 1.3rem;
+    padding: 0.3rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #d9e7fa;
+    color: #3483fa;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #cfd9e7;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
