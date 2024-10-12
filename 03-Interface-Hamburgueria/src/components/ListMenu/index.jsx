@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { CardMenu } from '../CardMenu';
 import { useUserContext } from '../../hooks/useUserContext';
 

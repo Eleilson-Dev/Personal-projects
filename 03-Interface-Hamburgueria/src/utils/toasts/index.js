@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import './toasts.styles.scss';
+import './toasts.styles.css';
 
 export const successToast = (successMessage) => {
   return toast.success(successMessage, {

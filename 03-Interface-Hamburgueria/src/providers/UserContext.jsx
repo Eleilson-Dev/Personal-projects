@@ -45,6 +45,7 @@ export const UserProvider = ({ children }) => {
 
       if (data?.userId) {
         sessionStorage.setItem('@USERID', data.userId);
+        sessionStorage.setItem('@USEREMAIL', data.user.email);
       }
 
       navigate('/validate');

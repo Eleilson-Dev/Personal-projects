@@ -1,10 +1,10 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { removeItemOfModal } from '../../../utils/modalActions';
-import imgBurguer from '../../../../public/assets/burguer.png';
 import { FaTrash } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';
+import imgBurguer from '../../../assets/burguer.png';
 
 export const ModalList = () => {
   const { dataProps } = useUserContext();

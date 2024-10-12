@@ -1,0 +1,25 @@
+.content {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.content > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 0.6rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background-color: rgb(224, 224, 224);
+  color: black;
+  border-radius: 5px;
+}
+
+.content > div > svg {
+  position: absolute;
+  left: clamp(1rem, 0.372rem + 2.365vw, 2.5rem);
+}

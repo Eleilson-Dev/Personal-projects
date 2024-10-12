@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { shoppingCart } from '../../../utils/shoppingCart';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';

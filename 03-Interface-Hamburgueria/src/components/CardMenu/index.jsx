@@ -1,11 +1,11 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { useState } from 'react';
 import { useUserContext } from '../../hooks/useUserContext';
 import { addItemIntoModal } from '../../utils/modalActions';
 import { convertToLocalMoney } from '../../utils/convertToLocalMoney';
 import { Loading } from '../Loading';
-import img from '../../../public/assets/burguer.png';
 import { singleOrder } from '../../utils/singleOrder';
+import img from '../../assets/burguer.png';
 
 export const CardMenu = ({ item }) => {
   const { dataProps } = useUserContext();

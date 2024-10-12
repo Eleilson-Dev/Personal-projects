@@ -1,10 +1,12 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
+
 import { useUserContext } from '../../hooks/useUserContext';
-import img from '../../../public/assets/burguer.png';
 import { PendingOrderFotter } from './PendingOrderFotter';
 import { convertToLocalMoney } from '../../utils/convertToLocalMoney';
 import { formatDate } from '../../utils/fomateDate';
 import { Loading } from '../Loading';
+import { IoCloseSharp } from 'react-icons/io5';
+import img from '../../assets/burguer.png';
 
 export const PendingOrder = () => {
   const { dataProps } = useUserContext();
@@ -16,6 +18,10 @@ export const PendingOrder = () => {
         {dataProps.cancelOrderLoad && <Loading />}
         <div className={styles.top}>
           <h3>Você possui um pedido pendente</h3>
+
+          <span onClick={() => dataProps.setPendingOrder(false)}>
+            <IoCloseSharp />
+          </span>
         </div>
         <div className={styles.order}>
           <div className={styles.imgAndDetails}>
@@ -24,7 +30,7 @@ export const PendingOrder = () => {
             </div>
             <div className={styles.details}>
               <h4>
-                Pedido N: <strong>{formatOrderId(dataProps.order.id)}</strong>
+                Pedido N: <strong>###</strong>
               </h4>
               <span>
                 Preço:

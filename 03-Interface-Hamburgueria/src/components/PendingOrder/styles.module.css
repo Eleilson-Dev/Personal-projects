@@ -19,6 +19,9 @@
   margin: 1rem;
 
   .top {
+    position: relative;
+    display: flex;
+    justify-content: center;
     padding: 1rem;
     background-color: #27ae60;
     border-top-left-radius: 9px;
@@ -27,6 +30,14 @@
     > h3 {
       color: #ffff;
       text-align: center;
+    }
+
+    > span {
+      font-size: 1.4rem;
+      position: absolute;
+      right: 20px;
+      top: 16px;
+      cursor: pointer;
     }
   }
 }

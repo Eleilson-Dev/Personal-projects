@@ -1,0 +1,32 @@
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .inputs {
+    > input {
+      text-align: center;
+      width: 2rem;
+      height: 2.5rem;
+      margin: 0.2rem;
+      font-size: 1.5rem;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      border: 2px solid rgb(166, 166, 166);
+
+      &::placeholder {
+        color: #b4b1b1;
+      }
+
+      &:focus {
+        border: 2px solid rgb(18, 180, 61);
+
+        &::placeholder {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

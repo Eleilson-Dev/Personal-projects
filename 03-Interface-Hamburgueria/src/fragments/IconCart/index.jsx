@@ -1,5 +1,5 @@
+import styles from './styles.module.css';
 import { useUserContext } from '../../hooks/useUserContext';
-import styles from './styles.module.scss';
 import { FaShoppingCart } from 'react-icons/fa';
 
 export const IconCart = () => {

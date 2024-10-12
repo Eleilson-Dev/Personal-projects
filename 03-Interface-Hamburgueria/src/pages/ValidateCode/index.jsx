@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { api } from '../../services/api';
 import { toast } from 'react-toastify';
 import { MultipleDigitInputs } from '../../components/MultipleDigitInputs';
@@ -10,6 +10,11 @@ export const ValidateCode = () => {
   const { formLoad, setFormLoad } = useUserContext();
   const [countdown, setCountdown] = useState(60);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [userEmail, setUserEmail] = useState(null);
+
+  useEffect(() => {
+    setUserEmail(sessionStorage.getItem('@USEREMAIL'));
+  }, [userEmail]);
 
   useEffect(() => {
     if (countdown === 0) {
@@ -22,7 +27,7 @@ export const ValidateCode = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [countdown]);
+  }, [countdown, userEmail]);
 
   const resendCode = async () => {
     try {
@@ -50,8 +55,12 @@ export const ValidateCode = () => {
   return (
     <div className={styles.sendCodeContent}>
       <div className={styles.boxContent}>
+        <h1>Verifique seu E-mail</h1>
         {formLoad && <Loading />}
-        <h3>Código de verificação</h3>
+        <p>
+          Por favor, digite o código que enviamos para
+          <strong> {userEmail}</strong>
+        </p>
         <MultipleDigitInputs />
         <button
           className={styles.resendButton}

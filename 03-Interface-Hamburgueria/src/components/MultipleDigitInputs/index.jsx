@@ -1,6 +1,6 @@
+import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
-import styles from './styles.module.scss';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
@@ -11,14 +11,21 @@ export const MultipleDigitInputs = () => {
   const inputsRef = useRef([]);
   const navigate = useNavigate();
 
-  const handleInputChange = (index, value) => {
+  const handleInputChange = async (index, value) => {
     if (/^\d?$/.test(value)) {
       const newDigits = [...digits];
       newDigits[index] = value;
       setDigits(newDigits);
 
+      // Foca no próximo campo se o valor foi digitado
       if (value && index < digits.length - 1) {
         inputsRef.current[index + 1].focus();
+      }
+
+      // Verifica se todos os dígitos foram preenchidos
+      if (newDigits.every((digit) => digit !== '')) {
+        // Todos os dígitos estão preenchidos, dispara a validação
+        await validate(newDigits.join(''));
       }
     }
   };
@@ -59,31 +66,25 @@ export const MultipleDigitInputs = () => {
         navigate('/register');
       }
       if (message === 'CODE_EXPIRED') {
-        toast.warn('0 Código expirou');
+        toast.warn('O código expirou');
+
+        setDigits(['', '', '', '', '', '']);
+
+        inputsRef.current.forEach((input) => input.blur());
       }
-      console.log(err);
+
       if (message === 'the code is not valid') {
-        toast.warn('Código invalido');
+        toast.warn('Código inválido');
+
+        setDigits(['', '', '', '', '', '']);
+
+        inputsRef.current.forEach((input) => input.blur());
       }
     }
-  };
-
-  const formSubmit = (event) => {
-    event.preventDefault();
-
-    if (digits.some((digit) => digit === '')) {
-      toast.warn('Por favor, preencha todos os dígitos.');
-      return;
-    }
-
-    inputsRef.current.forEach((input) => input.blur());
-
-    validate(digits.join(''));
-    setDigits(['', '', '', '', '', '']);
   };
 
   return (
-    <form className={styles.form} onSubmit={formSubmit}>
+    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.inputs}>
         {digits.map((digit, index) => (
           <input
@@ -100,9 +101,6 @@ export const MultipleDigitInputs = () => {
           />
         ))}
       </div>
-      <button className={styles.formButton} type="submit">
-        Validar código
-      </button>
     </form>
   );
 };

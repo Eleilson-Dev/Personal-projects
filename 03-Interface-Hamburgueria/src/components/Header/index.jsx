@@ -1,5 +1,6 @@
+import styles from './styles.module.css';
+
 import { Link } from 'react-router-dom';
-import styles from './styles.module.scss';
 import { useUserContext } from '../../hooks/useUserContext';
 
 import { IconCart } from '../../fragments/IconCart';

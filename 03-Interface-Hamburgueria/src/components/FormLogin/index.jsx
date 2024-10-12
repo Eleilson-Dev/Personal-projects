@@ -1,10 +1,12 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
+
 import { Input } from '../../fragments/Input';
 import { Button } from '../../fragments/Button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userLoginSchema } from '../../schemas/userRegisterSchema';
 import { useUserContext } from '../../hooks/useUserContext';
+import { LoginWithGoogle } from '../LoginWithGoggle';
 
 export const FormLogin = () => {
   const { userLogin } = useUserContext();
@@ -41,6 +43,7 @@ export const FormLogin = () => {
       />
       {errors.password && <span>{errors.password.message}</span>}
       <Button type="submit" btnText="Entrar" />
+      <LoginWithGoogle />
     </form>
   );
 };

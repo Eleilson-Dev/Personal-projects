@@ -45,7 +45,7 @@ export const singleOrder = async (item, setLoadingCard, dataProps) => {
 
     window.location.href = callWhatsApp({
       phoneNumber: '+5598985598696',
-      message: `Pedido N: #${data.id}`,
+      message: `Pedido N: ${data.id}`,
     });
   } catch (err) {
     console.log(err);

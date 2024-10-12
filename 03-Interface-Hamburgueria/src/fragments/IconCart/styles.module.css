@@ -1,13 +1,19 @@
 .iconCart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   color: #bdbdbd;
   margin-top: 6px;
   cursor: pointer;
+  font-size: clamp(1.5rem, 1.081rem + 1.576vw, 2.5rem);
+  width: clamp(2rem, 1.529rem + 1.773vw, 3.125rem);
+  height: clamp(2rem, 1.529rem + 1.773vw, 3.125rem);
 
   .counter {
     position: absolute;
-    top: -14px;
-    right: -10px;
+    top: -7px;
+    right: -4px;
     background-color: #27ae60;
     color: #ffff;
     padding: 4px 6px;

@@ -46,3 +46,22 @@ main {
   max-width: 1450px;
   margin: 0 auto;
 }
+
+::-webkit-scrollbar {
+  width: 10px; /* Largura do scroll */
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f8f0; /* Cor de fundo do track (trilho) */
+  border-radius: 10px; /* Deixar os cantos arredondados */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c8e6c9; /* Cor do scroll (verde claro) */
+  border-radius: 10px; /* Deixar os cantos do scroll arredondados */
+  border: 2px solid #f0f8f0; /* Cria uma borda para dar destaque */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a5d6a7; /* Cor do scroll ao passar o mouse */
+}

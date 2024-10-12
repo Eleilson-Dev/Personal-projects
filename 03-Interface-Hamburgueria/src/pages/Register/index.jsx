@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from './styles.module.css';
 import { FormRegister } from '../../components/FormRegister';
 import { Loading } from '../../components/Loading';
 import { useUserContext } from '../../hooks/useUserContext';

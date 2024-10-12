@@ -1,5 +1,5 @@
+import styles from './styles.module.css';
 import { useUserContext } from '../../../hooks/useUserContext';
-import styles from './styles.module.scss';
 import { cancelOrder } from '../../../utils/cancelOrder';
 import { callWhatsApp } from '../../../utils/callWhatsApp';
 

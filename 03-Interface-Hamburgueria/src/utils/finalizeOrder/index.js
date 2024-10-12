@@ -47,7 +47,7 @@ export const finalizeOrder = async (dataProps) => {
 
     window.location.href = callWhatsApp({
       phoneNumber: '+5598985598696',
-      message: `Pedido N: #${data.id}`,
+      message: `Pedido N: ${data.id}`,
     });
 
     dataProps.toggleModal();
