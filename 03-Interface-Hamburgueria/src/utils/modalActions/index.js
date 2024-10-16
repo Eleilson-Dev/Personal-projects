@@ -15,6 +15,7 @@ export const addItemIntoModal = (item, dataProps) => {
   });
 
   toast.success('Pedido adicionado ao carrinho', { autoClose: 500 });
+  return;
 };
 
 export const removeItemOfModal = (itemId, dataProps) => {

@@ -1,0 +1,30 @@
+.contentBox {
+  z-index: 7;
+  position: absolute;
+  right: 10px;
+  top: 6px;
+}
+
+.delete,
+.edit,
+.hide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.4rem;
+  color: red;
+  font-size: 1.4rem;
+  border: none;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.edit {
+  color: rgb(31, 160, 63);
+}
+
+.hide {
+  color: rgb(112, 111, 109);
+}

@@ -1,28 +1,31 @@
 import styles from './styles.module.css';
-
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
-
 import { IconCart } from '../../fragments/IconCart';
 import { IconProfile } from '../../fragments/IconProfile';
 
 export const Header = () => {
-  const { isUserLoggedIn, user } = useUserContext();
+  const { user, setList } = useUserContext();
+  const location = useLocation();
+
+  const handleClick = () => {
+    if (location.pathname !== '/') {
+      setList([]);
+    }
+
+    return;
+  };
 
   return (
     <header className={styles.headerContent}>
       <div className={`container ${styles.boxContent}`}>
         <div className={styles.title}>
-          <Link to="/">
+          <Link to="/" onClick={handleClick}>
             Burguer <strong className={styles.redColor}>Red</strong>
           </Link>
         </div>
         <div className={styles.headerContentRigth}>
-          {isUserLoggedIn && <Link to={'login'}>Login</Link>}
-          {isUserLoggedIn && <Link to={'register'}>Register</Link>}
-
-          {/* {!isUserLoggedIn && <span>{user?.name}</span>} */}
-
+          {user?.role === 'ADMIN' && <span>ADM</span>}
           <IconCart />
           <IconProfile />
         </div>

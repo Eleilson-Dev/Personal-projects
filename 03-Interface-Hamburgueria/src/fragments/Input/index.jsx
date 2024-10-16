@@ -1,10 +1,21 @@
 import styles from './styles.module.css';
 
-export const Input = ({ id, labelText, type, placeHolder, register }) => {
+export const Input = ({ id, type, title, placeholder, register, error }) => {
   return (
-    <div className={styles.inputBox}>
-      <label htmlFor={id}>{labelText}</label>
-      <input id={id} type={type} placeholder={placeHolder} {...register(id)} />
+    <div className={styles.inputConteiner}>
+      <label htmlFor={id}>
+        {title} {error && <strong>: {error}</strong>}
+      </label>
+
+      <div className={styles.inputBox}>
+        <input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          autoComplete="off"
+          {...register(id)}
+        />
+      </div>
     </div>
   );
 };

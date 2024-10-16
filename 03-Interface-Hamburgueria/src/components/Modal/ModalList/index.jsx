@@ -1,12 +1,12 @@
 import styles from './styles.module.css';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { removeItemOfModal } from '../../../utils/modalActions';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrashCan } from 'react-icons/fa6';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';
 import imgBurguer from '../../../assets/burguer.png';
 
-export const ModalList = () => {
+export const ModalList = ({ setLoadingEnabled }) => {
   const { dataProps } = useUserContext();
 
   const quantityPlus = (itemId) => {
@@ -50,9 +50,12 @@ export const ModalList = () => {
             </div>
             <div
               className={styles.trash}
-              onClick={() => removeItemOfModal(item.id, dataProps)}
+              onClick={() => {
+                removeItemOfModal(item.id, dataProps);
+                setLoadingEnabled(false);
+              }}
             >
-              <FaTrash />
+              <FaTrashCan />
             </div>
           </div>
         </li>

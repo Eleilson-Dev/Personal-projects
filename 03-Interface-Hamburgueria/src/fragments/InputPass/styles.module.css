@@ -1,4 +1,4 @@
-.inputConteiner {
+.inputBox {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -9,13 +9,9 @@
     font-weight: 600;
     font-size: clamp(0.9rem, 0.776rem + 0.468vw, 1.2rem);
     margin-bottom: 0.5rem;
-
-    > strong {
-      color: red;
-    }
   }
 
-  .inputBox {
+  .pass {
     display: flex;
     align-items: center;
 

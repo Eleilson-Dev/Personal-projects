@@ -8,7 +8,9 @@ function App() {
     <div className={`boxMain`}>
       <ToastContainer />
       <Header />
-      <RoutesMain />
+      <main className="container mainConteiner">
+        <RoutesMain />
+      </main>
     </div>
   );
 }

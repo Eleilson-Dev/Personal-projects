@@ -1,20 +1,71 @@
 import styles from './styles.module.css';
-import { FormRegister } from '../../components/FormRegister';
-import { Loading } from '../../components/Loading';
+import { FcGoogle } from 'react-icons/fc';
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userRegisterSchema } from '../../schemas/userRegisterSchema';
+import { LoginWithGoogle } from '../../components/LoginWithGoggle';
 import { useUserContext } from '../../hooks/useUserContext';
+import { Loading } from '../../components/Loading';
+import { Input } from '../../fragments/Input';
+import { InputPass } from '../../fragments/InputPass';
 
 export const Register = () => {
-  const { formLoad } = useUserContext();
+  const { userRegister, formLoad, windowLoad } = useUserContext();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(userRegisterSchema),
+  });
+
+  const submitForm = (formData) => {
+    userRegister(formData);
+    reset();
+  };
 
   return (
-    <main>
-      <div className={styles.formBox}>
-        <div className={styles.boxContent}>
-          <h1>Cadastre-se</h1>
-          {formLoad && <Loading />}
-          <FormRegister />
+    <div className={styles.centralize}>
+      {windowLoad ? (
+        <div className="windowLoad">
+          <Loading />
         </div>
-      </div>
-    </main>
+      ) : (
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          className={styles.formContent}
+        >
+          {formLoad && <Loading />}
+          <header>
+            <h1>Cadastre-se</h1>
+            <Link to="/login">Entrar</Link>
+          </header>
+
+          <Input
+            id="name"
+            title="Nome"
+            type="text"
+            placeholder="Digite seu nome"
+            register={register}
+          />
+          <Input
+            id="email"
+            type="email"
+            title="E-mail"
+            placeholder="Digite seu email"
+            register={register}
+          />
+          <InputPass register={register} />
+          <button>Enviar</button>
+          <div className={styles.withGoogle}>
+            <FcGoogle />
+            Continuar com o Google
+            <LoginWithGoogle />
+          </div>
+        </form>
+      )}
+    </div>
   );
 };

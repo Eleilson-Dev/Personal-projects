@@ -1,0 +1,6 @@
+.title {
+  text-align: center;
+  color: black;
+  font-size: clamp(1rem, 0.791rem + 0.788vw, 1.5rem);
+  margin-top: 5rem;
+}

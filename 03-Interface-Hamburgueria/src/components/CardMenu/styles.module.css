@@ -8,14 +8,40 @@
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.265);
   border: 3px solid rgb(200, 200, 200);
 
+  .itemHide {
+    z-index: 6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #797c804a;
+  }
+
   .boxImg {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #e6e6e6;
 
+    .delete {
+      display: flex;
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 0.4rem;
+      color: red;
+      font-size: 1.5rem;
+      border: none;
+      border: 1px solid black;
+      border-radius: 4px;
+    }
+
     img {
-      width: 70%;
+      z-index: 5;
+      width: 65%;
     }
   }
 
@@ -76,7 +102,7 @@
       }
 
       .btn1 {
-        background-color: rgb(11, 202, 132);
+        background-color: var(--Color-primary);
         color: #ffffff;
 
         &:hover {

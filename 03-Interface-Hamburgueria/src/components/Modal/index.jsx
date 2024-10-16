@@ -5,7 +5,7 @@ import { ModalList } from './ModalList';
 import { ModalFotter } from './ModalFotter';
 import { Loading } from '../Loading';
 
-export const Modal = () => {
+export const Modal = ({ setLoadingEnabled }) => {
   const { dataProps } = useUserContext();
 
   return (
@@ -23,7 +23,7 @@ export const Modal = () => {
             <h3>Você ainda não possui nenhum pedido no carrinho!</h3>
           ) : (
             <>
-              <ModalList />
+              <ModalList setLoadingEnabled={setLoadingEnabled} />
               <ModalFotter />
             </>
           )}

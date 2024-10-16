@@ -5,7 +5,7 @@
 }
 
 :root {
-  --Color-primary: #ff577f;
+  --Color-primary: rgb(11, 202, 132);
   --Color-primary-Focus: #ff427f;
   --Color-primary-Negative: #59323f;
 
@@ -27,11 +27,19 @@ body {
   min-height: 100vh;
   margin: 0;
   overflow: hidden;
+  position: relative;
 }
 
-main {
-  display: flex;
-  justify-content: center;
+.windowLoad {
+  transition: all 150ms ease-in-out;
+  z-index: 20;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .boxMain {
@@ -45,23 +53,28 @@ main {
   width: 100%;
   max-width: 1450px;
   margin: 0 auto;
+  padding: 1rem;
+}
+
+.mainConteiner {
+  margin-top: 7rem;
 }
 
 ::-webkit-scrollbar {
-  width: 10px; /* Largura do scroll */
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f0f8f0; /* Cor de fundo do track (trilho) */
-  border-radius: 10px; /* Deixar os cantos arredondados */
+  background: #f0f8f0;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #c8e6c9; /* Cor do scroll (verde claro) */
-  border-radius: 10px; /* Deixar os cantos do scroll arredondados */
-  border: 2px solid #f0f8f0; /* Cria uma borda para dar destaque */
+  background-color: #c8e6c9;
+  border-radius: 10px;
+  border: 2px solid #f0f8f0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #a5d6a7; /* Cor do scroll ao passar o mouse */
+  background-color: #a5d6a7;
 }

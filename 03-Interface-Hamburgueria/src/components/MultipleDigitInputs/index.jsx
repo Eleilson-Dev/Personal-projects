@@ -17,14 +17,11 @@ export const MultipleDigitInputs = () => {
       newDigits[index] = value;
       setDigits(newDigits);
 
-      // Foca no próximo campo se o valor foi digitado
       if (value && index < digits.length - 1) {
         inputsRef.current[index + 1].focus();
       }
 
-      // Verifica se todos os dígitos foram preenchidos
       if (newDigits.every((digit) => digit !== '')) {
-        // Todos os dígitos estão preenchidos, dispara a validação
         await validate(newDigits.join(''));
       }
     }

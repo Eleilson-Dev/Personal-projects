@@ -3,7 +3,6 @@ import { api } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
 import { saveToken, getToken, removeToken } from '../utils/tokenActions';
-import { errorToast, successToast } from '../utils/toasts';
 import { loadProductData } from '../utils/loadProductsData';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -20,6 +19,8 @@ export const UserProvider = ({ children }) => {
   const [order, setOrder] = useState(null);
   const [cancelOrderLoad, setCancelOrderLoad] = useState(false);
   const [formLoad, setFormLoad] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [windowLoad, setWindowLoad] = useState(true);
 
   const [cartList, setCartList] = useState(() => {
     const saveItems = localStorage.getItem('@CARTLIST');
@@ -30,8 +31,8 @@ export const UserProvider = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    fetchCurrentUser(setUser, navigate);
-    loadProductData(setList);
+    fetchCurrentUser(setUser, setLoading, navigate);
+    loadProductData(setList, setWindowLoad);
 
     if (location.pathname !== '/validate') sessionStorage.clear();
 
@@ -53,36 +54,63 @@ export const UserProvider = ({ children }) => {
       setFormLoad(false);
     } catch (error) {
       setFormLoad(false);
-      errorToast(error.response?.data.message);
+      toast.error(error.response?.data.message);
     }
   };
 
   const userLogin = async (userLoginData) => {
     try {
+      setWindowLoad(false);
       setFormLoad(true);
       const { data } = await api.post('/users/login', userLoginData);
 
-      successToast(`Login success`);
+      toast.success(`Login success`);
       navigate('/');
       saveToken('@TOKEN', data.accessToken);
-      setFormLoad(false);
     } catch (err) {
-      setFormLoad(false);
       navigate('/login');
-      errorToast(err.response?.data.message);
+      toast.error(err.response?.data.message);
+    } finally {
+      setFormLoad(false);
     }
   };
 
   const isUserLoggedIn = !getToken('@TOKEN');
 
   const userLogout = () => {
-    setUser(null);
-    removeToken('@TOKEN');
-    setCartList([]);
+    try {
+      setWindowLoad(true);
+      setUser(null);
+      removeToken('@TOKEN');
+      setCartList([]);
+      setList([]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setWindowLoad(false);
+    }
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const createProduct = async (productData) => {
+    try {
+      setFormLoad(true);
+      const token = getToken('@TOKEN');
+
+      await api.post('/lanches/create', productData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setFormLoad(false);
+      toast.success('Produto adicionado na lista');
+    } catch (err) {
+      console.log(err);
+      setFormLoad(false);
+      toast.error(err.response?.data.message);
+    }
   };
 
   const dataProps = {
@@ -111,10 +139,15 @@ export const UserProvider = ({ children }) => {
         setUser,
         isModalOpen,
         list,
+        setList,
         pendingOrder,
         dataProps,
         formLoad,
+        loading,
+        windowLoad,
+        setWindowLoad,
         setFormLoad,
+        createProduct,
       }}
     >
       {children}

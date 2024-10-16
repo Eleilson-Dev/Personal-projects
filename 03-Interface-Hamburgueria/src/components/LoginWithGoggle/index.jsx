@@ -1,14 +1,13 @@
 import styles from './styles.module.css';
+
 import { useGoogleLogin } from '@react-oauth/google';
 import { api } from '../../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
-import { FcGoogle } from 'react-icons/fc';
 
 export const LoginWithGoogle = () => {
-  const { setFormLoad } = useUserContext();
-  const { setUser } = useUserContext();
+  const { setFormLoad, setUser, setList } = useUserContext();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
@@ -16,6 +15,7 @@ export const LoginWithGoogle = () => {
       const { access_token } = codeResponse;
 
       try {
+        setList([]);
         setFormLoad(true);
         const { data } = await api.post('/users/login/google', {
           access_token,
@@ -39,12 +39,5 @@ export const LoginWithGoogle = () => {
     },
   });
 
-  return (
-    <div className={styles.content}>
-      <div onClick={() => login()}>
-        <FcGoogle size={30} />
-        Continuar com o Google
-      </div>
-    </div>
-  );
+  return <div className={styles.boxContent} onClick={login}></div>;
 };

@@ -1,58 +1,104 @@
 .menuContent {
   position: relative;
+}
 
-  .iconProfile {
+.iconProfile {
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #bdbdbd;
+  margin-top: 6px;
+  cursor: pointer;
+  border: solid rgb(153, 148, 148);
+  width: clamp(2rem, 1.529rem + 1.773vw, 3.125rem);
+  height: clamp(2rem, 1.529rem + 1.773vw, 3.125rem);
+  font-size: clamp(2rem, 1.581rem + 1.576vw, 3rem);
+  border-radius: 50%;
+
+  > img {
+    z-index: 10;
+    width: 100%;
+    border-radius: 50%;
+  }
+}
+
+.menu {
+  width: 220px;
+  border-radius: 6px;
+  right: 0;
+  top: clamp(2.8rem, 2.298rem + 1.892vw, 4rem);
+  position: absolute;
+  border: solid var(--Color-primary);
+  background-color: #ffffff;
+  transform: translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0.3s; /* Delay para esconder visibilidade */
+  padding-bottom: 0.5rem;
+}
+
+.menuOpen {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0s; /* Remove o delay quando abrir */
+}
+
+.menuTop {
+  position: relative;
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  background-color: var(--Color-primary);
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+
+  > h3 {
+    max-width: 150px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 12px;
+  }
+
+  > button {
+    position: absolute;
+    right: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #bdbdbd;
-    margin-top: 6px;
+    color: black;
+    font-size: 1.5rem;
     cursor: pointer;
-    border: solid rgb(153, 148, 148);
-    width: clamp(2rem, 1.529rem + 1.773vw, 3.125rem);
-    height: clamp(2rem, 1.529rem + 1.773vw, 3.125rem);
-    font-size: clamp(2rem, 1.581rem + 1.576vw, 3rem);
-    border-radius: 50%;
-
-    img {
-      width: 100%;
-      border-radius: 50%;
-    }
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
   }
+}
 
-  .menu {
+.menuBottom {
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-inline: 0.8rem;
+
+  > button {
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
     padding: 0.4rem;
-    z-index: 10;
-    width: 210px;
-    border-radius: 6px;
-    right: 0;
-    top: clamp(2.8rem, 2.298rem + 1.892vw, 4rem);
-    position: absolute;
-    border: solid rgb(196, 194, 194);
-    background-color: #e0dddd;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: all 0.2s ease-in-out;
+    border: none;
+    border-radius: 4px;
 
-    h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
+    background-color: #d9e7fa;
+    color: #3483fa;
+
+    &:hover {
+      background-color: #cfd9e7;
     }
-
-    button {
-      width: 82%;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0.3rem;
-      border: none;
-      border-radius: 4px;
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.188);
-    }
-  }
-
-  .menuActive {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

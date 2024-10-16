@@ -15,3 +15,8 @@ export const ProtectedValidate = () => {
   const userId = sessionStorage.getItem('@USERID');
   return userId ? <Outlet /> : <Navigate to="/register" />;
 };
+
+export const ProtectedCreateProduct = () => {
+  const { user } = useUserContext();
+  return user?.role === 'ADMIN' ? <Outlet /> : <Navigate to="/" />;
+};

@@ -90,24 +90,35 @@
     margin: 1rem 0rem;
     font-size: 1.5rem;
   }
+}
 
-  .withGoogle {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-    align-items: center;
-    border-radius: 5px;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.579);
-    padding: 0.5rem;
-    cursor: pointer;
+.inputConteiner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 2px solid black;
+  margin-bottom: 1rem;
+
+  > label {
+    font-weight: 600;
+    font-size: clamp(0.9rem, 0.776rem + 0.468vw, 1.2rem);
+    margin-bottom: 0.5rem;
+
+    > strong {
+      color: red;
+    }
+  }
+
+  > textarea {
     width: 100%;
-    font-size: clamp(1.1rem, 0.651rem + 0.937vw, 1.5rem);
+    padding: 0.5rem;
+    font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+    border: none;
+    outline: none;
+    resize: none;
 
-    > svg {
-      left: clamp(0.5rem, 0.085rem + 1.561vw, 1.5rem);
-      position: absolute;
-      font-size: clamp(1.2rem, 0.868rem + 1.249vw, 2rem);
+    &::placeholder {
+      font-size: clamp(1rem, 0.916rem + 0.315vw, 1.2rem);
     }
   }
 }
