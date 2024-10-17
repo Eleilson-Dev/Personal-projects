@@ -12,7 +12,7 @@ export const CardMenu = ({ item, setLoadingEnabled }) => {
   const { dataProps, user } = useUserContext();
   const [loadingCard, setLoadingCard] = useState(null);
   const [visibility, setVisibility] = useState(true);
-  const isRender = user?.role === 'USER' && !item.visibility;
+  const isRender = user?.role === 'regular' && !item.visibility;
 
   return (
     <>

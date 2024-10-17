@@ -1,29 +1,26 @@
 import styles from './styles.module.css';
-import { FcGoogle } from 'react-icons/fc';
+
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { userLoginSchema } from '../../schemas/userRegisterSchema';
-import { LoginWithGoogle } from '../../components/LoginWithGoggle';
+import { userRecoverSchema } from '../../schemas/userRegisterSchema';
 import { useUserContext } from '../../hooks/useUserContext';
 import { Loading } from '../../components/Loading';
-import { InputPass } from '../../fragments/InputPass';
 import { Input } from '../../fragments/Input';
+import { TbShieldLock } from 'react-icons/tb';
 
-export const Login = () => {
-  const { userLogin, formLoad, windowLoad } = useUserContext();
+export const Recovering = () => {
+  const { formLoad, setFormLoad, windowLoad, userRecover } = useUserContext();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(userLoginSchema),
-  });
+  } = useForm({ resolver: zodResolver(userRecoverSchema) });
 
   const submitForm = (formData) => {
-    userLogin(formData);
+    userRecover(formData);
     reset();
   };
 
@@ -40,24 +37,25 @@ export const Login = () => {
         >
           {formLoad && <Loading />}
           <header>
-            <h1>Bem-vindo</h1>
-            <Link to="/register">Cadastre-se</Link>
+            <div>
+              <TbShieldLock />
+            </div>
+            <h1>Problemas Pra entrar ?</h1>
           </header>
+          <p>
+            Insira o seu email e enviaremos um código para você redefinir a sua
+            senha.
+          </p>
           <Input
             id="email"
             title="E-mail"
             type="email"
-            placeholder="Digite seu E-mail"
+            placeholder="Insira o E-mail cadastrado"
             register={register}
+            error={errors.email?.message}
           />
-          <InputPass register={register} />
-          <button>Entrar</button>
-          <div className={styles.withGoogle}>
-            <FcGoogle />
-            Continuar com o Google
-            <LoginWithGoogle />
-          </div>
-          <Link to="/recovering">Esqueceu a senha ?</Link>
+          <button type="submit">Enviar</button>
+          <Link to="/login">voltar para página de login ?</Link>
         </form>
       )}
     </div>

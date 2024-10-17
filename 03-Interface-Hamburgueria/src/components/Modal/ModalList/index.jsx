@@ -12,7 +12,9 @@ export const ModalList = ({ setLoadingEnabled }) => {
   const quantityPlus = (itemId) => {
     dataProps.setCartList((prevCartList) =>
       prevCartList.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === itemId && item.quantity < 99
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       )
     );
   };

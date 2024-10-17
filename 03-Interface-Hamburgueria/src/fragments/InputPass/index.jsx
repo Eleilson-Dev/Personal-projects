@@ -23,7 +23,7 @@ export const InputPass = ({ register }) => {
           required
         />
         <button type="button" onClick={togglePass}>
-          {showPass ? <FaEyeSlash /> : <FaEye />}
+          {showPass ? <FaEye /> : <FaEyeSlash />}
         </button>
       </div>
     </div>

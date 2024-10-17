@@ -1,15 +1,9 @@
 import styles from './styles.module.css';
-import { useNavigate } from 'react-router-dom';
-import { useUserContext } from '../../hooks/useUserContext';
-import { useRef, useState } from 'react';
-import { toast } from 'react-toastify';
-import { api } from '../../services/api';
 
-export const MultipleDigitInputs = () => {
-  const { setUser, setFormLoad } = useUserContext();
+import { useState } from 'react';
+
+export const MultipleDigitInputs = ({ validate, inputsRef }) => {
   const [digits, setDigits] = useState(['', '', '', '', '', '']);
-  const inputsRef = useRef([]);
-  const navigate = useNavigate();
 
   const handleInputChange = async (index, value) => {
     if (/^\d?$/.test(value)) {
@@ -30,53 +24,6 @@ export const MultipleDigitInputs = () => {
   const handleKeyDown = (index, e) => {
     if (e.key === 'Backspace' && !digits[index] && index > 0) {
       inputsRef.current[index - 1].focus();
-    }
-  };
-
-  const validate = async (code) => {
-    const userId = sessionStorage.getItem('@USERID');
-
-    try {
-      setFormLoad(true);
-      const response = await api.post('users/register', {
-        userId,
-        code,
-      });
-
-      localStorage.setItem('@TOKEN', response.data.accessToken);
-      sessionStorage.removeItem('@USERID');
-      const { data } = await api.get(`/users/current`, {
-        headers: {
-          Authorization: `Bearer ${response.data.accessToken}`,
-        },
-      });
-
-      toast.success('Usuário cadastrado com sucesso!');
-      setUser(data);
-      navigate('/');
-      setFormLoad(false);
-    } catch (err) {
-      console.log(err);
-      setFormLoad(false);
-      const { message } = err.response.data;
-      if (message === 'TIME_EXPIRED') {
-        navigate('/register');
-      }
-      if (message === 'CODE_EXPIRED') {
-        toast.warn('O código expirou');
-
-        setDigits(['', '', '', '', '', '']);
-
-        inputsRef.current.forEach((input) => input.blur());
-      }
-
-      if (message === 'the code is not valid') {
-        toast.warn('Código inválido');
-
-        setDigits(['', '', '', '', '', '']);
-
-        inputsRef.current.forEach((input) => input.blur());
-      }
     }
   };
 

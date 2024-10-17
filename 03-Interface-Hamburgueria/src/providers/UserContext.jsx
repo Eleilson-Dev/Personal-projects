@@ -34,7 +34,13 @@ export const UserProvider = ({ children }) => {
     fetchCurrentUser(setUser, setLoading, navigate);
     loadProductData(setList, setWindowLoad);
 
-    if (location.pathname !== '/validate') sessionStorage.clear();
+    if (
+      location.pathname !== '/validate/recover' &&
+      location.pathname !== '/validate' &&
+      location.pathname !== '/reset/password'
+    ) {
+      sessionStorage.clear();
+    }
 
     localStorage.setItem('@CARTLIST', JSON.stringify(cartList));
   }, [navigate, loadProductData, cartList]);
@@ -51,10 +57,10 @@ export const UserProvider = ({ children }) => {
 
       navigate('/validate');
       toast.success('código de verificação enviado!');
-      setFormLoad(false);
     } catch (error) {
-      setFormLoad(false);
       toast.error(error.response?.data.message);
+    } finally {
+      setFormLoad(false);
     }
   };
 
@@ -70,6 +76,26 @@ export const UserProvider = ({ children }) => {
     } catch (err) {
       navigate('/login');
       toast.error(err.response?.data.message);
+    } finally {
+      setFormLoad(false);
+    }
+  };
+
+  const userRecover = async (formData) => {
+    try {
+      setFormLoad(true);
+      const { data } = await api.post('/users/send/reset/code', formData);
+
+      if (data?.userRecoverId) {
+        sessionStorage.setItem('@PASS_RESET_EMAIL', data.userRecover.email);
+        sessionStorage.setItem('@PASS_RESET_USER_ID', data.userRecoverId);
+      }
+
+      navigate('/validate/recover');
+      toast.success('código de verificação enviado!');
+    } catch (err) {
+      console.log('error:', err);
+      toast.error(err.response.data?.message);
     } finally {
       setFormLoad(false);
     }
@@ -148,6 +174,7 @@ export const UserProvider = ({ children }) => {
         setWindowLoad,
         setFormLoad,
         createProduct,
+        userRecover,
       }}
     >
       {children}

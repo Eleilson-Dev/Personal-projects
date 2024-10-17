@@ -7,7 +7,7 @@
 
   > label {
     font-weight: 600;
-    font-size: clamp(0.9rem, 0.776rem + 0.468vw, 1.2rem);
+    font-size: clamp(0.7rem, 0.491rem + 0.788vw, 1.2rem);
     margin-bottom: 0.5rem;
   }
 

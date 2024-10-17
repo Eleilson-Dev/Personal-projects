@@ -56,7 +56,7 @@ export const CreateProduct = () => {
             id="name"
             type="text"
             title="Nome"
-            placeholder="Nome do produto"
+            placeholder="Nome do Hambúrguer"
             error={errors.name?.message}
             register={register}
           />
@@ -64,7 +64,7 @@ export const CreateProduct = () => {
             id="description"
             type="text"
             title="Descrição"
-            placeholder="Sobre o produto"
+            placeholder="Sobre o Hambúrguer"
             error={errors.description?.message}
             register={register}
           />

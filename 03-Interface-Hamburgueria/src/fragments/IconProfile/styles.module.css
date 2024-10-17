@@ -24,7 +24,7 @@
 }
 
 .menu {
-  width: 220px;
+  width: 250px;
   border-radius: 6px;
   right: 0;
   top: clamp(2.8rem, 2.298rem + 1.892vw, 4rem);
@@ -34,7 +34,7 @@
   transform: translateY(10px);
   opacity: 0;
   visibility: hidden;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0.3s; /* Delay para esconder visibilidade */
+  transition: transform 0.1s ease, opacity 0.1s ease, visibility 0s 0.1s;
   padding-bottom: 0.5rem;
 }
 
@@ -42,7 +42,7 @@
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
-  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0s; /* Remove o delay quando abrir */
+  transition: transform 0.1s ease, opacity 0.1s ease, visibility 0s 0s;
 }
 
 .menuTop {

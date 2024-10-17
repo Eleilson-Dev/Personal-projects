@@ -25,7 +25,7 @@ export const Header = () => {
           </Link>
         </div>
         <div className={styles.headerContentRigth}>
-          {user?.role === 'ADMIN' && <span>ADM</span>}
+          {user?.role === 'admin' && <span>ADM</span>}
           <IconCart />
           <IconProfile />
         </div>

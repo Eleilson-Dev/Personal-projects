@@ -7,8 +7,8 @@ import { useUserContext } from '../../hooks/useUserContext';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const ValidateCode = () => {
-  const { formLoad, setFormLoad, setUser } = useUserContext();
+export const ValidateRecoverCode = () => {
+  const { formLoad, setFormLoad } = useUserContext();
   const [countdown, setCountdown] = useState(60);
   const [isDisabled, setIsDisabled] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
@@ -16,7 +16,7 @@ export const ValidateCode = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUserEmail(sessionStorage.getItem('@USEREMAIL'));
+    setUserEmail(sessionStorage.getItem('@PASS_RESET_EMAIL'));
   }, [userEmail]);
 
   useEffect(() => {
@@ -32,60 +32,11 @@ export const ValidateCode = () => {
     return () => clearInterval(timer);
   }, [countdown, userEmail]);
 
-  const validate = async (code) => {
-    const userId = sessionStorage.getItem('@USERID');
-
-    try {
-      setFormLoad(true);
-      const response = await api.post('users/register', {
-        userId,
-        code,
-      });
-
-      localStorage.setItem('@TOKEN', response.data.accessToken);
-      sessionStorage.removeItem('@USERID');
-      const { data } = await api.get(`/users/current`, {
-        headers: {
-          Authorization: `Bearer ${response.data.accessToken}`,
-        },
-      });
-
-      toast.success('Usuário cadastrado com sucesso!');
-      setUser(data);
-      navigate('/');
-      setFormLoad(false);
-    } catch (err) {
-      console.log(err);
-      setFormLoad(false);
-      const { message } = err.response.data;
-
-      if (message === 'TIME_EXPIRED') {
-        navigate('/register');
-      }
-
-      if (message === 'CODE_EXPIRED') {
-        toast.warn('O código expirou');
-
-        setDigits(['', '', '', '', '', '']);
-
-        inputsRef.current.forEach((input) => input.blur());
-      }
-
-      if (message === 'the code is not valid') {
-        toast.warn('Código inválido');
-
-        setDigits(['', '', '', '', '', '']);
-
-        inputsRef.current.forEach((input) => input.blur());
-      }
-    }
-  };
-
   const resendCode = async () => {
     try {
       setFormLoad(true);
-      const userId = sessionStorage.getItem('@USERID');
-      await api.post('/users/resend/code', { userId });
+      const userId = sessionStorage.getItem('@PASS_RESET_USER_ID');
+      await api.post('/users/resend/recovery/code', { userId });
 
       setCountdown(60);
       setIsDisabled(true);
@@ -94,6 +45,27 @@ export const ValidateCode = () => {
       setFormLoad(false);
     } catch (error) {
       console.log(error);
+      setFormLoad(false);
+    }
+  };
+
+  const validate = async (code) => {
+    try {
+      setFormLoad(true);
+      const userId = sessionStorage.getItem('@PASS_RESET_USER_ID');
+      const userEmail = sessionStorage.getItem('@PASS_RESET_EMAIL');
+      const { data } = await api.post('/users/validate/recovery', {
+        userId,
+        userEmail,
+        code,
+      });
+
+      sessionStorage.setItem('@TOKEN_RECOVERY', data.accessTokenRecover);
+      toast.success('Tudo pronto para redefinir sua senha');
+      navigate('/reset/password');
+    } catch (err) {
+      console.log(err);
+    } finally {
       setFormLoad(false);
     }
   };
@@ -110,8 +82,8 @@ export const ValidateCode = () => {
         <h1>Verifique seu E-mail</h1>
         {formLoad && <Loading />}
         <p>
-          Por favor, digite o código que enviamos para
-          <strong> {userEmail}</strong>
+          Digite o código enviado para <strong>{userEmail}</strong> <br /> para
+          redefinir sua senha
         </p>
         <MultipleDigitInputs validate={validate} inputsRef={inputsRef} />
         <button

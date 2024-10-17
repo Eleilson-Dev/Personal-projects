@@ -40,9 +40,9 @@
           width: clamp(9rem, 7.938rem + 4vw, 11.563rem);
           font-size: clamp(0.9rem, 0.817rem + 0.312vw, 1.1rem);
           padding: 0;
-          white-space: nowrap; /* Impede o texto de quebrar para a próxima linha */
-          overflow: hidden; /* Esconde o texto que ultrapassar a largura definida */
-          text-overflow: ellipsis; /* Adiciona as reticências "..." quando o texto for maior que o contêiner */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
           margin-bottom: 5px;
         }
 
@@ -63,9 +63,10 @@
         > button {
           display: flex;
           border: none;
-          font-size: clamp(1rem, 0.793rem + 0.78vw, 1.5rem);
+          font-size: clamp(0.9rem, 0.793rem + 0.78vw, 1.5rem);
           cursor: pointer;
-          background-color: transparent;
+          border: 1px solid black;
+          border-radius: 4px;
         }
       }
 

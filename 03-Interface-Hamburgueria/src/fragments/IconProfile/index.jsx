@@ -38,7 +38,7 @@ export const IconProfile = () => {
           </div>
 
           <div className={styles.menuBottom}>
-            {user?.role === 'ADMIN' && (
+            {user?.role === 'admin' && (
               <button onClick={() => navigate('/create/product')}>
                 Cadastrar produto
               </button>

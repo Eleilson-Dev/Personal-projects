@@ -87,7 +87,7 @@ export const ProductActions = ({
 
   return (
     <div className={styles.contentBox}>
-      {user?.role === 'ADMIN' && (
+      {user?.role === 'admin' && (
         <>
           <button
             type="button"
@@ -103,7 +103,7 @@ export const ProductActions = ({
             className={styles.hide}
             disabled={isChangingVisibility}
           >
-            {visibility ? <MdVisibilityOff /> : <MdVisibility />}
+            {visibility ? <MdVisibility /> : <MdVisibilityOff />}
           </button>
           <button
             type="button"

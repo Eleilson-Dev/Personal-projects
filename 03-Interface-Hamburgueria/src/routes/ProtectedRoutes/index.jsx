@@ -16,7 +16,12 @@ export const ProtectedValidate = () => {
   return userId ? <Outlet /> : <Navigate to="/register" />;
 };
 
+export const ProtectedResetPass = () => {
+  const TokenRecovery = sessionStorage.getItem('@TOKEN_RECOVERY');
+  return TokenRecovery ? <Outlet /> : <Navigate to="/login" />;
+};
+
 export const ProtectedCreateProduct = () => {
   const { user } = useUserContext();
-  return user?.role === 'ADMIN' ? <Outlet /> : <Navigate to="/" />;
+  return user?.role === 'admin' ? <Outlet /> : <Navigate to="/" />;
 };
