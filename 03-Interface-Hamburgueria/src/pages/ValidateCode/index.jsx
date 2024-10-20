@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const ValidateCode = () => {
-  const { formLoad, setFormLoad, setUser } = useUserContext();
+  const { loadingState, setLoadingState, setUser } = useUserContext();
   const [countdown, setCountdown] = useState(60);
   const [isDisabled, setIsDisabled] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
@@ -36,7 +36,7 @@ export const ValidateCode = () => {
     const userId = sessionStorage.getItem('@USERID');
 
     try {
-      setFormLoad(true);
+      setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const response = await api.post('users/register', {
         userId,
         code,
@@ -53,10 +53,9 @@ export const ValidateCode = () => {
       toast.success('Usuário cadastrado com sucesso!');
       setUser(data);
       navigate('/');
-      setFormLoad(false);
     } catch (err) {
       console.log(err);
-      setFormLoad(false);
+
       const { message } = err.response.data;
 
       if (message === 'TIME_EXPIRED') {
@@ -78,12 +77,14 @@ export const ValidateCode = () => {
 
         inputsRef.current.forEach((input) => input.blur());
       }
+    } finally {
+      setLoadingState((prev) => ({ ...prev, formLoad: false }));
     }
   };
 
   const resendCode = async () => {
     try {
-      setFormLoad(true);
+      setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const userId = sessionStorage.getItem('@USERID');
       await api.post('/users/resend/code', { userId });
 
@@ -91,10 +92,10 @@ export const ValidateCode = () => {
       setIsDisabled(true);
 
       toast.success('Código reenviado');
-      setFormLoad(false);
     } catch (error) {
       console.log(error);
-      setFormLoad(false);
+    } finally {
+      setLoadingState((prev) => ({ ...prev, formLoad: false }));
     }
   };
 
@@ -108,7 +109,7 @@ export const ValidateCode = () => {
     <div className={styles.sendCodeContent}>
       <div className={styles.boxContent}>
         <h1>Verifique seu E-mail</h1>
-        {formLoad && <Loading />}
+        {loadingState.formLoad && <Loading />}
         <p>
           Por favor, digite o código que enviamos para
           <strong> {userEmail}</strong>

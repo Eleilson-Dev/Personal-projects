@@ -12,10 +12,11 @@ import { getToken } from '../../utils/tokenActions';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { fetchProduct } from '../../utils/fetchProduct';
 
 export const EditProduct = () => {
   const { id } = useParams();
-  const { formLoad, setFormLoad, setWindowLoad, setList } = useUserContext();
+  const { loadingState, setLoadingState, setPrimaryMenu } = useUserContext();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
@@ -28,42 +29,31 @@ export const EditProduct = () => {
   } = useForm({ resolver: zodResolver(productSchema) });
 
   useEffect(() => {
-    setWindowLoad(true);
-    const token = getToken('@TOKEN');
-    const fetchProduct = async () => {
-      try {
-        const response = await api.get(`/lanches/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const productData = {
-          ...response.data,
-          price: response.data.price.toString(),
-          ingredients: response.data.ingredients.toString(),
-        };
-
-        setProduct(productData);
-        reset(productData);
-        setWindowLoad(false);
-      } catch (error) {
-        console.error('Erro ao buscar o produto:', error);
-        navigate('/');
-      } finally {
-        setLoading(false);
-        setWindowLoad(false);
-      }
+    const requestConfig = {
+      id,
+      endPoint: 'hamburguers',
+      token: getToken('@TOKEN'),
+      setProduct,
+      reset,
+      navigate,
+      setLoading,
+      setLoadingState,
     };
 
-    fetchProduct();
-  }, [id, navigate, reset]);
+    const load = async () => {
+      await fetchProduct(requestConfig);
+    };
+
+    load();
+  }, [id, navigate, reset, fetchProduct]);
 
   const updateProduct = async (productUpdateData) => {
     try {
-      setFormLoad(true);
-      setList([]);
+      setLoadingState((prev) => ({ ...prev, formLoad: true }));
+      setPrimaryMenu([]);
       const token = getToken('@TOKEN');
 
-      await api.patch(`/lanches/edit/product/${id}`, productUpdateData, {
+      await api.patch(`/hamburguers/edit/product/${id}`, productUpdateData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -71,7 +61,7 @@ export const EditProduct = () => {
     } catch (err) {
       console.log('Erro ao tentar editar o produto', err);
     } finally {
-      setFormLoad(false);
+      setLoadingState((prev) => ({ ...prev, formLoad: false }));
     }
   };
 
@@ -105,7 +95,7 @@ export const EditProduct = () => {
           onSubmit={handleSubmit(submitForm)}
           className={styles.formContent}
         >
-          {formLoad && <Loading />}
+          {loadingState.formLoad && <Loading />}
           <header>
             <h1>Editar Hambúrguer</h1>
           </header>
@@ -149,7 +139,7 @@ export const EditProduct = () => {
             error={errors.size?.message}
             register={register}
           />
-          <button type="submit" disabled={formLoad}>
+          <button type="submit" disabled={loadingState.formLoad}>
             Salvar
           </button>
         </form>

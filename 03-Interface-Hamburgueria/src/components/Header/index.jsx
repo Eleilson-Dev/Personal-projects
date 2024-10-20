@@ -5,12 +5,12 @@ import { IconCart } from '../../fragments/IconCart';
 import { IconProfile } from '../../fragments/IconProfile';
 
 export const Header = () => {
-  const { user, setList } = useUserContext();
+  const { user, setPrimaryMenu } = useUserContext();
   const location = useLocation();
 
   const handleClick = () => {
     if (location.pathname !== '/') {
-      setList([]);
+      setPrimaryMenu([]);
     }
 
     return;
@@ -25,6 +25,8 @@ export const Header = () => {
           </Link>
         </div>
         <div className={styles.headerContentRigth}>
+          <Link to="/menu/hamburguers">Hamburguers</Link>
+          <Link to="/menu/refrigerantes">Refrigerantes</Link>
           {user?.role === 'admin' && <span>ADM</span>}
           <IconCart />
           <IconProfile />

@@ -6,19 +6,18 @@ import { convertToLocalMoney } from '../../utils/convertToLocalMoney';
 import { formatDate } from '../../utils/fomateDate';
 import { Loading } from '../Loading';
 import { IoCloseSharp } from 'react-icons/io5';
-import img from '../../assets/burguer.png';
+import img from '../../assets/pngtree-food.png';
 
 export const PendingOrder = () => {
-  const { dataProps } = useUserContext();
+  const { loadingState, dataProps } = useUserContext();
   const formatOrderId = (id) => `#${id % 100}`;
 
   return (
     <div className={styles.boxPendingOrder}>
       <div className={styles.boxContent}>
-        {dataProps.cancelOrderLoad && <Loading />}
+        {loadingState.pendigOrderLoad && <Loading />}
         <div className={styles.top}>
           <h3>Você possui um pedido pendente</h3>
-
           <span onClick={() => dataProps.setPendingOrder(false)}>
             <IoCloseSharp />
           </span>

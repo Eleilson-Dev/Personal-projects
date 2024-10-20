@@ -4,7 +4,7 @@ import { cancelOrder } from '../../../utils/cancelOrder';
 import { callWhatsApp } from '../../../utils/callWhatsApp';
 
 export const PendingOrderFotter = () => {
-  const { dataProps } = useUserContext();
+  const { setLoadingState, dataProps } = useUserContext();
   const { id } = dataProps.order;
 
   return (
@@ -25,7 +25,7 @@ export const PendingOrderFotter = () => {
         </a>
         <button
           onClick={() => {
-            cancelOrder(dataProps);
+            cancelOrder(setLoadingState, dataProps);
           }}
           className={styles.cancel}
         >

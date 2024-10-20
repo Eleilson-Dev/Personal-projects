@@ -18,7 +18,7 @@ export const fetchCurrentUser = async (setUser, navigate) => {
       console.log(error);
       console.log(error.response?.data.message);
       errorToast(error.response?.data.message);
-      navigate('/login');
+      navigate('/');
       removeToken('@TOKEN');
       setUser(null);
     }

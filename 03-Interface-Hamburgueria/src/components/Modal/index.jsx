@@ -6,12 +6,12 @@ import { ModalFotter } from './ModalFotter';
 import { Loading } from '../Loading';
 
 export const Modal = ({ setLoadingEnabled }) => {
-  const { dataProps } = useUserContext();
+  const { loadingState, dataProps } = useUserContext();
 
   return (
     <div className={styles.boxModal}>
       <div className={styles.yourCart}>
-        {dataProps.orderLoading && <Loading />}
+        {loadingState.orderLoading && <Loading />}
         <div className={styles.cartTop}>
           <h2>Meu carrinho</h2>
           <span onClick={dataProps.toggleModal}>

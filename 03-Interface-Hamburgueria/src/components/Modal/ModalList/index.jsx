@@ -1,10 +1,11 @@
 import styles from './styles.module.css';
+
+import { v4 as uuidv4 } from 'uuid';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { removeItemOfModal } from '../../../utils/modalActions';
 import { FaTrashCan } from 'react-icons/fa6';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';
-import imgBurguer from '../../../assets/burguer.png';
 
 export const ModalList = ({ setLoadingEnabled }) => {
   const { dataProps } = useUserContext();
@@ -32,9 +33,9 @@ export const ModalList = ({ setLoadingEnabled }) => {
   return (
     <ul className={styles.modalList}>
       {dataProps.cartList.map((item) => (
-        <li key={item.id}>
+        <li key={uuidv4()}>
           <div className={styles.imgBox}>
-            <img src={imgBurguer} />
+            <img src={item.img} />
           </div>
           <div className={styles.details}>
             <div className={styles.nameAndPrice}>
@@ -53,7 +54,7 @@ export const ModalList = ({ setLoadingEnabled }) => {
             <div
               className={styles.trash}
               onClick={() => {
-                removeItemOfModal(item.id, dataProps);
+                removeItemOfModal(item, dataProps);
                 setLoadingEnabled(false);
               }}
             >

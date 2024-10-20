@@ -8,7 +8,7 @@ import { Loading } from '../../components/Loading';
 import { productSchema } from '../../schemas/userRegisterSchema';
 
 export const CreateProduct = () => {
-  const { formLoad, createProduct, windowLoad } = useUserContext();
+  const { loadingState, createProduct } = useUserContext();
 
   const {
     register,
@@ -18,9 +18,9 @@ export const CreateProduct = () => {
   } = useForm({ resolver: zodResolver(productSchema) });
 
   const submitForm = (data) => {
-    const ingredientsArray = data.ingredients
-      .split(',')
-      .map((ingredient) => ingredient.trim());
+    const ingredientsArray = data.ingredients.map((ingredient) =>
+      ingredient.trim()
+    );
 
     const priceFormatted =
       typeof data.price === 'number'
@@ -39,7 +39,7 @@ export const CreateProduct = () => {
 
   return (
     <div className={styles.centralize}>
-      {windowLoad ? (
+      {loadingState.windowLoad ? (
         <div className="windowLoad">
           <Loading />
         </div>
@@ -48,7 +48,7 @@ export const CreateProduct = () => {
           onSubmit={handleSubmit(submitForm)}
           className={styles.formContent}
         >
-          {formLoad && <Loading />}
+          {loadingState.formLoad && <Loading />}
           <header>
             <h1>Cadastrar Hambúrguer</h1>
           </header>

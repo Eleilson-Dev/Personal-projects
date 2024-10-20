@@ -55,7 +55,7 @@ export const Recovering = () => {
             error={errors.email?.message}
           />
           <button type="submit">Enviar</button>
-          <Link to="/login">voltar para página de login ?</Link>
+          <Link to="/">voltar para página de login ?</Link>
         </form>
       )}
     </div>

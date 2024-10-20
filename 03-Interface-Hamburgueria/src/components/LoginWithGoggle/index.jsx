@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
 
 export const LoginWithGoogle = () => {
-  const { setFormLoad, setUser, setList } = useUserContext();
+  const { loadingState, setLoadingState, setUser, setPrimaryMenu } =
+    useUserContext();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
@@ -15,8 +16,9 @@ export const LoginWithGoogle = () => {
       const { access_token } = codeResponse;
 
       try {
-        setList([]);
-        setFormLoad(true);
+        setPrimaryMenu([]);
+        setLoadingState((prev) => ({ ...prev, formLoad: true }));
+
         const { data } = await api.post('/users/login/google', {
           access_token,
         });
@@ -26,11 +28,11 @@ export const LoginWithGoogle = () => {
         toast.success('Google login success');
         setUser(data.userWithGoogle);
         navigate('/');
-        setFormLoad(false);
       } catch (error) {
         console.error('Erro durante o login com Google:', error);
         toast.error('Google login error');
-        setFormLoad(false);
+      } finally {
+        setLoadingState((prev) => ({ ...prev, formLoad: false }));
       }
     },
     onError: (error) => {

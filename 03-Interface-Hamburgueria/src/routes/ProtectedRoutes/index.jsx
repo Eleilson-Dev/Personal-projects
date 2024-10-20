@@ -3,12 +3,12 @@ import { Outlet, Navigate } from 'react-router-dom';
 
 export const ProtectedMenu = () => {
   const { isUserLoggedIn } = useUserContext();
-  return !isUserLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+  return !isUserLoggedIn ? <Outlet /> : <Navigate to="/" />;
 };
 
 export const ProtectedActions = () => {
   const { isUserLoggedIn } = useUserContext();
-  return isUserLoggedIn ? <Outlet /> : <Navigate to="/" />;
+  return isUserLoggedIn ? <Outlet /> : <Navigate to="/menu/hamburguers" />;
 };
 
 export const ProtectedValidate = () => {
@@ -18,10 +18,14 @@ export const ProtectedValidate = () => {
 
 export const ProtectedResetPass = () => {
   const TokenRecovery = sessionStorage.getItem('@TOKEN_RECOVERY');
-  return TokenRecovery ? <Outlet /> : <Navigate to="/login" />;
+  return TokenRecovery ? <Outlet /> : <Navigate to="/" />;
 };
 
 export const ProtectedCreateProduct = () => {
   const { user } = useUserContext();
-  return user?.role === 'admin' ? <Outlet /> : <Navigate to="/" />;
+  return user?.role === 'admin' ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/menu/hamburguers" />
+  );
 };

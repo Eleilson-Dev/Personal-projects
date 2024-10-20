@@ -5,27 +5,36 @@ import { toast } from 'react-toastify';
 import { checkingPendingOrder } from '../chekingPendingOrder';
 import { callWhatsApp } from '../callWhatsApp';
 
-export const finalizeOrder = async (dataProps) => {
+export const finalizeOrder = async (setLoadingState, dataProps) => {
   try {
+    setLoadingState((prev) => ({ ...prev, orderLoading: true }));
+
+    const totalPrice = shoppingCart(dataProps.cartList);
     const token = getToken('@TOKEN');
+
+    if (totalPrice < 15) {
+      toast.warn(
+        'O valor mínimo para finalizar a compra é de 15 reais. Adicione mais itens ao seu carrinho.'
+      );
+      return;
+    }
 
     const order = {
       status: 'pendente',
-      hamburgers: dataProps.cartList.map((item) => ({
+      items: dataProps.cartList.map((item) => ({
         id: item.id,
+        type: item.type,
         quantity: item.quantity,
       })),
-      priceOrder: shoppingCart(dataProps.cartList),
+      priceOrder: totalPrice,
     };
-
-    dataProps.setOrderLoading(true);
 
     const { data } = await api.post('/orders/create', order, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     if (data?.message) {
-      checkingPendingOrder({ data, dataProps });
+      checkingPendingOrder({ data, setLoadingState, dataProps });
       dataProps.toggleModal();
 
       const resultData = data.order[0];
@@ -40,8 +49,6 @@ export const finalizeOrder = async (dataProps) => {
       return;
     }
 
-    dataProps.setOrderLoading(false);
-
     dataProps.setCartList([]);
     toast.success('Pedido enviado', { autoClose: 500 });
 
@@ -54,5 +61,7 @@ export const finalizeOrder = async (dataProps) => {
   } catch (err) {
     console.log(err);
     toast.error(err.response?.data.message, { autoClose: 500 });
+  } finally {
+    setLoadingState((prev) => ({ ...prev, orderLoading: false }));
   }
 };

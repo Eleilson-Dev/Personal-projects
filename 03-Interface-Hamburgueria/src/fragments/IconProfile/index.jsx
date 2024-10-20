@@ -4,9 +4,11 @@ import { CgProfile } from 'react-icons/cg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseSharp } from 'react-icons/io5';
+import { userActions } from '../../utils/userActions';
 
 export const IconProfile = () => {
-  const { userLogout, isUserLoggedIn, user } = useUserContext();
+  const { isUserLoggedIn, user, setUser, setLoadingState, dataProps } =
+    useUserContext();
   const [menu, setMenu] = useState(false);
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ export const IconProfile = () => {
 
   const callLogout = () => {
     setMenu(false);
-    userLogout();
+    userActions.logout(setUser, setLoadingState, dataProps);
   };
 
   return (

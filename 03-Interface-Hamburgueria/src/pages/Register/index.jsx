@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userRegisterSchema } from '../../schemas/userRegisterSchema';
@@ -9,9 +9,12 @@ import { useUserContext } from '../../hooks/useUserContext';
 import { Loading } from '../../components/Loading';
 import { Input } from '../../fragments/Input';
 import { InputPass } from '../../fragments/InputPass';
+import { userActions } from '../../utils/userActions';
 
 export const Register = () => {
-  const { userRegister, formLoad, windowLoad } = useUserContext();
+  const { loadingState, setLoadingState } = useUserContext();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -21,14 +24,15 @@ export const Register = () => {
     resolver: zodResolver(userRegisterSchema),
   });
 
-  const submitForm = (formData) => {
-    userRegister(formData);
+  const submitForm = async (userCreateData) => {
+    await userActions.register(userCreateData, setLoadingState, navigate);
+
     reset();
   };
 
   return (
     <div className={styles.centralize}>
-      {windowLoad ? (
+      {loadingState.windowLoad ? (
         <div className="windowLoad">
           <Loading />
         </div>
@@ -37,10 +41,10 @@ export const Register = () => {
           onSubmit={handleSubmit(submitForm)}
           className={styles.formContent}
         >
-          {formLoad && <Loading />}
+          {loadingState.formLoad && <Loading />}
           <header>
             <h1>Cadastre-se</h1>
-            <Link to="/login">Entrar</Link>
+            <Link to="/">Entrar</Link>
           </header>
 
           <Input

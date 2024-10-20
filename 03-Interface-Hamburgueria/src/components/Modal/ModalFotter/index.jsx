@@ -5,7 +5,7 @@ import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';
 import { finalizeOrder } from '../../../utils/finalizeOrder';
 
 export const ModalFotter = () => {
-  const { dataProps } = useUserContext();
+  const { setLoadingState, dataProps } = useUserContext();
 
   return (
     <div className={styles.modalFotter}>
@@ -16,7 +16,7 @@ export const ModalFotter = () => {
       <div className={styles.contentBtns}>
         <a
           className={styles.finish}
-          onClick={() => finalizeOrder(dataProps)}
+          onClick={() => finalizeOrder(setLoadingState, dataProps)}
           target="_blank"
           rel="noopener noreferrer"
         >

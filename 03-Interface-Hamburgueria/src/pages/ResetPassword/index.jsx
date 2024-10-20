@@ -41,7 +41,7 @@ export const ResetPassword = () => {
       toast.error('Erro ao tentar atualizar a senha');
     } finally {
       setFormLoad(false);
-      navigate('/login');
+      navigate('/');
       reset();
     }
   };

@@ -6,7 +6,7 @@ import {
   ProtectedCreateProduct,
   ProtectedResetPass,
 } from '../ProtectedRoutes';
-import { Home } from '../../pages/Home';
+import { HamburguersMenu } from '../../pages/HamburguersMenu';
 import { Login } from '../../pages/Login';
 import { Register } from '../../pages/Register';
 import { NotFound } from '../../pages/NotFound';
@@ -16,15 +16,19 @@ import { EditProduct } from '../../pages/EditProduct';
 import { Recovering } from '../../pages/Recovering';
 import { ValidateRecoverCode } from '../../pages/ValidateRecoverCode';
 import { ResetPassword } from '../../pages/ResetPassword';
+import { RefrigerantesMenu } from '../../pages/RefrigerantesMenu';
 
 export const RoutesMain = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<ProtectedMenu />}>
-          <Route index element={<Home />} />
+        <Route path="/menu/hamburguers" element={<ProtectedMenu />}>
+          <Route index element={<HamburguersMenu />} />
         </Route>
-        <Route path="/login" element={<ProtectedActions />}>
+        <Route path="/menu/refrigerantes" element={<ProtectedMenu />}>
+          <Route index element={<RefrigerantesMenu />} />
+        </Route>
+        <Route path="/" element={<ProtectedActions />}>
           <Route index element={<Login />} />
         </Route>
         <Route path="/register" element={<ProtectedActions />}>
