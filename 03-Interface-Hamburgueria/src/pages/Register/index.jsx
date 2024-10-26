@@ -57,7 +57,7 @@ export const Register = () => {
           <Input
             id="email"
             type="email"
-            title="E-mail"
+            title="E-Mail"
             placeholder="Digite seu email"
             register={register}
           />

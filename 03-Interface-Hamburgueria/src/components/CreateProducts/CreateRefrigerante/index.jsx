@@ -2,26 +2,28 @@ import styles from './styles.module.css';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useUserContext } from '../../hooks/useUserContext';
-import { Input } from '../../fragments/Input';
-import { Loading } from '../../components/Loading';
-import { productSchema } from '../../schemas/userRegisterSchema';
+import { useUserContext } from '../../../hooks/useUserContext';
+import { Input } from '../../../fragments/Input';
+import { Loading } from '../../Loading';
+import { productSchema } from '../../../schemas/userRegisterSchema';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createProduct } from '../../../utils/createProduct';
+import { useLists } from '../../../hooks/useLists';
 
-export const CreateProduct = () => {
-  const { loadingState, createProduct } = useUserContext();
+export const CreateRefrigerante = () => {
+  const { loadingState, setLoadingState } = useUserContext();
+  const { setRefrisList } = useLists();
+  const { productType } = useParams();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(productSchema) });
+  } = useForm();
 
   const submitForm = (data) => {
-    const ingredientsArray = data.ingredients.map((ingredient) =>
-      ingredient.trim()
-    );
-
     const priceFormatted =
       typeof data.price === 'number'
         ? data.price.toString().replace('.', ',')
@@ -29,11 +31,19 @@ export const CreateProduct = () => {
 
     const formData = {
       ...data,
-      ingredients: ingredientsArray,
+      categoryId: 2,
       price: Number(priceFormatted),
     };
 
-    createProduct(formData);
+    const requestConfig = {
+      setList: setRefrisList,
+      setLoadingState,
+      productData: formData,
+      endPoint: `${productType}s`,
+      navigate,
+    };
+
+    createProduct(requestConfig);
     reset();
   };
 
@@ -50,30 +60,16 @@ export const CreateProduct = () => {
         >
           {loadingState.formLoad && <Loading />}
           <header>
-            <h1>Cadastrar Hambúrguer</h1>
+            <h1>
+              Cadastrar <span>{productType}</span>
+            </h1>
           </header>
           <Input
             id="name"
             type="text"
             title="Nome"
-            placeholder="Nome do Hambúrguer"
+            placeholder={`Nome do ${productType}`}
             error={errors.name?.message}
-            register={register}
-          />
-          <Input
-            id="description"
-            type="text"
-            title="Descrição"
-            placeholder="Sobre o Hambúrguer"
-            error={errors.description?.message}
-            register={register}
-          />
-          <Input
-            id="ingredients"
-            type="text"
-            title="Ingredientes"
-            placeholder="Ex (pão, alface, tomate)"
-            error={errors.ingredients?.message}
             register={register}
           />
           <Input
@@ -88,7 +84,7 @@ export const CreateProduct = () => {
             id="size"
             type="text"
             title="Tamanho"
-            placeholder="Ex (Médio)"
+            placeholder="Ex (300ml)"
             error={errors.size?.message}
             register={register}
           />

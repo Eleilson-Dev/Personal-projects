@@ -24,7 +24,8 @@
 }
 
 .menu {
-  width: 250px;
+  z-index: 10;
+  width: 300px;
   border-radius: 6px;
   right: 0;
   top: clamp(2.8rem, 2.298rem + 1.892vw, 4rem);

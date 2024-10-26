@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 export const ResetPassword = () => {
-  const { formLoad, setFormLoad, windowLoad, userRecover } = useUserContext();
+  const { loadingState, setLoadingState } = useUserContext();
   const navigate = useNavigate();
 
   const {
@@ -24,7 +24,7 @@ export const ResetPassword = () => {
 
   const submitForm = async (formData) => {
     try {
-      setFormLoad(true);
+      setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const recoveryToken = sessionStorage.getItem('@TOKEN_RECOVERY');
 
       await api.post(
@@ -40,7 +40,7 @@ export const ResetPassword = () => {
       console.log(err);
       toast.error('Erro ao tentar atualizar a senha');
     } finally {
-      setFormLoad(false);
+      setLoadingState((prev) => ({ ...prev, formLoad: false }));
       navigate('/');
       reset();
     }
@@ -48,7 +48,7 @@ export const ResetPassword = () => {
 
   return (
     <div className={styles.centralize}>
-      {windowLoad ? (
+      {loadingState.windowLoad ? (
         <div className="windowLoad">
           <Loading />
         </div>
@@ -57,7 +57,7 @@ export const ResetPassword = () => {
           onSubmit={handleSubmit(submitForm)}
           className={styles.formContent}
         >
-          {formLoad && <Loading />}
+          {loadingState.formLoad && <Loading />}
           <header>
             <div>
               <AiFillUnlock />

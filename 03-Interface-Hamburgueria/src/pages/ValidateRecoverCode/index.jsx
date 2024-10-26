@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const ValidateRecoverCode = () => {
-  const { formLoad, setFormLoad } = useUserContext();
+  const { loadingState, setLoadingState } = useUserContext();
   const [countdown, setCountdown] = useState(60);
   const [isDisabled, setIsDisabled] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
@@ -34,7 +34,7 @@ export const ValidateRecoverCode = () => {
 
   const resendCode = async () => {
     try {
-      setFormLoad(true);
+      setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const userId = sessionStorage.getItem('@PASS_RESET_USER_ID');
       await api.post('/users/resend/recovery/code', { userId });
 
@@ -42,16 +42,16 @@ export const ValidateRecoverCode = () => {
       setIsDisabled(true);
 
       toast.success('Código reenviado');
-      setFormLoad(false);
     } catch (error) {
       console.log(error);
-      setFormLoad(false);
+    } finally {
+      setLoadingState((prev) => ({ ...prev, formLoad: false }));
     }
   };
 
   const validate = async (code) => {
     try {
-      setFormLoad(true);
+      setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const userId = sessionStorage.getItem('@PASS_RESET_USER_ID');
       const userEmail = sessionStorage.getItem('@PASS_RESET_EMAIL');
       const { data } = await api.post('/users/validate/recovery', {
@@ -66,7 +66,7 @@ export const ValidateRecoverCode = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      setFormLoad(false);
+      setLoadingState((prev) => ({ ...prev, formLoad: false }));
     }
   };
 
@@ -80,7 +80,7 @@ export const ValidateRecoverCode = () => {
     <div className={styles.sendCodeContent}>
       <div className={styles.boxContent}>
         <h1>Verifique seu E-mail</h1>
-        {formLoad && <Loading />}
+        {loadingState.formLoad && <Loading />}
         <p>
           Digite o código enviado para <strong>{userEmail}</strong> <br /> para
           redefinir sua senha

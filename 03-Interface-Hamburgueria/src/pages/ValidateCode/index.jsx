@@ -6,9 +6,11 @@ import { Loading } from '../../components/Loading';
 import { useUserContext } from '../../hooks/useUserContext';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLists } from '../../hooks/useLists';
 
 export const ValidateCode = () => {
   const { loadingState, setLoadingState, setUser } = useUserContext();
+  const { setBurgersList } = useLists();
   const [countdown, setCountdown] = useState(60);
   const [isDisabled, setIsDisabled] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
@@ -36,6 +38,7 @@ export const ValidateCode = () => {
     const userId = sessionStorage.getItem('@USERID');
 
     try {
+      setBurgersList([]);
       setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const response = await api.post('users/register', {
         userId,

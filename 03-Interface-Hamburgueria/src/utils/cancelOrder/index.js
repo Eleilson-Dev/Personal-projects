@@ -2,18 +2,18 @@ import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { getToken } from '../tokenActions';
 
-export const cancelOrder = async (setLoadingState, dataProps) => {
+export const cancelOrder = async (setLoadingState, order, setPendingOrder) => {
   try {
     setLoadingState((prev) => ({ ...prev, pendigOrderLoad: true }));
     const token = getToken('@TOKEN');
 
-    const orderUpdated = { id: dataProps.order.id, status: 'cancelado' };
+    const orderUpdated = { id: order.id, status: 'cancelado' };
 
     await api.patch('/orders/update', orderUpdated, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    dataProps.setPendingOrder(false);
+    setPendingOrder(false);
 
     toast.success('Pedido cancelado', { autoClose: 500 });
   } catch (err) {

@@ -1,7 +1,11 @@
 import { toast } from 'react-toastify';
 
-export const checkingPendingOrder = ({ data, setLoadingState, dataProps }) => {
+export const checkingPendingOrder = ({
+  data,
+  setLoadingState,
+  setPendingOrder,
+}) => {
   setLoadingState((prev) => ({ ...prev, orderLoading: false }));
-  dataProps.setPendingOrder(true);
+  setPendingOrder(true);
   toast.warn(data?.message);
 };

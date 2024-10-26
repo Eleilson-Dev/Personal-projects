@@ -5,17 +5,30 @@ export const fetchProduct = async (requestConfig) => {
 
   try {
     requestConfig.setLoadingState((prev) => ({ ...prev, windowLoad: true }));
-    const response = await api.get(`/${endPoint}/${id}`, {
+
+    const { data } = await api.get(`/${endPoint}/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    const productData = {
-      ...response.data,
-      price: response.data.price.toString(),
-      ingredients: response.data.ingredients.toString(),
+    let productData;
+
+    if (data?.ingredients) {
+      productData = {
+        ...data,
+        price: data.price.toString(),
+        ingredients: data.ingredients.toString(),
+      };
+      setProduct(data);
+      reset(productData);
+      return;
+    }
+
+    productData = {
+      ...data,
+      price: data.price.toString(),
     };
 
-    setProduct(productData);
+    setProduct(data);
     reset(productData);
   } catch (error) {
     console.error('Erro ao buscar o produto:', error);

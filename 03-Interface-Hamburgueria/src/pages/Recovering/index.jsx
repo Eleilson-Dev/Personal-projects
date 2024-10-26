@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userRecoverSchema } from '../../schemas/userRegisterSchema';
@@ -8,9 +8,11 @@ import { useUserContext } from '../../hooks/useUserContext';
 import { Loading } from '../../components/Loading';
 import { Input } from '../../fragments/Input';
 import { TbShieldLock } from 'react-icons/tb';
+import { userActions } from '../../utils/userActions';
 
 export const Recovering = () => {
-  const { formLoad, setFormLoad, windowLoad, userRecover } = useUserContext();
+  const { loadingState, setLoadingState } = useUserContext();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -20,13 +22,13 @@ export const Recovering = () => {
   } = useForm({ resolver: zodResolver(userRecoverSchema) });
 
   const submitForm = (formData) => {
-    userRecover(formData);
-    reset();
+    userActions.recoverPassword(formData, setLoadingState, navigate);
+    // reset();
   };
 
   return (
     <div className={styles.centralize}>
-      {windowLoad ? (
+      {loadingState.windowLoad ? (
         <div className="windowLoad">
           <Loading />
         </div>
@@ -35,7 +37,7 @@ export const Recovering = () => {
           onSubmit={handleSubmit(submitForm)}
           className={styles.formContent}
         >
-          {formLoad && <Loading />}
+          {loadingState.formLoad && <Loading />}
           <header>
             <div>
               <TbShieldLock />

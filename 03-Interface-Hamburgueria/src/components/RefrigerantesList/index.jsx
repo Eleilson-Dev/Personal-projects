@@ -7,15 +7,19 @@ import { getToken } from '../../utils/tokenActions';
 import { useUserContext } from '../../hooks/useUserContext';
 import { fetchLoadData } from '../../utils/fetchLoadData';
 import img from '../../assets/refri.webp';
+import { useLists } from '../../hooks/useLists';
 
 export const RefrigerantesList = ({ setLoadingEnabled }) => {
-  const { setLoadingState } = useUserContext();
-  const [list, setList] = useState([]);
+  const { setLoadingState, loadingState } = useUserContext();
+  const { refrisList, setRefrisList } = useLists();
+  const [loadItem, setLoadItem] = useState({ state: false, id: null });
 
   useEffect(() => {
     const load = async () => {
+      setRefrisList([]);
+
       const requestConfig = {
-        setList,
+        setList: setRefrisList,
         token: getToken('@TOKEN'),
         endPoint: 'refrigerantes',
         load: true,
@@ -26,19 +30,26 @@ export const RefrigerantesList = ({ setLoadingEnabled }) => {
     };
 
     load();
-  }, [fetchLoadData, setList, setLoadingState]);
+  }, [fetchLoadData, setRefrisList, setLoadingState]);
 
-  const sortedList = [...list].sort((a, b) => a.id - b.id);
+  const sortedList = [...refrisList].sort((a, b) => a.id - b.id);
 
   return (
     <>
       <ul className={`${styles.listMenu}`}>
+        {!loadingState.windowLoad && sortedList.length === 0 && (
+          <h2>Nenhum produto a ser exibido!</h2>
+        )}
         {sortedList.map((item) => (
           <CardMenu
             key={uuidv4()}
             item={item}
+            loadItem={loadItem}
+            setLoadItem={setLoadItem}
             img={img}
-            type="refrigerante"
+            list={refrisList}
+            setList={setRefrisList}
+            type={item.category.name}
             setLoadingEnabled={setLoadingEnabled}
           />
         ))}

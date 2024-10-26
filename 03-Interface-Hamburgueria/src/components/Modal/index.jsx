@@ -5,8 +5,8 @@ import { ModalList } from './ModalList';
 import { ModalFotter } from './ModalFotter';
 import { Loading } from '../Loading';
 
-export const Modal = ({ setLoadingEnabled }) => {
-  const { loadingState, dataProps } = useUserContext();
+export const Modal = () => {
+  const { loadingState, toggleModal, cartList } = useUserContext();
 
   return (
     <div className={styles.boxModal}>
@@ -14,16 +14,16 @@ export const Modal = ({ setLoadingEnabled }) => {
         {loadingState.orderLoading && <Loading />}
         <div className={styles.cartTop}>
           <h2>Meu carrinho</h2>
-          <span onClick={dataProps.toggleModal}>
+          <span onClick={toggleModal}>
             <IoCloseSharp />
           </span>
         </div>
         <div className={styles.cartList}>
-          {dataProps.cartList.length === 0 ? (
+          {cartList.length === 0 ? (
             <h3>Você ainda não possui nenhum pedido no carrinho!</h3>
           ) : (
             <>
-              <ModalList setLoadingEnabled={setLoadingEnabled} />
+              <ModalList />
               <ModalFotter />
             </>
           )}

@@ -7,11 +7,11 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { convertToLocalMoney } from '../../../utils/convertToLocalMoney';
 
-export const ModalList = ({ setLoadingEnabled }) => {
-  const { dataProps } = useUserContext();
+export const ModalList = () => {
+  const { cartList, setCartList } = useUserContext();
 
   const quantityPlus = (itemId) => {
-    dataProps.setCartList((prevCartList) =>
+    setCartList((prevCartList) =>
       prevCartList.map((item) =>
         item.id === itemId && item.quantity < 99
           ? { ...item, quantity: item.quantity + 1 }
@@ -21,7 +21,7 @@ export const ModalList = ({ setLoadingEnabled }) => {
   };
 
   const quantityMinos = (itemId) => {
-    dataProps.setCartList((prevCartList) =>
+    setCartList((prevCartList) =>
       prevCartList.map((item) =>
         item.id === itemId && item.quantity > 1
           ? { ...item, quantity: item.quantity - 1 }
@@ -32,7 +32,7 @@ export const ModalList = ({ setLoadingEnabled }) => {
 
   return (
     <ul className={styles.modalList}>
-      {dataProps.cartList.map((item) => (
+      {cartList.map((item) => (
         <li key={uuidv4()}>
           <div className={styles.imgBox}>
             <img src={item.img} />
@@ -54,8 +54,7 @@ export const ModalList = ({ setLoadingEnabled }) => {
             <div
               className={styles.trash}
               onClick={() => {
-                removeItemOfModal(item, dataProps);
-                setLoadingEnabled(false);
+                removeItemOfModal(item, cartList, setCartList);
               }}
             >
               <FaTrashCan />

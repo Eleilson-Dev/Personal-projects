@@ -2,24 +2,27 @@ import styles from './styles.module.css';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useUserContext } from '../../hooks/useUserContext';
-import { Input } from '../../fragments/Input';
-import { Loading } from '../../components/Loading';
-import { productSchema } from '../../schemas/userRegisterSchema';
+import { useUserContext } from '../../../hooks/useUserContext';
+import { Input } from '../../../fragments/Input';
+import { Loading } from '../../Loading';
+import { productSchema } from '../../../schemas/userRegisterSchema';
 import { useParams } from 'react-router-dom';
-import { api } from '../../services/api';
-import { getToken } from '../../utils/tokenActions';
+import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { fetchProduct } from '../../utils/fetchProduct';
+import { fetchProduct } from '../../../utils/fetchProduct';
+import { useLists } from '../../../hooks/useLists';
+import { updateProduct } from '../../../utils/updateProduct';
 
-export const EditProduct = () => {
-  const { id } = useParams();
-  const { loadingState, setLoadingState, setPrimaryMenu } = useUserContext();
+export const EditPizza = () => {
+  const { productType, id } = useParams();
+  const { loadingState, setLoadingState } = useUserContext();
+  const { setPizzasList } = useLists();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
+
   const navigate = useNavigate();
+  const endPoint = `${productType}s`;
 
   const {
     register,
@@ -31,7 +34,7 @@ export const EditProduct = () => {
   useEffect(() => {
     const requestConfig = {
       id,
-      endPoint: 'hamburguers',
+      endPoint,
       token: getToken('@TOKEN'),
       setProduct,
       reset,
@@ -47,43 +50,31 @@ export const EditProduct = () => {
     load();
   }, [id, navigate, reset, fetchProduct]);
 
-  const updateProduct = async (productUpdateData) => {
-    try {
-      setLoadingState((prev) => ({ ...prev, formLoad: true }));
-      setPrimaryMenu([]);
-      const token = getToken('@TOKEN');
-
-      await api.patch(`/hamburguers/edit/product/${id}`, productUpdateData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      toast.success('Produto editado');
-    } catch (err) {
-      console.log('Erro ao tentar editar o produto', err);
-    } finally {
-      setLoadingState((prev) => ({ ...prev, formLoad: false }));
-    }
-  };
-
-  const submitForm = async (data) => {
-    const ingredientsString = data.ingredients.join(', ');
-    const ingredientsArray = ingredientsString
-      .split(',')
-      .map((ingredient) => ingredient.trim());
+  const submitForm = async (formData) => {
+    const ingredientsArray = formData.ingredients.map((ingredient) =>
+      ingredient.trim()
+    );
 
     const priceFormatted =
-      typeof data.price === 'number'
-        ? data.price.toString()
-        : data.price.replace(',', '.');
+      typeof formData.price === 'number'
+        ? formData.price.toString()
+        : formData.price.replace(',', '.');
 
-    const formData = {
-      ...data,
+    const productUpdateData = {
+      ...formData,
       ingredients: ingredientsArray,
       price: Number(priceFormatted),
     };
 
-    await updateProduct(formData);
-    navigate('/');
+    await updateProduct(
+      id,
+      productUpdateData,
+      setPizzasList,
+      endPoint,
+      setLoadingState
+    );
+
+    navigate(`/menu/${endPoint}`);
   };
 
   return (
@@ -97,16 +88,19 @@ export const EditProduct = () => {
         >
           {loadingState.formLoad && <Loading />}
           <header>
-            <h1>Editar Hambúrguer</h1>
+            <h1>
+              Editar <span>{productType}</span>
+            </h1>
           </header>
           <Input
             id="name"
             type="text"
             title="Nome"
-            placeholder="Nome do produto"
+            placeholder={`Nome do ${product.category.name}`}
             error={errors.name?.message}
             register={register}
           />
+
           <Input
             id="description"
             type="text"
@@ -115,6 +109,7 @@ export const EditProduct = () => {
             error={errors.description?.message}
             register={register}
           />
+
           <Input
             id="ingredients"
             type="text"
@@ -123,6 +118,7 @@ export const EditProduct = () => {
             error={errors.ingredients?.message}
             register={register}
           />
+
           <Input
             id="price"
             type="text"

@@ -29,6 +29,10 @@
       position: relative;
       font-size: clamp(1.5rem, 1.085rem + 1.561vw, 2.5rem);
 
+      > span {
+        text-transform: capitalize;
+      }
+
       &::before {
         content: '';
         position: absolute;

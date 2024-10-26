@@ -4,8 +4,8 @@ import { cancelOrder } from '../../../utils/cancelOrder';
 import { callWhatsApp } from '../../../utils/callWhatsApp';
 
 export const PendingOrderFotter = () => {
-  const { setLoadingState, dataProps } = useUserContext();
-  const { id } = dataProps.order;
+  const { setLoadingState, order, setPendingOrder } = useUserContext();
+  const { id } = order;
 
   return (
     <div className={styles.pendingOrderFotter}>
@@ -19,13 +19,13 @@ export const PendingOrderFotter = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <button onClick={() => dataProps.setPendingOrder(false)}>
+          <button onClick={() => setPendingOrder(false)}>
             Concluir pedido
           </button>
         </a>
         <button
           onClick={() => {
-            cancelOrder(setLoadingState, dataProps);
+            cancelOrder(setLoadingState, order, setPendingOrder);
           }}
           className={styles.cancel}
         >

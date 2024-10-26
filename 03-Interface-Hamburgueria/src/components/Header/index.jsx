@@ -3,14 +3,16 @@ import { Link, useLocation } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
 import { IconCart } from '../../fragments/IconCart';
 import { IconProfile } from '../../fragments/IconProfile';
+import { useLists } from '../../hooks/useLists';
 
 export const Header = () => {
-  const { user, setPrimaryMenu } = useUserContext();
+  const { user } = useUserContext();
+  const { setBurgersList } = useLists();
   const location = useLocation();
 
   const handleClick = () => {
     if (location.pathname !== '/') {
-      setPrimaryMenu([]);
+      setBurgersList([]);
     }
 
     return;
@@ -25,8 +27,6 @@ export const Header = () => {
           </Link>
         </div>
         <div className={styles.headerContentRigth}>
-          <Link to="/menu/hamburguers">Hamburguers</Link>
-          <Link to="/menu/refrigerantes">Refrigerantes</Link>
           {user?.role === 'admin' && <span>ADM</span>}
           <IconCart />
           <IconProfile />

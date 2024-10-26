@@ -21,9 +21,9 @@ export const userActions = {
     }
   },
 
-  login: async (userLoginData, setLoadingState, setPrimaryMenu, navigate) => {
+  login: async (userLoginData, setLoadingState, setBurgersList, navigate) => {
     try {
-      setPrimaryMenu([]);
+      setBurgersList([]);
       setLoadingState((prev) => ({
         ...prev,
         formLoad: true,
@@ -41,13 +41,13 @@ export const userActions = {
     }
   },
 
-  logout: (setUser, setLoadingState, dataProps) => {
+  logout: (setUser, setLoadingState, setCartList, setOrder) => {
     try {
       setLoadingState((prev) => ({ ...prev, windowLoad: true }));
       setUser(null);
       removeToken('@TOKEN');
-      dataProps.setCartList([]);
-      dataProps.setOrder(null);
+      setCartList([]);
+      setOrder(null);
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,7 +55,7 @@ export const userActions = {
     }
   },
 
-  recoverPassword: async (formData) => {
+  recoverPassword: async (formData, setLoadingState, navigate) => {
     try {
       setLoadingState((prev) => ({ ...prev, formLoad: true }));
       const { data } = await api.post('/users/send/reset/code', formData);

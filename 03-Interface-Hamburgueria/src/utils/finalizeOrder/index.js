@@ -5,11 +5,18 @@ import { toast } from 'react-toastify';
 import { checkingPendingOrder } from '../chekingPendingOrder';
 import { callWhatsApp } from '../callWhatsApp';
 
-export const finalizeOrder = async (setLoadingState, dataProps) => {
+export const finalizeOrder = async (
+  setLoadingState,
+  cartList,
+  setCartList,
+  setPendingOrder,
+  setOrder,
+  toggleModal
+) => {
   try {
     setLoadingState((prev) => ({ ...prev, orderLoading: true }));
 
-    const totalPrice = shoppingCart(dataProps.cartList);
+    const totalPrice = shoppingCart(cartList);
     const token = getToken('@TOKEN');
 
     if (totalPrice < 15) {
@@ -21,7 +28,7 @@ export const finalizeOrder = async (setLoadingState, dataProps) => {
 
     const order = {
       status: 'pendente',
-      items: dataProps.cartList.map((item) => ({
+      items: cartList.map((item) => ({
         id: item.id,
         type: item.type,
         quantity: item.quantity,
@@ -34,12 +41,12 @@ export const finalizeOrder = async (setLoadingState, dataProps) => {
     });
 
     if (data?.message) {
-      checkingPendingOrder({ data, setLoadingState, dataProps });
-      dataProps.toggleModal();
+      checkingPendingOrder({ data, setLoadingState, setPendingOrder });
+      toggleModal();
 
       const resultData = data.order[0];
 
-      dataProps.setOrder({
+      setOrder({
         id: resultData.id,
         priceOrder: resultData.priceOrder,
         status: resultData.status,
@@ -49,7 +56,7 @@ export const finalizeOrder = async (setLoadingState, dataProps) => {
       return;
     }
 
-    dataProps.setCartList([]);
+    setCartList([]);
     toast.success('Pedido enviado', { autoClose: 500 });
 
     window.location.href = callWhatsApp({
@@ -57,7 +64,7 @@ export const finalizeOrder = async (setLoadingState, dataProps) => {
       message: `Pedido N: ${data.id}`,
     });
 
-    dataProps.toggleModal();
+    toggleModal();
   } catch (err) {
     console.log(err);
     toast.error(err.response?.data.message, { autoClose: 500 });

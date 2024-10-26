@@ -11,9 +11,11 @@ import { Loading } from '../../components/Loading';
 import { InputPass } from '../../fragments/InputPass';
 import { Input } from '../../fragments/Input';
 import { userActions } from '../../utils/userActions';
+import { useLists } from '../../hooks/useLists';
 
 export const Login = () => {
-  const { loadingState, setLoadingState, setPrimaryMenu } = useUserContext();
+  const { loadingState, setLoadingState } = useUserContext();
+  const { setBurgersList } = useLists();
   const navigate = useNavigate();
 
   const {
@@ -26,7 +28,7 @@ export const Login = () => {
   });
 
   const submitForm = (userLoginData) => {
-    userActions.login(userLoginData, setLoadingState, setPrimaryMenu, navigate);
+    userActions.login(userLoginData, setLoadingState, setBurgersList, navigate);
     reset();
   };
 
@@ -48,7 +50,7 @@ export const Login = () => {
           </header>
           <Input
             id="email"
-            title="E-mail"
+            title="E-Mail"
             type="email"
             placeholder="Digite seu E-mail"
             register={register}

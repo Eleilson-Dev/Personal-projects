@@ -6,17 +6,19 @@ import {
   ProtectedCreateProduct,
   ProtectedResetPass,
 } from '../ProtectedRoutes';
+
 import { HamburguersMenu } from '../../pages/HamburguersMenu';
 import { Login } from '../../pages/Login';
 import { Register } from '../../pages/Register';
 import { NotFound } from '../../pages/NotFound';
 import { ValidateCode } from '../../pages/ValidateCode';
-import { CreateProduct } from '../../pages/CreateProduct';
-import { EditProduct } from '../../pages/EditProduct';
 import { Recovering } from '../../pages/Recovering';
 import { ValidateRecoverCode } from '../../pages/ValidateRecoverCode';
 import { ResetPassword } from '../../pages/ResetPassword';
 import { RefrigerantesMenu } from '../../pages/RefrigerantesMenu';
+import { PizzasMenu } from '../../pages/PizzasMenu';
+import { EditProducts } from '../../components/EditProducts';
+import { CreateProducts } from '../../components/CreateProducts';
 
 export const RoutesMain = () => {
   return (
@@ -24,6 +26,9 @@ export const RoutesMain = () => {
       <Routes>
         <Route path="/menu/hamburguers" element={<ProtectedMenu />}>
           <Route index element={<HamburguersMenu />} />
+        </Route>
+        <Route path="/menu/pizzas" element={<ProtectedMenu />}>
+          <Route index element={<PizzasMenu />} />
         </Route>
         <Route path="/menu/refrigerantes" element={<ProtectedMenu />}>
           <Route index element={<RefrigerantesMenu />} />
@@ -37,11 +42,17 @@ export const RoutesMain = () => {
         <Route path="/validate" element={<ProtectedValidate />}>
           <Route index element={<ValidateCode />} />
         </Route>
-        <Route path="/create/product" element={<ProtectedCreateProduct />}>
-          <Route index element={<CreateProduct />} />
+        <Route
+          path="/create/:productType/product"
+          element={<ProtectedCreateProduct />}
+        >
+          <Route index element={<CreateProducts />} />
         </Route>
-        <Route path="/edit/product/:id" element={<ProtectedCreateProduct />}>
-          <Route index element={<EditProduct />} />
+        <Route
+          path="/edit/:productType/:id"
+          element={<ProtectedCreateProduct />}
+        >
+          <Route index element={<EditProducts />} />
         </Route>
         <Route path="/reset/password" element={<ProtectedResetPass />}>
           <Route index element={<ResetPassword />} />

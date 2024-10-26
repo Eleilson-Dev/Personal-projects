@@ -4,7 +4,9 @@ export const fetchLoadData = async (requestConfig) => {
   const { setList, token, endPoint, load, setLoadingState } = requestConfig;
 
   try {
+    setList([]);
     setLoadingState((prev) => ({ ...prev, windowLoad: load }));
+
     const { data } = await api.get(`/${endPoint}`, {
       headers: { Authorization: `Bearer ${token}` },
     });

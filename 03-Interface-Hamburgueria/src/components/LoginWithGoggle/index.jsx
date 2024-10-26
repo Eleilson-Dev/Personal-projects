@@ -5,10 +5,11 @@ import { api } from '../../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
+import { useLists } from '../../hooks/useLists';
 
 export const LoginWithGoogle = () => {
-  const { loadingState, setLoadingState, setUser, setPrimaryMenu } =
-    useUserContext();
+  const { setLoadingState, setUser } = useUserContext();
+  const { setBurgersList } = useLists();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
@@ -16,7 +17,7 @@ export const LoginWithGoogle = () => {
       const { access_token } = codeResponse;
 
       try {
-        setPrimaryMenu([]);
+        setBurgersList([]);
         setLoadingState((prev) => ({ ...prev, formLoad: true }));
 
         const { data } = await api.post('/users/login/google', {

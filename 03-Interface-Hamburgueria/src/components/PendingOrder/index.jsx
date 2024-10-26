@@ -9,7 +9,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import img from '../../assets/pngtree-food.png';
 
 export const PendingOrder = () => {
-  const { loadingState, dataProps } = useUserContext();
+  const { loadingState, order, setPendingOrder } = useUserContext();
   const formatOrderId = (id) => `#${id % 100}`;
 
   return (
@@ -18,7 +18,7 @@ export const PendingOrder = () => {
         {loadingState.pendigOrderLoad && <Loading />}
         <div className={styles.top}>
           <h3>Você possui um pedido pendente</h3>
-          <span onClick={() => dataProps.setPendingOrder(false)}>
+          <span onClick={() => setPendingOrder(false)}>
             <IoCloseSharp />
           </span>
         </div>
@@ -33,15 +33,13 @@ export const PendingOrder = () => {
               </h4>
               <span>
                 Preço:
-                <strong>
-                  {convertToLocalMoney(dataProps.order.priceOrder)}
-                </strong>
+                <strong>{convertToLocalMoney(order.priceOrder)}</strong>
               </span>
             </div>
             <div className={styles.createdAt}>
-              <h4>{formatDate(dataProps.order.createdAt)}</h4>
+              <h4>{formatDate(order.createdAt)}</h4>
               <span>
-                Status: <strong>{dataProps.order.status}</strong>
+                Status: <strong>{order.status}</strong>
               </span>
             </div>
           </div>

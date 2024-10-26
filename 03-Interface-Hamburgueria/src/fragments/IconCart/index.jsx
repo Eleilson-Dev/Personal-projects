@@ -3,13 +3,13 @@ import { useUserContext } from '../../hooks/useUserContext';
 import { FaShoppingCart } from 'react-icons/fa';
 
 export const IconCart = () => {
-  const { isUserLoggedIn, dataProps } = useUserContext();
+  const { isUserLoggedIn, toggleModal, cartList } = useUserContext();
 
   return (
     !isUserLoggedIn && (
-      <div onClick={dataProps.toggleModal} className={styles.iconCart}>
+      <div onClick={toggleModal} className={styles.iconCart}>
         <FaShoppingCart />
-        <div className={styles.counter}>{dataProps.cartList.length}</div>
+        <div className={styles.counter}>{cartList.length}</div>
       </div>
     )
   );

@@ -9,7 +9,8 @@ export const singleOrder = async (
   type,
   setLoadItem,
   setLoadingState,
-  dataProps
+  setPendingOrder,
+  setOrder
 ) => {
   try {
     const token = getToken('@TOKEN');
@@ -34,9 +35,9 @@ export const singleOrder = async (
     setLoadItem({ state: false, id: null });
 
     if (data?.message) {
-      checkingPendingOrder({ data, setLoadingState, dataProps });
+      checkingPendingOrder({ data, setLoadingState, setPendingOrder });
       const resultData = data.order[0];
-      dataProps.setOrder({
+      setOrder({
         id: resultData.id,
         priceOrder: resultData.priceOrder,
         status: resultData.status,
@@ -52,7 +53,7 @@ export const singleOrder = async (
   } catch (err) {
     console.log(err);
     toast.error(err.response?.data.message, { autoClose: 500 });
-    dataProps.setPendingOrder(true);
+    setPendingOrder(true);
   } finally {
     setLoadItem({ state: false, id: null });
   }

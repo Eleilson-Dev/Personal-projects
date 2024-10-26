@@ -7,8 +7,14 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { userActions } from '../../utils/userActions';
 
 export const IconProfile = () => {
-  const { isUserLoggedIn, user, setUser, setLoadingState, dataProps } =
-    useUserContext();
+  const {
+    isUserLoggedIn,
+    user,
+    setUser,
+    setLoadingState,
+    setCartList,
+    setOrder,
+  } = useUserContext();
   const [menu, setMenu] = useState(false);
   const navigate = useNavigate();
 
@@ -18,9 +24,14 @@ export const IconProfile = () => {
     setMenu(!menu);
   };
 
+  const callRedirect = (where) => {
+    toggleMenu();
+    navigate(where);
+  };
+
   const callLogout = () => {
     setMenu(false);
-    userActions.logout(setUser, setLoadingState, dataProps);
+    userActions.logout(setUser, setLoadingState, setCartList, setOrder);
   };
 
   return (
@@ -41,9 +52,30 @@ export const IconProfile = () => {
 
           <div className={styles.menuBottom}>
             {user?.role === 'admin' && (
-              <button onClick={() => navigate('/create/product')}>
-                Cadastrar produto
-              </button>
+              <>
+                <button
+                  onClick={() => callRedirect('/create/hamburguer/product')}
+                >
+                  Cadastrar Hamburguer
+                </button>
+                <button onClick={() => callRedirect('/create/salgado/product')}>
+                  Cadastrar Salgado
+                </button>
+                <button onClick={() => callRedirect('/create/pizza/product')}>
+                  Cadastrar Pizza
+                </button>
+                <button
+                  onClick={() => callRedirect('/create/refrigerante/product')}
+                >
+                  Cadastrar Refrigerante
+                </button>
+                <button onClick={() => callRedirect('/create/suco/product')}>
+                  Cadastrar Suco
+                </button>
+                <button onClick={() => callRedirect('/create/doce/product')}>
+                  Cadastrar Doce
+                </button>
+              </>
             )}
             <button onClick={callLogout}>Sair</button>
           </div>

@@ -1,87 +1,125 @@
 import styles from './styles.module.css';
-import { useEffect, useState } from 'react';
+
+import { useState } from 'react';
 import { useUserContext } from '../../hooks/useUserContext';
 import { addItemIntoModal } from '../../utils/modalActions';
 import { convertToLocalMoney } from '../../utils/convertToLocalMoney';
 import { Loading } from '../Loading';
 import { singleOrder } from '../../utils/singleOrder';
-import { ProductActions } from '../../fragments/ProductActions';
+import { ProductActions } from '../ProductActions';
 
-export const CardMenu = (props) => {
-  const { item, loadItem, setLoadItem, img, type, buyNow } = props;
+export const CardMenu = ({
+  item,
+  loadItem,
+  setLoadItem,
+  img,
+  type,
+  setLoadingEnabled,
+  list,
+  setList,
+}) => {
+  const {
+    cartList,
+    setCartList,
+    user,
+    loadingState,
+    setLoadingState,
+    setPendingOrder,
+    setOrder,
+  } = useUserContext();
 
-  const { dataProps, user, loadingState, setLoadingState } = useUserContext();
-  const [visibility, setVisibility] = useState(true);
+  const [visibility, setVisibility] = useState(item.visibility);
   const isRender = user?.role === 'regular' && !item.visibility;
+
+  const handleBuyNow = () => {
+    singleOrder(
+      item,
+      type,
+      setLoadItem,
+      setLoadingState,
+      setPendingOrder,
+      setOrder
+    );
+  };
+
+  const handleAddToCart = () => {
+    setLoadingEnabled(false);
+    addItemIntoModal(
+      { ...item, img, type, quantity: 1 },
+      cartList,
+      setCartList
+    );
+  };
+
+  const renderLoading = () => {
+    if (
+      loadingState.loadToDelete === item.id ||
+      (item.price > 15 && loadItem.state && loadItem.id === item.id)
+    ) {
+      return <Loading />;
+    }
+  };
+
+  if (isRender) {
+    return null;
+  }
 
   return (
     <>
-      {!isRender && (
-        <li className={styles.cardItem}>
-          {dataProps.loadToDelete === item.id && <Loading />}
-          {buyNow && loadItem.state && loadItem.id === item.id && <Loading />}
+      <li className={styles.cardItem}>
+        {renderLoading()}
 
-          {!visibility && <div className={styles.itemHide}></div>}
-          <div className={styles.boxImg}>
-            <ProductActions
-              item={item}
-              setLoadItem={setLoadItem}
-              visibility={visibility}
-              setVisibility={setVisibility}
-            />
-            <img src={img} />
-          </div>
-          <div className={styles.details}>
-            <h3>{item.name}</h3>
-            <span>
-              <strong>{item.size}</strong>
-            </span>
-            <span className={styles.price}>
-              {convertToLocalMoney(item.price)}
-            </span>
-            <div className={styles.cardAction}>
-              {buyNow && (
-                <a
-                  className={styles.btn1}
-                  onClick={() =>
-                    singleOrder(
-                      item,
-                      type,
-                      setLoadItem,
-                      setLoadingState,
-                      dataProps
-                    )
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <button
-                    className={styles.btnDisabled}
-                    disabled={buyNow && loadItem.state}
-                  >
-                    Compre agora
-                  </button>
-                </a>
-              )}
-            </div>
-            <div className={styles.cardAction}>
-              <button
-                onClick={() => {
-                  props.setLoadingEnabled(false);
-                  addItemIntoModal(
-                    { ...item, img, type, quantity: 1 },
-                    dataProps
-                  );
-                }}
-                className={styles.btn2}
-                disabled={buyNow && loadItem.state}
+        {!item.visibility && <div className={styles.itemHide}></div>}
+        <div className={styles.boxImg}>
+          <ProductActions
+            item={item}
+            setLoadItem={setLoadItem}
+            visibility={visibility}
+            setVisibility={setVisibility}
+            list={list}
+            setList={setList}
+          />
+          <img src={img} />
+        </div>
+        <div className={styles.details}>
+          <h3>{item.name}</h3>
+          <span>
+            <strong>{item.size}</strong>
+          </span>
+          <span className={styles.price}>
+            {convertToLocalMoney(item.price)}
+          </span>
+          <div className={styles.cardAction}>
+            {item.price > 15 && (
+              <a
+                className={styles.btn1}
+                onClick={() => handleBuyNow()}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Adicionar ao carrinho
-              </button>
-            </div>
+                <button
+                  className={styles.btnDisabled}
+                  disabled={item.price > 15 && loadItem.state}
+                >
+                  Compre agora
+                </button>
+              </a>
+            )}
           </div>
-        </li>
-      )}
+          <div className={styles.cardAction}>
+            <button
+              onClick={() => {
+                setLoadingEnabled(false);
+                handleAddToCart();
+              }}
+              className={styles.btn2}
+              disabled={item.price > 15 && loadItem.state}
+            >
+              Adicionar ao carrinho
+            </button>
+          </div>
+        </div>
+      </li>
     </>
   );
 };
