@@ -1,9 +1,9 @@
 import { useUserContext } from '../../hooks/useUserContext';
 import { Loading } from '../../components/Loading';
 import { useState } from 'react';
-import { RefrigerantesList } from '../../components/RefrigerantesList';
+import { SodasList } from './SodasList';
 
-export const RefrigerantesMenu = () => {
+export const SodasMenu = () => {
   const { loadingState } = useUserContext();
   const [loadingEnabled, setLoadingEnabled] = useState(true);
 
@@ -15,7 +15,7 @@ export const RefrigerantesMenu = () => {
         </div>
       )}
 
-      <RefrigerantesList setLoadingEnabled={setLoadingEnabled} />
+      <SodasList setLoadingEnabled={setLoadingEnabled} />
     </>
   );
 };

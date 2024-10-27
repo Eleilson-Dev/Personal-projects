@@ -32,7 +32,7 @@ export const ProductActions = ({ item, visibility, list, setList }) => {
   }, [item, setList, setLoadingState]);
 
   const handleEdit = (item) => {
-    const endPoint = item.category.name;
+    const endPoint = item.category.name.slice(0, -1);
     navigate(`/edit/${endPoint}/${item.id}`);
   };
 

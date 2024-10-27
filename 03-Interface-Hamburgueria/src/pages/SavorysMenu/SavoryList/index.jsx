@@ -1,27 +1,27 @@
 import styles from './styles.module.css';
 
 import { v4 as uuidv4 } from 'uuid';
-import { CardMenu } from '../CardMenu';
 import { useEffect, useState } from 'react';
-import { getToken } from '../../utils/tokenActions';
-import { useUserContext } from '../../hooks/useUserContext';
-import { fetchLoadData } from '../../utils/fetchLoadData';
-import img from '../../assets/refri.webp';
-import { useLists } from '../../hooks/useLists';
+import { getToken } from '../../../utils/tokenActions';
+import { CardMenu } from '../../../components/CardMenu';
+import { useUserContext } from '../../../hooks/useUserContext';
+import { fetchLoadData } from '../../../utils/fetchLoadData';
+import { useLists } from '../../../hooks/useLists';
+import img from '../../../assets/salgados.webp';
 
-export const RefrigerantesList = ({ setLoadingEnabled }) => {
+export const SavorysList = ({ setLoadingEnabled }) => {
   const { setLoadingState, loadingState } = useUserContext();
-  const { refrisList, setRefrisList } = useLists();
+  const { savorysList, setSavorysList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
 
   useEffect(() => {
     const load = async () => {
-      setRefrisList([]);
+      setSavorysList([]);
 
       const requestConfig = {
-        setList: setRefrisList,
+        setList: setSavorysList,
         token: getToken('@TOKEN'),
-        endPoint: 'refrigerantes',
+        endPoint: 'salgados',
         load: true,
         setLoadingState,
       };
@@ -30,9 +30,9 @@ export const RefrigerantesList = ({ setLoadingEnabled }) => {
     };
 
     load();
-  }, [fetchLoadData, setRefrisList, setLoadingState]);
+  }, [fetchLoadData, setSavorysList, setLoadingState]);
 
-  const sortedList = [...refrisList].sort((a, b) => a.id - b.id);
+  const sortedList = [...savorysList].sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -47,9 +47,9 @@ export const RefrigerantesList = ({ setLoadingEnabled }) => {
             loadItem={loadItem}
             setLoadItem={setLoadItem}
             img={img}
-            list={refrisList}
-            setList={setRefrisList}
             type={item.category.name}
+            list={savorysList}
+            setList={setSavorysList}
             setLoadingEnabled={setLoadingEnabled}
           />
         ))}

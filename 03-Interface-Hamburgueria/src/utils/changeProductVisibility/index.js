@@ -16,7 +16,7 @@ export const changeProductVisibility = async (
 
     const menuItem = list.find((menuItem) => menuItem.id === item.id);
     const newVisibility = !menuItem.visibility;
-    const endPoint = item.category.name + 's';
+    const endPoint = item.category.name;
 
     await api.patch(
       `/${endPoint}/change/visibility/${item.id}`,

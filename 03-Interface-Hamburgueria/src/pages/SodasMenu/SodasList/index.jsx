@@ -1,27 +1,27 @@
 import styles from './styles.module.css';
 
 import { v4 as uuidv4 } from 'uuid';
+import { CardMenu } from '../../../components/CardMenu';
 import { useEffect, useState } from 'react';
-import { getToken } from '../../utils/tokenActions';
-import { CardMenu } from '../CardMenu';
-import img from '../../assets/burguer.png';
-import { useUserContext } from '../../hooks/useUserContext';
-import { fetchLoadData } from '../../utils/fetchLoadData';
-import { useLists } from '../../hooks/useLists';
+import { getToken } from '../../../utils/tokenActions';
+import { useUserContext } from '../../../hooks/useUserContext';
+import { fetchLoadData } from '../../../utils/fetchLoadData';
+import img from '../../../assets/refri.webp';
+import { useLists } from '../../../hooks/useLists';
 
-export const HamburguersList = ({ setLoadingEnabled }) => {
+export const SodasList = ({ setLoadingEnabled }) => {
   const { setLoadingState, loadingState } = useUserContext();
-  const { burgersList, setBurgersList } = useLists();
+  const { sodasList, setSodasList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
 
   useEffect(() => {
     const load = async () => {
-      setBurgersList([]);
+      setSodasList([]);
 
       const requestConfig = {
-        setList: setBurgersList,
+        setList: setSodasList,
         token: getToken('@TOKEN'),
-        endPoint: 'hamburguers',
+        endPoint: 'refrigerantes',
         load: true,
         setLoadingState,
       };
@@ -30,9 +30,9 @@ export const HamburguersList = ({ setLoadingEnabled }) => {
     };
 
     load();
-  }, [fetchLoadData, setBurgersList, setLoadingState]);
+  }, [fetchLoadData, setSodasList, setLoadingState]);
 
-  const sortedList = [...burgersList].sort((a, b) => a.id - b.id);
+  const sortedList = [...sodasList].sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -47,9 +47,9 @@ export const HamburguersList = ({ setLoadingEnabled }) => {
             loadItem={loadItem}
             setLoadItem={setLoadItem}
             img={img}
+            list={sodasList}
+            setList={setSodasList}
             type={item.category.name}
-            list={burgersList}
-            setList={setBurgersList}
             setLoadingEnabled={setLoadingEnabled}
           />
         ))}

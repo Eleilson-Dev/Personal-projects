@@ -1,7 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { CreatePizza } from './CreatePizza';
+
 import { CreateHamburguer } from './CreateHamburguer';
-import { CreateRefrigerante } from './CreateRefrigerante';
+import { CreateSavory } from './CreateSavory';
+import { CreatePizza } from './CreatePizza';
+import { CreateSoda } from './CreateSoda';
+import { CreateJuice } from './CreateJuice';
 
 export const CreateProducts = () => {
   const { productType } = useParams();
@@ -9,8 +12,10 @@ export const CreateProducts = () => {
   return (
     <>
       {productType === 'hamburguer' && <CreateHamburguer />}
+      {productType === 'salgado' && <CreateSavory />}
       {productType === 'pizza' && <CreatePizza />}
-      {productType === 'refrigerante' && <CreateRefrigerante />}
+      {productType === 'refrigerante' && <CreateSoda />}
+      {productType === 'suco' && <CreateJuice />}
     </>
   );
 };

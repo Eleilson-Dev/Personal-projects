@@ -12,7 +12,7 @@ export const deleteProduct = async (
     setIsDeleting(true);
     setLoadingState((prev) => ({ ...prev, loadToDelete: item.id }));
     const token = getToken('@TOKEN');
-    const endPoint = item.category.name + 's';
+    const endPoint = item.category.name;
 
     await api.delete(`/${endPoint}/delete/${item.id}`, {
       headers: { Authorization: `Bearer ${token}` },

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { fetchCurrentUser } from '../utils/fetchCurrentUser';
 import { getToken } from '../utils/tokenActions';
 import { useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { clearSessionStorage } from '../utils/clearSessionStorage';
 import { api } from '../services/api';
 

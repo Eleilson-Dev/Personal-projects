@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { productSchema } from '../../../schemas/product.schema';
+import { drinkSchema } from '../../../schemas/product.schema';
 import { useParams } from 'react-router-dom';
 import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
@@ -14,10 +14,10 @@ import { fetchProduct } from '../../../utils/fetchProduct';
 import { useLists } from '../../../hooks/useLists';
 import { updateProduct } from '../../../utils/updateProduct';
 
-export const EditHamburguer = () => {
+export const EditSoda = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setBurgersList } = useLists();
+  const { setSodasList } = useLists();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
 
@@ -29,7 +29,7 @@ export const EditHamburguer = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(productSchema) });
+  } = useForm({ resolver: zodResolver(drinkSchema) });
 
   useEffect(() => {
     const requestConfig = {
@@ -51,10 +51,6 @@ export const EditHamburguer = () => {
   }, [id, navigate, reset, fetchProduct]);
 
   const submitForm = async (formData) => {
-    const ingredientsArray = formData.ingredients.map((ingredient) =>
-      ingredient.trim()
-    );
-
     const priceFormatted =
       typeof formData.price === 'number'
         ? formData.price.toString()
@@ -62,14 +58,13 @@ export const EditHamburguer = () => {
 
     const productUpdateData = {
       ...formData,
-      ingredients: ingredientsArray,
       price: Number(priceFormatted),
     };
 
     await updateProduct(
       id,
       productUpdateData,
-      setBurgersList,
+      setSodasList,
       endPoint,
       setLoadingState
     );
@@ -100,25 +95,6 @@ export const EditHamburguer = () => {
             error={errors.name?.message}
             register={register}
           />
-
-          <Input
-            id="description"
-            type="text"
-            title="Descrição"
-            placeholder="Sobre o produto"
-            error={errors.description?.message}
-            register={register}
-          />
-
-          <Input
-            id="ingredients"
-            type="text"
-            title="Ingredientes"
-            placeholder="Ex (pão, alface, tomate)"
-            error={errors.ingredients?.message}
-            register={register}
-          />
-
           <Input
             id="price"
             type="text"
@@ -131,7 +107,7 @@ export const EditHamburguer = () => {
             id="size"
             type="text"
             title="Tamanho"
-            placeholder="Ex (Médio)"
+            placeholder="Ex (300ml)"
             error={errors.size?.message}
             register={register}
           />

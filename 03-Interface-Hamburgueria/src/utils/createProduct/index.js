@@ -21,7 +21,7 @@ export const createProduct = async ({
     toast.success('Produto adicionado na lista');
     navigate(`/menu/${endPoint}`);
   } catch (err) {
-    console.log('errpo aqui', err);
+    console.log(err);
     toast.error(err.response?.data.message);
   } finally {
     setLoadingState((prev) => ({ ...prev, formLoad: false }));

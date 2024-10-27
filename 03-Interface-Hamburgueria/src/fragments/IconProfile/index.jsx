@@ -72,9 +72,6 @@ export const IconProfile = () => {
                 <button onClick={() => callRedirect('/create/suco/product')}>
                   Cadastrar Suco
                 </button>
-                <button onClick={() => callRedirect('/create/doce/product')}>
-                  Cadastrar Doce
-                </button>
               </>
             )}
             <button onClick={callLogout}>Sair</button>

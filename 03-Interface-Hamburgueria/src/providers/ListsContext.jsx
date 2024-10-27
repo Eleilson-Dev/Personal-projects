@@ -5,17 +5,23 @@ export const ListsContext = createContext();
 export const ListsProvider = ({ children }) => {
   const [burgersList, setBurgersList] = useState([]);
   const [pizzasList, setPizzasList] = useState([]);
-  const [refrisList, setRefrisList] = useState([]);
+  const [savorysList, setSavorysList] = useState([]);
+  const [sodasList, setSodasList] = useState([]);
+  const [juicesList, setJuicesList] = useState([]);
 
   return (
     <ListsContext.Provider
       value={{
         burgersList,
         setBurgersList,
+        savorysList,
+        setSavorysList,
         pizzasList,
         setPizzasList,
-        refrisList,
-        setRefrisList,
+        sodasList,
+        setSodasList,
+        juicesList,
+        setJuicesList,
       }}
     >
       {children}

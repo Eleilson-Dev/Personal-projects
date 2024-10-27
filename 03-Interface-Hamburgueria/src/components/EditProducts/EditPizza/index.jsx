@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { productSchema } from '../../../schemas/userRegisterSchema';
+import { productSchema } from '../../../schemas/product.schema';
 import { useParams } from 'react-router-dom';
 import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
@@ -96,7 +96,7 @@ export const EditPizza = () => {
             id="name"
             type="text"
             title="Nome"
-            placeholder={`Nome do ${product.category.name}`}
+            placeholder={`Nome do ${productType}`}
             error={errors.name?.message}
             register={register}
           />

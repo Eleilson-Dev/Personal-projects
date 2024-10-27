@@ -7,7 +7,6 @@ import {
   ProtectedResetPass,
 } from '../ProtectedRoutes';
 
-import { HamburguersMenu } from '../../pages/HamburguersMenu';
 import { Login } from '../../pages/Login';
 import { Register } from '../../pages/Register';
 import { NotFound } from '../../pages/NotFound';
@@ -15,23 +14,16 @@ import { ValidateCode } from '../../pages/ValidateCode';
 import { Recovering } from '../../pages/Recovering';
 import { ValidateRecoverCode } from '../../pages/ValidateRecoverCode';
 import { ResetPassword } from '../../pages/ResetPassword';
-import { RefrigerantesMenu } from '../../pages/RefrigerantesMenu';
-import { PizzasMenu } from '../../pages/PizzasMenu';
 import { EditProducts } from '../../components/EditProducts';
 import { CreateProducts } from '../../components/CreateProducts';
+import { RenderMenu } from '../../components/RenderMenu';
 
 export const RoutesMain = () => {
   return (
     <>
       <Routes>
-        <Route path="/menu/hamburguers" element={<ProtectedMenu />}>
-          <Route index element={<HamburguersMenu />} />
-        </Route>
-        <Route path="/menu/pizzas" element={<ProtectedMenu />}>
-          <Route index element={<PizzasMenu />} />
-        </Route>
-        <Route path="/menu/refrigerantes" element={<ProtectedMenu />}>
-          <Route index element={<RefrigerantesMenu />} />
+        <Route path="/menu/:productType" element={<ProtectedMenu />}>
+          <Route index element={<RenderMenu />} />
         </Route>
         <Route path="/" element={<ProtectedActions />}>
           <Route index element={<Login />} />

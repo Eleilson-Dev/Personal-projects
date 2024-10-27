@@ -1,7 +1,7 @@
-import { HamburguersList } from '../../components/HamburguersList';
 import { useUserContext } from '../../hooks/useUserContext';
 import { Loading } from '../../components/Loading';
 import { useState } from 'react';
+import { HamburguersList } from './HamburguersList';
 
 export const HamburguersMenu = () => {
   const { loadingState } = useUserContext();

@@ -5,14 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { productSchema } from '../../../schemas/userRegisterSchema';
+import { savorySchema } from '../../../schemas/product.schema';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createProduct } from '../../../utils/createProduct';
 import { useLists } from '../../../hooks/useLists';
 
-export const CreateRefrigerante = () => {
+export const CreateSavory = () => {
   const { loadingState, setLoadingState } = useUserContext();
-  const { setRefrisList } = useLists();
+  const { setSavorysList } = useLists();
   const { productType } = useParams();
   const navigate = useNavigate();
 
@@ -21,22 +21,27 @@ export const CreateRefrigerante = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(savorySchema) });
 
   const submitForm = (data) => {
+    const ingredientsArray = data.ingredients.map((ingredient) =>
+      ingredient.trim()
+    );
+
     const priceFormatted =
       typeof data.price === 'number'
-        ? data.price.toString().replace('.', ',')
-        : data.price.replace(',', '.');
+        ? data.price.toString().replace(',', '.')
+        : data.price.toString();
 
     const formData = {
       ...data,
-      categoryId: 2,
+      categoryId: 3,
+      ingredients: ingredientsArray,
       price: Number(priceFormatted),
     };
 
     const requestConfig = {
-      setList: setRefrisList,
+      setList: setSavorysList,
       setLoadingState,
       productData: formData,
       endPoint: `${productType}s`,
@@ -73,19 +78,27 @@ export const CreateRefrigerante = () => {
             register={register}
           />
           <Input
+            id="description"
+            type="text"
+            title="Descrição"
+            placeholder={`Sobre o ${productType}`}
+            error={errors.description?.message}
+            register={register}
+          />
+          <Input
+            id="ingredients"
+            type="text"
+            title="Ingredientes"
+            placeholder="Ex (salsisha, frango, catupiry)"
+            error={errors.ingredients?.message}
+            register={register}
+          />
+          <Input
             id="price"
             type="text"
             title="Preço R$"
             placeholder="0,00"
             error={errors.price?.message}
-            register={register}
-          />
-          <Input
-            id="size"
-            type="text"
-            title="Tamanho"
-            placeholder="Ex (300ml)"
-            error={errors.size?.message}
             register={register}
           />
           <button type="submit">Salvar</button>

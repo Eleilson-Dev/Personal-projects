@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { drinkSchema } from '../../../schemas/userRegisterSchema';
+import { drinkSchema } from '../../../schemas/product.schema';
 import { useParams } from 'react-router-dom';
 import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
@@ -14,10 +14,10 @@ import { fetchProduct } from '../../../utils/fetchProduct';
 import { useLists } from '../../../hooks/useLists';
 import { updateProduct } from '../../../utils/updateProduct';
 
-export const EditRefrigerante = () => {
+export const EditJuice = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setRefrisList } = useLists();
+  const { setJuicesList } = useLists();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
 
@@ -64,7 +64,7 @@ export const EditRefrigerante = () => {
     await updateProduct(
       id,
       productUpdateData,
-      setRefrisList,
+      setJuicesList,
       endPoint,
       setLoadingState
     );
@@ -91,7 +91,7 @@ export const EditRefrigerante = () => {
             id="name"
             type="text"
             title="Nome"
-            placeholder={`Nome do ${product.category.name}`}
+            placeholder={`Nome do ${productType}`}
             error={errors.name?.message}
             register={register}
           />

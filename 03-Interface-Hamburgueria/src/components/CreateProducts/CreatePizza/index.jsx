@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../../components/Loading';
-import { productSchema } from '../../../schemas/userRegisterSchema';
+import { productSchema } from '../../../schemas/product.schema';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLists } from '../../../hooks/useLists';
 import { createProduct } from '../../../utils/createProduct';
@@ -30,8 +30,8 @@ export const CreatePizza = () => {
 
     const priceFormatted =
       typeof data.price === 'number'
-        ? data.price.toString().replace('.', ',')
-        : data.price.replace(',', '.');
+        ? data.price.toString().replace(',', '.')
+        : data.price.toString();
 
     const formData = {
       ...data,

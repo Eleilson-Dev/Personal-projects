@@ -44,12 +44,26 @@ export const Categories = () => {
     navigate(`/menu/${categoryName}`);
   };
 
+  const orderedCategories = categories
+    .map((category) => {
+      const order = [
+        'hamburguers',
+        'salgados',
+        'pizzas',
+        'doces',
+        'refrigerantes',
+        'sucos',
+      ];
+      return { ...category, index: order.indexOf(category.name.toLowerCase()) };
+    })
+    .sort((a, b) => a.index - b.index);
+
   return (
     <>
       {!isUserLoggedIn && (
         <div className={styles.boxConteiner}>
           <div className={`container ${styles.boxContent}`}>
-            {categories.map(({ id, name }) => (
+            {orderedCategories.map(({ id, name }) => (
               <button
                 key={id}
                 onClick={() => callRedirect(name)}
