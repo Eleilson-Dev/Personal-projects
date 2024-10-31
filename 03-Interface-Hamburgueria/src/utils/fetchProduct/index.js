@@ -1,7 +1,8 @@
 import { api } from '../../services/api';
 
 export const fetchProduct = async (requestConfig) => {
-  const { id, endPoint, token, setProduct, reset, navigate } = requestConfig;
+  const { id, endPoint, token, setOriginalImgUrl, setHasImg, reset, navigate } =
+    requestConfig;
 
   try {
     requestConfig.setLoadingState((prev) => ({ ...prev, windowLoad: true }));
@@ -18,8 +19,10 @@ export const fetchProduct = async (requestConfig) => {
         price: data.price.toString(),
         ingredients: data.ingredients.toString(),
       };
-      setProduct(data);
-      reset(productData);
+
+      setOriginalImgUrl(data.imageUrl),
+        setHasImg(data.imageUrl),
+        reset(productData);
       return;
     }
 
@@ -27,8 +30,6 @@ export const fetchProduct = async (requestConfig) => {
       ...data,
       price: data.price.toString(),
     };
-
-    setProduct(data);
     reset(productData);
   } catch (error) {
     console.error('Erro ao buscar o produto:', error);

@@ -5,6 +5,7 @@ import { SavorysMenu } from '../../pages/SavorysMenu';
 import { PizzasMenu } from '../../pages/PizzasMenu';
 import { SodasMenu } from '../../pages/SodasMenu';
 import { JuicesMenu } from '../../pages/JuicesMenu';
+import { CakesMenu } from '../../pages/CakesMenu';
 
 export const RenderMenu = () => {
   const { productType } = useParams();
@@ -16,6 +17,7 @@ export const RenderMenu = () => {
       {productType === 'pizzas' && <PizzasMenu />}
       {productType === 'refrigerantes' && <SodasMenu />}
       {productType === 'sucos' && <JuicesMenu />}
+      {productType === 'bolos' && <CakesMenu />}
     </>
   );
 };

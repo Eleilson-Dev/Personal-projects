@@ -7,7 +7,7 @@
 
   > label {
     font-weight: 600;
-    font-size: clamp(0.7rem, 0.491rem + 0.788vw, 1.2rem);
+    font-size: clamp(0.7rem, 0.576rem + 0.468vw, 1rem);
     margin-bottom: 0.5rem;
 
     > strong {
@@ -22,7 +22,7 @@
     > input {
       width: 100%;
       padding: 0.5rem;
-      font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+      font-size: clamp(0.8rem, 0.717rem + 0.312vw, 1rem);
       border: none;
       outline: none;
     }

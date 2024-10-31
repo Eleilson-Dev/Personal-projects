@@ -5,6 +5,7 @@ import { EditPizza } from './EditPizza';
 import { EditSavory } from './EditSavory';
 import { EditSoda } from './EditSoda';
 import { EditJuice } from './EditJuice';
+import { EditCake } from './EditCake';
 
 export const EditProducts = () => {
   const { productType } = useParams();
@@ -16,6 +17,7 @@ export const EditProducts = () => {
       {productType === 'pizza' && <EditPizza />}
       {productType === 'refrigerante' && <EditSoda />}
       {productType === 'suco' && <EditJuice />}
+      {productType === 'bolo' && <EditCake />}
     </>
   );
 };

@@ -24,6 +24,7 @@
     align-items: center;
     justify-content: center;
     background-color: #e6e6e6;
+    height: 180px;
 
     .delete {
       display: flex;
@@ -41,7 +42,11 @@
 
     img {
       z-index: 5;
-      width: 65%;
+      max-width: 60%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
     }
   }
 
@@ -61,7 +66,7 @@
     span {
       display: block;
       font-size: 1.2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       text-transform: capitalize;
     }
 

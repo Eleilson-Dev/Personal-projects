@@ -7,7 +7,9 @@ export const createProduct = async ({
   setLoadingState,
   productData,
   endPoint,
-  navigate,
+  setHasImg,
+  setImageFile,
+  reset,
 }) => {
   try {
     setList([]);
@@ -15,11 +17,14 @@ export const createProduct = async ({
     const token = getToken('@TOKEN');
 
     await api.post(`/${endPoint}/create`, productData, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
     });
 
     toast.success('Produto adicionado na lista');
-    navigate(`/menu/${endPoint}`);
+    setHasImg(null), setImageFile(null), reset();
   } catch (err) {
     console.log(err);
     toast.error(err.response?.data.message);

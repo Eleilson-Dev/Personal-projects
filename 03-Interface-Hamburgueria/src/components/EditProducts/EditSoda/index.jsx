@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { drinkSchema } from '../../../schemas/product.schema';
+import { drinkSchema } from '../../../schemas/drinkSchema.chema';
 import { useParams } from 'react-router-dom';
 import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
@@ -51,14 +51,8 @@ export const EditSoda = () => {
   }, [id, navigate, reset, fetchProduct]);
 
   const submitForm = async (formData) => {
-    const priceFormatted =
-      typeof formData.price === 'number'
-        ? formData.price.toString()
-        : formData.price.replace(',', '.');
-
     const productUpdateData = {
       ...formData,
-      price: Number(priceFormatted),
     };
 
     await updateProduct(

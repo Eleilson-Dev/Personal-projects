@@ -7,7 +7,8 @@ import { useLists } from '../../hooks/useLists';
 
 export const Categories = () => {
   const { isUserLoggedIn, categories } = useUserContext();
-  const { setBurgersList, setRefrisList, setPizzasList } = useLists();
+  const { setBurgersList, setRefrisList, setPizzasList, setCakesList } =
+    useLists();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,6 +16,7 @@ export const Categories = () => {
     hamburguer: setBurgersList,
     refrigerante: setRefrisList,
     pizza: setPizzasList,
+    bolos: setCakesList,
   };
 
   const [selectedCategory, setSelectedCategory] = useState(() => {
@@ -34,6 +36,10 @@ export const Categories = () => {
   }, [location, categories]);
 
   const callRedirect = (categoryName) => {
+    if (location.pathname === `/menu/${categoryName}`) {
+      return;
+    }
+
     Object.keys(resetFunctions).forEach((key) => {
       if (key !== categoryName && resetFunctions[key]) {
         resetFunctions[key]([]);
@@ -50,9 +56,9 @@ export const Categories = () => {
         'hamburguers',
         'salgados',
         'pizzas',
-        'doces',
         'refrigerantes',
         'sucos',
+        'bolos',
       ];
       return { ...category, index: order.indexOf(category.name.toLowerCase()) };
     })

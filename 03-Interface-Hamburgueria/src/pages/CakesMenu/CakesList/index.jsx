@@ -8,19 +8,19 @@ import { useUserContext } from '../../../hooks/useUserContext';
 import { fetchLoadData } from '../../../utils/fetchLoadData';
 import { useLists } from '../../../hooks/useLists';
 
-export const HamburguersList = ({ setLoadingEnabled }) => {
+export const CakesList = ({ setLoadingEnabled }) => {
   const { setLoadingState, loadingState } = useUserContext();
-  const { burgersList, setBurgersList } = useLists();
+  const { cakesList, setCakesList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
 
   useEffect(() => {
     const load = async () => {
-      setBurgersList([]);
+      setCakesList([]);
 
       const requestConfig = {
-        setList: setBurgersList,
+        setList: setCakesList,
         token: getToken('@TOKEN'),
-        endPoint: 'hamburguers',
+        endPoint: 'bolos',
         load: true,
         setLoadingState,
       };
@@ -29,9 +29,9 @@ export const HamburguersList = ({ setLoadingEnabled }) => {
     };
 
     load();
-  }, [fetchLoadData, setBurgersList, setLoadingState]);
+  }, [fetchLoadData, setCakesList, setLoadingState]);
 
-  const sortedList = [...burgersList].sort((a, b) => a.id - b.id);
+  const sortedList = [...cakesList].sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -47,8 +47,8 @@ export const HamburguersList = ({ setLoadingEnabled }) => {
             setLoadItem={setLoadItem}
             img={item.imageUrl}
             type={item.category.name}
-            list={burgersList}
-            setList={setBurgersList}
+            list={cakesList}
+            setList={setCakesList}
             setLoadingEnabled={setLoadingEnabled}
           />
         ))}

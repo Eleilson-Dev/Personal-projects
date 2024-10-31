@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { productSchema } from '../../../schemas/product.schema';
+import { hamburguerSchema } from '../../../schemas/hamburguer.schema';
 import { useParams } from 'react-router-dom';
 import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
@@ -13,13 +13,18 @@ import { useNavigate } from 'react-router-dom';
 import { fetchProduct } from '../../../utils/fetchProduct';
 import { useLists } from '../../../hooks/useLists';
 import { updateProduct } from '../../../utils/updateProduct';
+import { imageValidator } from '../../../utils/imageValidation';
+import { ChangeImage } from '../../../fragments/ChangeImage';
+import { WindowLoad } from '../../WindowLoad';
 
 export const EditHamburguer = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
   const { setBurgersList } = useLists();
   const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [hasImg, setHasImg] = useState(null);
+  const [originalImgUrl, setOriginalImgUrl] = useState(null);
 
   const navigate = useNavigate();
   const endPoint = `${productType}s`;
@@ -27,43 +32,40 @@ export const EditHamburguer = () => {
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(productSchema) });
+  } = useForm({ resolver: zodResolver(hamburguerSchema) });
 
   useEffect(() => {
     const requestConfig = {
       id,
       endPoint,
       token: getToken('@TOKEN'),
-      setProduct,
+      setOriginalImgUrl,
+      setHasImg,
       reset,
-      navigate,
       setLoading,
       setLoadingState,
     };
 
     const load = async () => {
       await fetchProduct(requestConfig);
+      setImageFile(null);
     };
 
     load();
-  }, [id, navigate, reset, fetchProduct]);
+  }, [id, endPoint, reset, setLoading, setLoadingState]);
 
   const submitForm = async (formData) => {
-    const ingredientsArray = formData.ingredients.map((ingredient) =>
-      ingredient.trim()
-    );
-
-    const priceFormatted =
-      typeof formData.price === 'number'
-        ? formData.price.toString()
-        : formData.price.replace(',', '.');
+    if (imageFile || (hasImg && hasImg !== originalImgUrl)) {
+      await imageValidator(setError, clearErrors, setHasImg, imageFile);
+    }
 
     const productUpdateData = {
       ...formData,
-      ingredients: ingredientsArray,
-      price: Number(priceFormatted),
+      image: imageFile,
     };
 
     await updateProduct(
@@ -80,7 +82,7 @@ export const EditHamburguer = () => {
   return (
     <div className={styles.centralize}>
       {loading ? (
-        <Loading />
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}
@@ -92,6 +94,14 @@ export const EditHamburguer = () => {
               Editar <span>{productType}</span>
             </h1>
           </header>
+          <ChangeImage
+            id="image"
+            hasImg={hasImg}
+            setHasImg={setHasImg}
+            setImageFile={setImageFile}
+            title="Selecione uma imagem"
+            error={errors.image?.message}
+          />
           <Input
             id="name"
             type="text"
@@ -100,7 +110,6 @@ export const EditHamburguer = () => {
             error={errors.name?.message}
             register={register}
           />
-
           <Input
             id="description"
             type="text"

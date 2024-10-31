@@ -17,7 +17,10 @@ export const updateProduct = async (
     setList([]);
 
     await api.patch(`/${endPoint}/edit/product/${id}`, filteredData, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
     });
 
     toast.success('Produto editado');

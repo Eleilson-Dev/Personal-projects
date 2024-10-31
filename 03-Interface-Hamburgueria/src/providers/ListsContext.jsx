@@ -8,6 +8,7 @@ export const ListsProvider = ({ children }) => {
   const [savorysList, setSavorysList] = useState([]);
   const [sodasList, setSodasList] = useState([]);
   const [juicesList, setJuicesList] = useState([]);
+  const [cakesList, setCakesList] = useState([]);
 
   return (
     <ListsContext.Provider
@@ -22,6 +23,8 @@ export const ListsProvider = ({ children }) => {
         setSodasList,
         juicesList,
         setJuicesList,
+        cakesList,
+        setCakesList,
       }}
     >
       {children}

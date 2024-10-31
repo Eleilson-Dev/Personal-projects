@@ -5,6 +5,7 @@ import { CreateSavory } from './CreateSavory';
 import { CreatePizza } from './CreatePizza';
 import { CreateSoda } from './CreateSoda';
 import { CreateJuice } from './CreateJuice';
+import { CreateCake } from './CreateCake';
 
 export const CreateProducts = () => {
   const { productType } = useParams();
@@ -16,6 +17,7 @@ export const CreateProducts = () => {
       {productType === 'pizza' && <CreatePizza />}
       {productType === 'refrigerante' && <CreateSoda />}
       {productType === 'suco' && <CreateJuice />}
+      {productType === 'bolo' && <CreateCake />}
     </>
   );
 };

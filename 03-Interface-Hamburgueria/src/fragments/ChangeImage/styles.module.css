@@ -1,0 +1,91 @@
+.choseImg {
+  position: relative;
+  width: 100%;
+  height: clamp(8rem, 6.134rem + 7.024vw, 12.5rem);
+  margin-bottom: 1rem;
+  background-color: rgba(171, 168, 168, 0.136);
+
+  > label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    border: dashed rgba(29, 29, 29, 0.965);
+    border-radius: 10px;
+
+    > img {
+      max-height: 100%;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    > svg {
+      width: 100%;
+      height: 100%;
+      color: rgba(129, 122, 122, 0.213);
+      position: absolute;
+    }
+
+    > p {
+      font-weight: 600;
+      z-index: 5;
+      text-align: center;
+      font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+    }
+  }
+
+  > input {
+    display: none;
+  }
+}
+
+.hasUrl {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  > p {
+    z-index: 5;
+    position: absolute;
+    font-weight: 600;
+    font-size: clamp(1rem, 0.876rem + 0.468vw, 1.3rem);
+  }
+
+  > img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.3;
+  }
+}
+
+.formImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  > img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+.error {
+  color: red;
+}

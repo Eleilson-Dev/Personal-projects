@@ -1,38 +1,41 @@
 import styles from './styles.module.css';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { drinkSchema } from '../../../schemas/product.schema';
-import { useNavigate, useParams } from 'react-router-dom';
+import { drinkSchema } from '../../../schemas/drinkSchema.chema';
+import { useParams } from 'react-router-dom';
 import { createProduct } from '../../../utils/createProduct';
 import { useLists } from '../../../hooks/useLists';
+import { ChangeImage } from '../../../fragments/ChangeImage';
+import { imageValidator } from '../../../utils/imageValidation';
 
 export const CreateJuice = () => {
   const { loadingState, setLoadingState } = useUserContext();
   const { setJuicesList } = useLists();
   const { productType } = useParams();
-  const navigate = useNavigate();
+  const [imageFile, setImageFile] = useState(null);
+  const [hasImg, setHasImg] = useState(null);
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(drinkSchema) });
 
-  const submitForm = (data) => {
-    const priceFormatted =
-      typeof data.price === 'number'
-        ? data.price.toString().replace(',', '.')
-        : data.price.toString();
+  const submitForm = async (data) => {
+    await imageValidator(setError, clearErrors, setHasImg, imageFile);
 
     const formData = {
       ...data,
       categoryId: 5,
-      price: Number(priceFormatted),
+      image: imageFile,
     };
 
     const requestConfig = {
@@ -40,11 +43,12 @@ export const CreateJuice = () => {
       setLoadingState,
       productData: formData,
       endPoint: `${productType}s`,
-      navigate,
+      setHasImg,
+      setImageFile,
+      reset,
     };
 
     createProduct(requestConfig);
-    reset();
   };
 
   return (
@@ -64,6 +68,14 @@ export const CreateJuice = () => {
               Cadastrar <span>{productType}</span>
             </h1>
           </header>
+          <ChangeImage
+            id="image"
+            hasImg={hasImg}
+            setHasImg={setHasImg}
+            setImageFile={setImageFile}
+            title="Selecione uma imagem"
+            error={errors.image?.message}
+          />
           <Input
             id="name"
             type="text"
