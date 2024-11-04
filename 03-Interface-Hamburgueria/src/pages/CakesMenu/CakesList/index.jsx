@@ -8,35 +8,39 @@ import { useUserContext } from '../../../hooks/useUserContext';
 import { fetchLoadData } from '../../../utils/fetchLoadData';
 import { useLists } from '../../../hooks/useLists';
 
-export const CakesList = ({ setLoadingEnabled }) => {
-  const { setLoadingState, loadingState } = useUserContext();
+export const CakesList = () => {
+  const { windowLoad, setWindowLoad } = useUserContext();
   const { cakesList, setCakesList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      setCakesList([]);
+    if (cakesList.length === 0) {
+      const load = async () => {
+        const requestConfig = {
+          setList: setCakesList,
+          token: getToken('@TOKEN'),
+          endPoint: 'bolos',
+          load: true,
+          setWindowLoad,
+        };
 
-      const requestConfig = {
-        setList: setCakesList,
-        token: getToken('@TOKEN'),
-        endPoint: 'bolos',
-        load: true,
-        setLoadingState,
+        await fetchLoadData(requestConfig);
+        setIsLoaded(true);
       };
 
-      await fetchLoadData(requestConfig);
-    };
-
-    load();
-  }, [fetchLoadData, setCakesList, setLoadingState]);
+      load();
+    } else {
+      setIsLoaded(true);
+    }
+  }, [setCakesList]);
 
   const sortedList = [...cakesList].sort((a, b) => a.id - b.id);
 
   return (
     <>
-      <ul className={`${styles.listMenu}`}>
-        {!loadingState.windowLoad && sortedList.length === 0 && (
+      <ul className={`${styles.listMenu} ${isLoaded ? styles.fadeIn : ''}`}>
+        {!windowLoad && sortedList.length === 0 && (
           <h2>Nenhum produto a ser exibido!</h2>
         )}
         {sortedList.map((item) => (
@@ -49,7 +53,6 @@ export const CakesList = ({ setLoadingEnabled }) => {
             type={item.category.name}
             list={cakesList}
             setList={setCakesList}
-            setLoadingEnabled={setLoadingEnabled}
           />
         ))}
       </ul>

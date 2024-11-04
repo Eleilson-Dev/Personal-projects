@@ -12,13 +12,16 @@ import { createProduct } from '../../../utils/createProduct';
 import { useLists } from '../../../hooks/useLists';
 import { ChangeImage } from '../../../fragments/ChangeImage';
 import { imageValidator } from '../../../utils/imageValidation';
+import { WindowLoad } from '../../WindowLoad';
 
 export const CreateJuice = () => {
-  const { loadingState, setLoadingState } = useUserContext();
+  const { loadingState, setLoadingState, windowLoad } = useUserContext();
   const { setJuicesList } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
+
+  const category = `${productType}s`;
 
   const {
     register,
@@ -34,7 +37,7 @@ export const CreateJuice = () => {
 
     const formData = {
       ...data,
-      categoryId: 5,
+      categoryName: category,
       image: imageFile,
     };
 
@@ -42,7 +45,7 @@ export const CreateJuice = () => {
       setList: setJuicesList,
       setLoadingState,
       productData: formData,
-      endPoint: `${productType}s`,
+      endPoint: category,
       setHasImg,
       setImageFile,
       reset,
@@ -53,10 +56,8 @@ export const CreateJuice = () => {
 
   return (
     <div className={styles.centralize}>
-      {loadingState.windowLoad ? (
-        <div className="windowLoad">
-          <Loading />
-        </div>
+      {windowLoad ? (
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}

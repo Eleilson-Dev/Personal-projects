@@ -1,11 +1,11 @@
 import { api } from '../../services/api';
 
 export const fetchLoadData = async (requestConfig) => {
-  const { setList, token, endPoint, load, setLoadingState } = requestConfig;
+  const { setList, token, endPoint, load, setWindowLoad } = requestConfig;
 
   try {
     setList([]);
-    setLoadingState((prev) => ({ ...prev, windowLoad: load }));
+    setWindowLoad(load);
 
     const { data } = await api.get(`/${endPoint}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -15,6 +15,6 @@ export const fetchLoadData = async (requestConfig) => {
   } catch (err) {
     console.log(err);
   } finally {
-    setLoadingState((prev) => ({ ...prev, windowLoad: false }));
+    setWindowLoad(false);
   }
 };

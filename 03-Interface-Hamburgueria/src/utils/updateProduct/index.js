@@ -2,13 +2,13 @@ import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { getToken } from '../tokenActions';
 
-export const updateProduct = async (
+export const updateProduct = async ({
   id,
   productUpdateData,
   setList,
   endPoint,
-  setLoadingState
-) => {
+  setLoadingState,
+}) => {
   try {
     const { category, categoryId, ...filteredData } = productUpdateData;
     const token = getToken('@TOKEN');

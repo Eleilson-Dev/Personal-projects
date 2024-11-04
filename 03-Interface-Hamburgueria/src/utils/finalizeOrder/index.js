@@ -30,7 +30,7 @@ export const finalizeOrder = async (
       status: 'pendente',
       items: cartList.map((item) => ({
         id: item.id,
-        type: item.type,
+        type: item.categoryName,
         quantity: item.quantity,
       })),
       priceOrder: totalPrice,

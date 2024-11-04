@@ -1,21 +1,15 @@
 import { useUserContext } from '../../hooks/useUserContext';
-import { useState } from 'react';
-import { Loading } from '../../components/Loading';
 import { SavorysList } from './SavoryList';
+import { WindowLoad } from '../../components/WindowLoad';
 
 export const SavorysMenu = () => {
-  const { loadingState } = useUserContext();
-  const [loadingEnabled, setLoadingEnabled] = useState(true);
+  const { windowLoad } = useUserContext();
 
   return (
     <>
-      {loadingEnabled && loadingState.windowLoad && (
-        <div className={'windowLoad'}>
-          <Loading />
-        </div>
-      )}
+      {windowLoad && <WindowLoad />}
 
-      <SavorysList setLoadingEnabled={setLoadingEnabled} />
+      <SavorysList />
     </>
   );
 };

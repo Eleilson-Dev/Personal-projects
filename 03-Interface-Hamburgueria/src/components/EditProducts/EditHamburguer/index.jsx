@@ -27,7 +27,7 @@ export const EditHamburguer = () => {
   const [originalImgUrl, setOriginalImgUrl] = useState(null);
 
   const navigate = useNavigate();
-  const endPoint = `${productType}s`;
+  const category = `${productType}s`;
 
   const {
     register,
@@ -41,7 +41,7 @@ export const EditHamburguer = () => {
   useEffect(() => {
     const requestConfig = {
       id,
-      endPoint,
+      endPoint: category,
       token: getToken('@TOKEN'),
       setOriginalImgUrl,
       setHasImg,
@@ -56,7 +56,7 @@ export const EditHamburguer = () => {
     };
 
     load();
-  }, [id, endPoint, reset, setLoading, setLoadingState]);
+  }, [id, category, reset, setLoading, setLoadingState]);
 
   const submitForm = async (formData) => {
     if (imageFile || (hasImg && hasImg !== originalImgUrl)) {
@@ -68,15 +68,15 @@ export const EditHamburguer = () => {
       image: imageFile,
     };
 
-    await updateProduct(
+    await updateProduct({
       id,
       productUpdateData,
-      setBurgersList,
-      endPoint,
-      setLoadingState
-    );
+      setList: setBurgersList,
+      endPoint: category,
+      setLoadingState,
+    });
 
-    navigate(`/menu/${endPoint}`);
+    navigate(`/menu/${category}`);
   };
 
   return (

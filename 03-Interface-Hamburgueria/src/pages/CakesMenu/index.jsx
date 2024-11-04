@@ -1,21 +1,15 @@
 import { useUserContext } from '../../hooks/useUserContext';
-import { Loading } from '../../components/Loading';
-import { useState } from 'react';
 import { CakesList } from './CakesList';
+import { WindowLoad } from '../../components/WindowLoad';
 
 export const CakesMenu = () => {
-  const { loadingState } = useUserContext();
-  const [loadingEnabled, setLoadingEnabled] = useState(true);
+  const { windowLoad } = useUserContext();
 
   return (
     <>
-      {loadingEnabled && loadingState.windowLoad && (
-        <div className={'windowLoad'}>
-          <Loading />
-        </div>
-      )}
+      {windowLoad && <WindowLoad />}
 
-      <CakesList setLoadingEnabled={setLoadingEnabled} />
+      <CakesList />
     </>
   );
 };

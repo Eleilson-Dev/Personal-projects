@@ -8,35 +8,39 @@ import { useUserContext } from '../../../hooks/useUserContext';
 import { fetchLoadData } from '../../../utils/fetchLoadData';
 import { useLists } from '../../../hooks/useLists';
 
-export const HamburguersList = ({ setLoadingEnabled }) => {
-  const { setLoadingState, loadingState } = useUserContext();
+export const HamburguersList = () => {
+  const { windowLoad, setWindowLoad } = useUserContext();
   const { burgersList, setBurgersList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      setBurgersList([]);
+    if (burgersList.length === 0) {
+      const load = async () => {
+        const requestConfig = {
+          setList: setBurgersList,
+          token: getToken('@TOKEN'),
+          endPoint: 'hamburguers',
+          load: true,
+          setWindowLoad,
+        };
 
-      const requestConfig = {
-        setList: setBurgersList,
-        token: getToken('@TOKEN'),
-        endPoint: 'hamburguers',
-        load: true,
-        setLoadingState,
+        await fetchLoadData(requestConfig);
+        setIsLoaded(true);
       };
 
-      await fetchLoadData(requestConfig);
-    };
-
-    load();
-  }, [fetchLoadData, setBurgersList, setLoadingState]);
+      load();
+    } else {
+      setIsLoaded(true);
+    }
+  }, [setBurgersList]);
 
   const sortedList = [...burgersList].sort((a, b) => a.id - b.id);
 
   return (
     <>
-      <ul className={`${styles.listMenu}`}>
-        {!loadingState.windowLoad && sortedList.length === 0 && (
+      <ul className={`${styles.listMenu} ${isLoaded ? styles.fadeIn : ''}`}>
+        {!windowLoad && sortedList.length === 0 && (
           <h2>Nenhum produto a ser exibido!</h2>
         )}
         {sortedList.map((item) => (
@@ -49,7 +53,6 @@ export const HamburguersList = ({ setLoadingEnabled }) => {
             type={item.category.name}
             list={burgersList}
             setList={setBurgersList}
-            setLoadingEnabled={setLoadingEnabled}
           />
         ))}
       </ul>

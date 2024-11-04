@@ -6,38 +6,41 @@ import { useEffect, useState } from 'react';
 import { getToken } from '../../../utils/tokenActions';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { fetchLoadData } from '../../../utils/fetchLoadData';
-import img from '../../../assets/refri.webp';
 import { useLists } from '../../../hooks/useLists';
 
-export const SodasList = ({ setLoadingEnabled }) => {
-  const { setLoadingState, loadingState } = useUserContext();
+export const SodasList = () => {
+  const { windowLoad, setWindowLoad } = useUserContext();
   const { sodasList, setSodasList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      setSodasList([]);
+    if (sodasList.length === 0) {
+      const load = async () => {
+        const requestConfig = {
+          setList: setSodasList,
+          token: getToken('@TOKEN'),
+          endPoint: 'refrigerantes',
+          load: true,
+          setWindowLoad,
+        };
 
-      const requestConfig = {
-        setList: setSodasList,
-        token: getToken('@TOKEN'),
-        endPoint: 'refrigerantes',
-        load: true,
-        setLoadingState,
+        await fetchLoadData(requestConfig);
+        setIsLoaded(true);
       };
 
-      await fetchLoadData(requestConfig);
-    };
-
-    load();
-  }, [fetchLoadData, setSodasList, setLoadingState]);
+      load();
+    } else {
+      setIsLoaded(true);
+    }
+  }, [setSodasList]);
 
   const sortedList = [...sodasList].sort((a, b) => a.id - b.id);
 
   return (
     <>
-      <ul className={`${styles.listMenu}`}>
-        {!loadingState.windowLoad && sortedList.length === 0 && (
+      <ul className={`${styles.listMenu} ${isLoaded ? styles.fadeIn : ''}`}>
+        {!windowLoad && sortedList.length === 0 && (
           <h2>Nenhum produto a ser exibido!</h2>
         )}
         {sortedList.map((item) => (
@@ -46,11 +49,10 @@ export const SodasList = ({ setLoadingEnabled }) => {
             item={item}
             loadItem={loadItem}
             setLoadItem={setLoadItem}
-            img={img}
+            img={item.imageUrl}
             list={sodasList}
             setList={setSodasList}
             type={item.category.name}
-            setLoadingEnabled={setLoadingEnabled}
           />
         ))}
       </ul>

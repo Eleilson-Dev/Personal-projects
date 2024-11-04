@@ -3,21 +3,13 @@ import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
-import { useLists } from '../../hooks/useLists';
+// import { useLists } from '../../hooks/useLists';
 
 export const Categories = () => {
   const { isUserLoggedIn, categories } = useUserContext();
-  const { setBurgersList, setRefrisList, setPizzasList, setCakesList } =
-    useLists();
+
   const navigate = useNavigate();
   const location = useLocation();
-
-  const resetFunctions = {
-    hamburguer: setBurgersList,
-    refrigerante: setRefrisList,
-    pizza: setPizzasList,
-    bolos: setCakesList,
-  };
 
   const [selectedCategory, setSelectedCategory] = useState(() => {
     const category = categories.find((cat) =>
@@ -39,12 +31,6 @@ export const Categories = () => {
     if (location.pathname === `/menu/${categoryName}`) {
       return;
     }
-
-    Object.keys(resetFunctions).forEach((key) => {
-      if (key !== categoryName && resetFunctions[key]) {
-        resetFunctions[key]([]);
-      }
-    });
 
     setSelectedCategory(categoryName);
     navigate(`/menu/${categoryName}`);

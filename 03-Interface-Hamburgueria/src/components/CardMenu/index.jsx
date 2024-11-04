@@ -14,7 +14,6 @@ export const CardMenu = ({
   setLoadItem,
   img,
   type,
-  setLoadingEnabled,
   list,
   setList,
 }) => {
@@ -43,12 +42,7 @@ export const CardMenu = ({
   };
 
   const handleAddToCart = () => {
-    setLoadingEnabled(false);
-    addItemIntoModal(
-      { ...item, img, type, quantity: 1 },
-      cartList,
-      setCartList
-    );
+    addItemIntoModal({ ...item, img, quantity: 1 }, cartList, setCartList);
   };
 
   const renderLoading = () => {
@@ -109,7 +103,6 @@ export const CardMenu = ({
           <div className={styles.cardAction}>
             <button
               onClick={() => {
-                setLoadingEnabled(false);
                 handleAddToCart();
               }}
               className={styles.btn2}

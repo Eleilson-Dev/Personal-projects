@@ -21,7 +21,7 @@ export const singleOrder = async (
       items: [
         {
           id: item.id,
-          type: type,
+          type: item.categoryName,
           quantity: 1,
         },
       ],

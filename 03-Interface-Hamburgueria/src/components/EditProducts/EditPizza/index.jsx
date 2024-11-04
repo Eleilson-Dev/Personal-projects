@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
-import { productSchema } from '../../../schemas/product.schema';
+import { pizzaSchema } from '../../../schemas/pizza.schema';
 import { useParams } from 'react-router-dom';
 import { getToken } from '../../../utils/tokenActions';
 import { useEffect, useState } from 'react';
@@ -13,32 +13,39 @@ import { useNavigate } from 'react-router-dom';
 import { fetchProduct } from '../../../utils/fetchProduct';
 import { useLists } from '../../../hooks/useLists';
 import { updateProduct } from '../../../utils/updateProduct';
+import { WindowLoad } from '../../WindowLoad';
+import { imageValidator } from '../../../utils/imageValidation';
+import { ChangeImage } from '../../../fragments/ChangeImage';
 
 export const EditPizza = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
   const { setPizzasList } = useLists();
   const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [hasImg, setHasImg] = useState(null);
+  const [originalImgUrl, setOriginalImgUrl] = useState(null);
 
   const navigate = useNavigate();
-  const endPoint = `${productType}s`;
+  const cateory = `${productType}s`;
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(productSchema) });
+  } = useForm({ resolver: zodResolver(pizzaSchema) });
 
   useEffect(() => {
     const requestConfig = {
       id,
-      endPoint,
+      endPoint: cateory,
       token: getToken('@TOKEN'),
-      setProduct,
+      setOriginalImgUrl,
+      setHasImg,
       reset,
-      navigate,
       setLoading,
       setLoadingState,
     };
@@ -48,39 +55,33 @@ export const EditPizza = () => {
     };
 
     load();
-  }, [id, navigate, reset, fetchProduct]);
+  }, [id, reset, reset, setLoading, setLoadingState]);
 
   const submitForm = async (formData) => {
-    const ingredientsArray = formData.ingredients.map((ingredient) =>
-      ingredient.trim()
-    );
-
-    const priceFormatted =
-      typeof formData.price === 'number'
-        ? formData.price.toString()
-        : formData.price.replace(',', '.');
+    if (imageFile || (hasImg && hasImg !== originalImgUrl)) {
+      await imageValidator(setError, clearErrors, setHasImg, imageFile);
+    }
 
     const productUpdateData = {
       ...formData,
-      ingredients: ingredientsArray,
-      price: Number(priceFormatted),
+      image: imageFile,
     };
 
-    await updateProduct(
+    await updateProduct({
       id,
       productUpdateData,
-      setPizzasList,
-      endPoint,
-      setLoadingState
-    );
+      setList: setPizzasList,
+      endPoint: cateory,
+      setLoadingState,
+    });
 
-    navigate(`/menu/${endPoint}`);
+    navigate(`/menu/${cateory}`);
   };
 
   return (
     <div className={styles.centralize}>
       {loading ? (
-        <Loading />
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}
@@ -92,6 +93,14 @@ export const EditPizza = () => {
               Editar <span>{productType}</span>
             </h1>
           </header>
+          <ChangeImage
+            id="image"
+            hasImg={hasImg}
+            setHasImg={setHasImg}
+            setImageFile={setImageFile}
+            title="Selecione uma imagem"
+            error={errors.image?.message}
+          />
           <Input
             id="name"
             type="text"

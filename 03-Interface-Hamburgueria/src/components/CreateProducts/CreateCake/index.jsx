@@ -12,14 +12,15 @@ import { useLists } from '../../../hooks/useLists';
 import { useState } from 'react';
 import { ChangeImage } from '../../../fragments/ChangeImage';
 import { imageValidator } from '../../../utils/imageValidation';
+import { WindowLoad } from '../../WindowLoad';
 
 export const CreateCake = () => {
-  const { loadingState, setLoadingState } = useUserContext();
+  const { loadingState, setLoadingState, windowLoad } = useUserContext();
   const { setCakesList } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
-  const endPoint = `${productType}s`;
+  const category = `${productType}s`;
 
   const {
     register,
@@ -35,7 +36,7 @@ export const CreateCake = () => {
 
     const formData = {
       ...data,
-      categoryName: endPoint,
+      categoryName: category,
       image: imageFile,
     };
 
@@ -43,7 +44,7 @@ export const CreateCake = () => {
       setList: setCakesList,
       setLoadingState,
       productData: formData,
-      endPoint,
+      endPoint: category,
       setHasImg,
       setImageFile,
       reset,
@@ -54,10 +55,8 @@ export const CreateCake = () => {
 
   return (
     <div className={styles.centralize}>
-      {loadingState.windowLoad ? (
-        <div className="windowLoad">
-          <Loading />
-        </div>
+      {windowLoad ? (
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}

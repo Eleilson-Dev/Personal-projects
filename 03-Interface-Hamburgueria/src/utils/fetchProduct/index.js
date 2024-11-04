@@ -11,6 +11,9 @@ export const fetchProduct = async (requestConfig) => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
+    setOriginalImgUrl(data.imageUrl);
+    setHasImg(data.imageUrl);
+
     let productData;
 
     if (data?.ingredients) {
@@ -20,9 +23,7 @@ export const fetchProduct = async (requestConfig) => {
         ingredients: data.ingredients.toString(),
       };
 
-      setOriginalImgUrl(data.imageUrl),
-        setHasImg(data.imageUrl),
-        reset(productData);
+      reset(productData);
       return;
     }
 
@@ -30,6 +31,7 @@ export const fetchProduct = async (requestConfig) => {
       ...data,
       price: data.price.toString(),
     };
+
     reset(productData);
   } catch (error) {
     console.error('Erro ao buscar o produto:', error);

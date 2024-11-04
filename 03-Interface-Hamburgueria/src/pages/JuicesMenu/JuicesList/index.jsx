@@ -7,37 +7,40 @@ import { getToken } from '../../../utils/tokenActions';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { fetchLoadData } from '../../../utils/fetchLoadData';
 import { useLists } from '../../../hooks/useLists';
-import img from '../../../assets/fruit-juice.png';
 
-export const JuicesList = ({ setLoadingEnabled }) => {
-  const { setLoadingState, loadingState } = useUserContext();
+export const JuicesList = () => {
+  const { windowLoad, setWindowLoad } = useUserContext();
   const { juicesList, setJuicesList } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      setJuicesList([]);
+    if (juicesList.length === 0) {
+      const load = async () => {
+        const requestConfig = {
+          setList: setJuicesList,
+          token: getToken('@TOKEN'),
+          endPoint: 'sucos',
+          load: true,
+          setWindowLoad,
+        };
 
-      const requestConfig = {
-        setList: setJuicesList,
-        token: getToken('@TOKEN'),
-        endPoint: 'sucos',
-        load: true,
-        setLoadingState,
+        await fetchLoadData(requestConfig);
+        setIsLoaded(true);
       };
 
-      await fetchLoadData(requestConfig);
-    };
-
-    load();
-  }, [fetchLoadData, setJuicesList, setLoadingState]);
+      load();
+    } else {
+      setIsLoaded(true);
+    }
+  }, [setJuicesList]);
 
   const sortedList = [...juicesList].sort((a, b) => a.id - b.id);
 
   return (
     <>
-      <ul className={`${styles.listMenu}`}>
-        {!loadingState.windowLoad && sortedList.length === 0 && (
+      <ul className={`${styles.listMenu} ${isLoaded ? styles.fadeIn : ''}`}>
+        {!windowLoad && sortedList.length === 0 && (
           <h2>Nenhum produto a ser exibido!</h2>
         )}
         {sortedList.map((item) => (
@@ -46,11 +49,10 @@ export const JuicesList = ({ setLoadingEnabled }) => {
             item={item}
             loadItem={loadItem}
             setLoadItem={setLoadItem}
-            img={img}
+            img={item.imageUrl}
             list={juicesList}
             setList={setJuicesList}
             type={item.category.name}
-            setLoadingEnabled={setLoadingEnabled}
           />
         ))}
       </ul>

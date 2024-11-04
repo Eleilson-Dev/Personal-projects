@@ -6,53 +6,58 @@ import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../Loading';
 import { drinkSchema } from '../../../schemas/drinkSchema.chema';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { createProduct } from '../../../utils/createProduct';
 import { useLists } from '../../../hooks/useLists';
+import { useState } from 'react';
+import { WindowLoad } from '../../WindowLoad';
+import { imageValidator } from '../../../utils/imageValidation';
+import { ChangeImage } from '../../../fragments/ChangeImage';
 
 export const CreateSoda = () => {
-  const { loadingState, setLoadingState } = useUserContext();
+  const { loadingState, setLoadingState, windowLoad } = useUserContext();
   const { setSodasList } = useLists();
   const { productType } = useParams();
-  const navigate = useNavigate();
+  const [imageFile, setImageFile] = useState(null);
+  const [hasImg, setHasImg] = useState(null);
+
+  const category = `${productType}s`;
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(drinkSchema) });
 
-  const submitForm = (data) => {
-    const priceFormatted =
-      typeof data.price === 'number'
-        ? data.price.toString().replace(',', '.')
-        : data.price.toString();
+  const submitForm = async (data) => {
+    await imageValidator(setError, clearErrors, setHasImg, imageFile);
 
     const formData = {
       ...data,
-      categoryId: 2,
-      price: Number(priceFormatted),
+      categoryName: category,
+      image: imageFile,
     };
 
     const requestConfig = {
       setList: setSodasList,
       setLoadingState,
       productData: formData,
-      endPoint: `${productType}s`,
-      navigate,
+      endPoint: category,
+      setHasImg,
+      setImageFile,
+      reset,
     };
 
     createProduct(requestConfig);
-    reset();
   };
 
   return (
     <div className={styles.centralize}>
-      {loadingState.windowLoad ? (
-        <div className="windowLoad">
-          <Loading />
-        </div>
+      {windowLoad ? (
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}
@@ -64,6 +69,14 @@ export const CreateSoda = () => {
               Cadastrar <span>{productType}</span>
             </h1>
           </header>
+          <ChangeImage
+            id="image"
+            hasImg={hasImg}
+            setHasImg={setHasImg}
+            setImageFile={setImageFile}
+            title="Selecione uma imagem"
+            error={errors.image?.message}
+          />
           <Input
             id="name"
             type="text"

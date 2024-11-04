@@ -13,20 +13,27 @@ import { useNavigate } from 'react-router-dom';
 import { fetchProduct } from '../../../utils/fetchProduct';
 import { useLists } from '../../../hooks/useLists';
 import { updateProduct } from '../../../utils/updateProduct';
+import { WindowLoad } from '../../WindowLoad';
+import { imageValidator } from '../../../utils/imageValidation';
+import { ChangeImage } from '../../../fragments/ChangeImage';
 
 export const EditJuice = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
   const { setJuicesList } = useLists();
   const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [hasImg, setHasImg] = useState(null);
+  const [originalImgUrl, setOriginalImgUrl] = useState(null);
 
   const navigate = useNavigate();
-  const endPoint = `${productType}s`;
+  const category = `${productType}s`;
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(drinkSchema) });
@@ -34,11 +41,11 @@ export const EditJuice = () => {
   useEffect(() => {
     const requestConfig = {
       id,
-      endPoint,
+      endPoint: category,
       token: getToken('@TOKEN'),
-      setProduct,
+      setOriginalImgUrl,
+      setHasImg,
       reset,
-      navigate,
       setLoading,
       setLoadingState,
     };
@@ -48,34 +55,33 @@ export const EditJuice = () => {
     };
 
     load();
-  }, [id, navigate, reset, fetchProduct]);
+  }, [id, category, reset, setLoading, setLoadingState]);
 
   const submitForm = async (formData) => {
-    const priceFormatted =
-      typeof formData.price === 'number'
-        ? formData.price.toString()
-        : formData.price.replace(',', '.');
+    if (imageFile || (hasImg && hasImg !== originalImgUrl)) {
+      await imageValidator(setError, clearErrors, setHasImg, imageFile);
+    }
 
     const productUpdateData = {
       ...formData,
-      price: Number(priceFormatted),
+      image: imageFile,
     };
 
-    await updateProduct(
+    await updateProduct({
       id,
       productUpdateData,
-      setJuicesList,
-      endPoint,
-      setLoadingState
-    );
+      setList: setJuicesList,
+      endPoint: category,
+      setLoadingState,
+    });
 
-    navigate(`/menu/${endPoint}`);
+    navigate(`/menu/${category}`);
   };
 
   return (
     <div className={styles.centralize}>
       {loading ? (
-        <Loading />
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}
@@ -87,6 +93,14 @@ export const EditJuice = () => {
               Editar <span>{productType}</span>
             </h1>
           </header>
+          <ChangeImage
+            id="image"
+            hasImg={hasImg}
+            setHasImg={setHasImg}
+            setImageFile={setImageFile}
+            title="Selecione uma imagem"
+            error={errors.image?.message}
+          />
           <Input
             id="name"
             type="text"

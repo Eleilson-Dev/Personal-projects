@@ -5,21 +5,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserContext } from '../../../hooks/useUserContext';
 import { Input } from '../../../fragments/Input';
 import { Loading } from '../../../components/Loading';
-import { productSchema } from '../../../schemas/product.schema';
-import { useNavigate, useParams } from 'react-router-dom';
+import { hamburguerSchema } from '../../../schemas/hamburguer.schema';
+import { useParams } from 'react-router-dom';
 import { createProduct } from '../../../utils/createProduct';
 import { useLists } from '../../../hooks/useLists';
 import { useState } from 'react';
 import { imageValidator } from '../../../utils/imageValidation';
 import { ChangeImage } from '../../../fragments/ChangeImage';
+import { WindowLoad } from '../../WindowLoad';
 
 export const CreateHamburguer = () => {
-  const { loadingState, setLoadingState } = useUserContext();
+  const { loadingState, setLoadingState, windowLoad } = useUserContext();
   const { setBurgersList } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
-  const endPoint = `${productType}s`;
+
+  const category = `${productType}s`;
 
   const {
     register,
@@ -28,14 +30,14 @@ export const CreateHamburguer = () => {
     clearErrors,
     reset,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(productSchema) });
+  } = useForm({ resolver: zodResolver(hamburguerSchema) });
 
   const submitForm = async (data) => {
     await imageValidator(setError, clearErrors, setHasImg, imageFile);
 
     const formData = {
       ...data,
-      categoryName: endPoint,
+      categoryName: category,
       image: imageFile,
     };
 
@@ -43,7 +45,7 @@ export const CreateHamburguer = () => {
       setList: setBurgersList,
       setLoadingState,
       productData: formData,
-      endPoint,
+      endPoint: category,
       setHasImg,
       setImageFile,
       reset,
@@ -54,10 +56,8 @@ export const CreateHamburguer = () => {
 
   return (
     <div className={styles.centralize}>
-      {loadingState.windowLoad ? (
-        <div className="windowLoad">
-          <Loading />
-        </div>
+      {windowLoad ? (
+        <WindowLoad />
       ) : (
         <form
           onSubmit={handleSubmit(submitForm)}

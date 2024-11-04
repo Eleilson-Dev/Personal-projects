@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [windowLoad, setWindowLoad] = useState(true);
 
   const [loadingState, setLoadingState] = useState({
     orderLoading: false,
@@ -72,6 +73,8 @@ export const UserProvider = ({ children }) => {
         setOrder,
         order,
         categories,
+        windowLoad,
+        setWindowLoad,
       }}
     >
       {children}
