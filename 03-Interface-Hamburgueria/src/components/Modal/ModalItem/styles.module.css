@@ -1,0 +1,64 @@
+.imgBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 5.875rem;
+  height: 4rem;
+  margin-right: 1rem;
+  background-color: rgb(210, 210, 210);
+
+  img {
+    width: 80%;
+  }
+}
+
+.details {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .nameAndPrice {
+    > h3 {
+      width: clamp(9rem, 7.938rem + 4vw, 11.563rem);
+      font-size: clamp(0.9rem, 0.817rem + 0.312vw, 1.1rem);
+      padding: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 5px;
+    }
+
+    span {
+      color: #34b164;
+      font-weight: 600;
+      font-size: clamp(0.9rem, 0.817rem + 0.312vw, 1.1rem);
+    }
+  }
+
+  .qtd {
+    width: clamp(4rem, 3.067rem + 3.512vw, 6.25rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: clamp(1rem, 0.793rem + 0.78vw, 1.5rem);
+
+    > button {
+      display: flex;
+      border: none;
+      font-size: clamp(0.9rem, 0.793rem + 0.78vw, 1.5rem);
+      cursor: pointer;
+      border: 1px solid black;
+      border-radius: 4px;
+    }
+  }
+
+  .trash {
+    font-size: clamp(1.2rem, 1.117rem + 0.312vw, 1.4rem);
+    color: rgb(242, 0, 0);
+    cursor: pointer;
+    margin-top: 5px;
+  }
+}

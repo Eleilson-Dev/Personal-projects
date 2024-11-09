@@ -15,7 +15,6 @@ export const UserProvider = ({ children }) => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-  // const [windowLoad, setWindowLoad] = useState(false);
 
   const [loadingState, setLoadingState] = useState({
     orderLoading: false,

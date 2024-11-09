@@ -2,7 +2,8 @@ import { toast } from 'react-toastify';
 
 export const addItemIntoModal = (item, cartList, setCartList) => {
   const itemExists = cartList.some(
-    (cartItem) => cartItem.type === item.type && cartItem.id === item.id
+    (cartItem) =>
+      cartItem.categoryName === item.categoryName && cartItem.id === item.id
   );
 
   if (itemExists) {
@@ -20,7 +21,9 @@ export const addItemIntoModal = (item, cartList, setCartList) => {
 
 export const removeItemOfModal = (item, cartList, setCartList) => {
   const itensFiltered = cartList.filter((itemOfList) => {
-    return !(item.id === itemOfList.id && item.type === itemOfList.type);
+    return !(
+      item.id === itemOfList.id && item.categoryName === itemOfList.categoryName
+    );
   });
 
   setCartList(itensFiltered);

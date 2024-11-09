@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   MdKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
@@ -8,7 +8,7 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
 
-export const Categories = () => {
+export const Categories = React.memo(() => {
   const { isUserLoggedIn, categories, setWindowLoad } = useUserContext();
   const menuRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -172,4 +172,4 @@ export const Categories = () => {
       )}
     </>
   );
-};
+});
