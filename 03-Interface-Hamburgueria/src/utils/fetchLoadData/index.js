@@ -1,20 +1,22 @@
 import { api } from '../../services/api';
 
 export const fetchLoadData = async (requestConfig) => {
-  const { setList, token, endPoint, load, setWindowLoad } = requestConfig;
+  const { listName, setLists, token, endPoint, setLoading } = requestConfig;
 
   try {
-    setList([]);
-    setWindowLoad(load);
+    setLoading(true);
 
     const { data } = await api.get(`/${endPoint}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    setList(data);
+    setLists((prevLists) => ({
+      ...prevLists,
+      [listName]: (prevLists[listName] = data),
+    }));
   } catch (err) {
     console.log(err);
   } finally {
-    setWindowLoad(false);
+    setLoading(false);
   }
 };

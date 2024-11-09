@@ -1,15 +1,9 @@
-import { useUserContext } from '../../hooks/useUserContext';
 import { HamburguersList } from './HamburguersList';
 import { WindowLoad } from '../../components/WindowLoad';
+import { useLists } from '../../hooks/useLists';
 
 export const HamburguersMenu = () => {
-  const { windowLoad } = useUserContext();
+  const { loading } = useLists();
 
-  return (
-    <>
-      {windowLoad && <WindowLoad />}
-
-      <HamburguersList />
-    </>
-  );
+  return <>{loading ? <WindowLoad /> : <HamburguersList />}</>;
 };

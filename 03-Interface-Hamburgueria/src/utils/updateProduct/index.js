@@ -5,7 +5,8 @@ import { getToken } from '../tokenActions';
 export const updateProduct = async ({
   id,
   productUpdateData,
-  setList,
+  listName,
+  setLists,
   endPoint,
   setLoadingState,
 }) => {
@@ -14,7 +15,6 @@ export const updateProduct = async ({
     const token = getToken('@TOKEN');
 
     setLoadingState((prev) => ({ ...prev, formLoad: true }));
-    setList([]);
 
     await api.patch(`/${endPoint}/edit/product/${id}`, filteredData, {
       headers: {
@@ -22,6 +22,11 @@ export const updateProduct = async ({
         'Content-Type': 'multipart/form-data',
       },
     });
+
+    setLists((prevLists) => ({
+      ...prevLists,
+      [listName]: (prevLists[listName] = []),
+    }));
 
     toast.success('Produto editado');
   } catch (err) {

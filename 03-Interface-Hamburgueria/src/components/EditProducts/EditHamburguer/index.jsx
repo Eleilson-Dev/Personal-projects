@@ -20,7 +20,7 @@ import { WindowLoad } from '../../WindowLoad';
 export const EditHamburguer = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setBurgersList } = useLists();
+  const { setLists } = useLists();
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -71,7 +71,8 @@ export const EditHamburguer = () => {
     await updateProduct({
       id,
       productUpdateData,
-      setList: setBurgersList,
+      listName: 'burgersList',
+      setLists,
       endPoint: category,
       setLoadingState,
     });

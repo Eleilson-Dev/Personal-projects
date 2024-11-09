@@ -5,7 +5,6 @@ export const ProtectedMenu = () => {
   const { isUserLoggedIn } = useUserContext();
   return !isUserLoggedIn ? <Outlet /> : <Navigate to="/" />;
 };
-
 export const ProtectedActions = () => {
   const { isUserLoggedIn } = useUserContext();
   return isUserLoggedIn ? <Outlet /> : <Navigate to="/menu/hamburguers" />;

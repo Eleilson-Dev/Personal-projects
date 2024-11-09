@@ -4,6 +4,7 @@
 }
 
 .formContent {
+  margin-top: 10rem;
   position: relative;
   width: clamp(25rem, 18.78rem + 23.415vw, 40rem);
   color: black;

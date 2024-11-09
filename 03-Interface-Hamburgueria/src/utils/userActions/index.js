@@ -21,9 +21,8 @@ export const userActions = {
     }
   },
 
-  login: async (userLoginData, setLoadingState, setBurgersList, navigate) => {
+  login: async (userLoginData, setLoadingState, navigate) => {
     try {
-      setBurgersList([]);
       setLoadingState((prev) => ({
         ...prev,
         formLoad: true,

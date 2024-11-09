@@ -3,7 +3,8 @@ import { api } from '../../services/api';
 import { getToken } from '../tokenActions';
 
 export const createProduct = async ({
-  setList,
+  listName,
+  setLists,
   setLoadingState,
   productData,
   endPoint,
@@ -12,7 +13,6 @@ export const createProduct = async ({
   reset,
 }) => {
   try {
-    setList([]);
     setLoadingState((prev) => ({ ...prev, formLoad: true }));
     const token = getToken('@TOKEN');
 
@@ -23,7 +23,13 @@ export const createProduct = async ({
       },
     });
 
+    setLists((prevLists) => ({
+      ...prevLists,
+      [listName]: (prevLists[listName] = []),
+    }));
+
     toast.success('Produto adicionado na lista');
+
     setHasImg(null), setImageFile(null), reset();
   } catch (err) {
     console.log(err);

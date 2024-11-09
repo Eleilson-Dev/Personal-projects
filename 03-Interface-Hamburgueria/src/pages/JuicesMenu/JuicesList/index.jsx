@@ -3,58 +3,58 @@ import styles from './styles.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import { CardMenu } from '../../../components/CardMenu';
 import { useEffect, useState } from 'react';
-import { getToken } from '../../../utils/tokenActions';
-import { useUserContext } from '../../../hooks/useUserContext';
-import { fetchLoadData } from '../../../utils/fetchLoadData';
 import { useLists } from '../../../hooks/useLists';
+import { getToken } from '../../../utils/tokenActions';
+import { fetchLoadData } from '../../../utils/fetchLoadData';
 
 export const JuicesList = () => {
-  const { windowLoad, setWindowLoad } = useUserContext();
-  const { juicesList, setJuicesList } = useLists();
+  const { lists, setLists, loading, setLoading } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (juicesList.length === 0) {
-      const load = async () => {
-        const requestConfig = {
-          setList: setJuicesList,
-          token: getToken('@TOKEN'),
-          endPoint: 'sucos',
-          load: true,
-          setWindowLoad,
-        };
+    if (lists.juicesList.length > 0) {
+      setIsLoaded(true);
+      return;
+    }
 
-        await fetchLoadData(requestConfig);
-        setIsLoaded(true);
+    const loadData = async () => {
+      const requestConfig = {
+        listName: 'juicesList',
+        setLists,
+        token: getToken('@TOKEN'),
+        endPoint: 'sucos',
+        setLoading,
       };
 
-      load();
-    } else {
-      setIsLoaded(true);
-    }
-  }, [setJuicesList]);
+      await fetchLoadData(requestConfig);
+    };
 
-  const sortedList = [...juicesList].sort((a, b) => a.id - b.id);
+    loadData();
+  }, [lists.juicesList.length, setLists, setLoading]);
+
+  const sortedList = [...lists.juicesList].sort((a, b) => a.id - b.id);
 
   return (
     <>
       <ul className={`${styles.listMenu} ${isLoaded ? styles.fadeIn : ''}`}>
-        {!windowLoad && sortedList.length === 0 && (
+        {!loading && sortedList.length === 0 && (
           <h2>Nenhum produto a ser exibido!</h2>
         )}
-        {sortedList.map((item) => (
-          <CardMenu
-            key={uuidv4()}
-            item={item}
-            loadItem={loadItem}
-            setLoadItem={setLoadItem}
-            img={item.imageUrl}
-            list={juicesList}
-            setList={setJuicesList}
-            type={item.category.name}
-          />
-        ))}
+        {!loading &&
+          sortedList.map((item) => (
+            <CardMenu
+              key={uuidv4()}
+              item={item}
+              loadItem={loadItem}
+              setLoadItem={setLoadItem}
+              img={item.imageUrl}
+              type={item.category.name}
+              list={lists.juicesList}
+              listName="juicesList"
+              setLists={setLists}
+            />
+          ))}
       </ul>
     </>
   );

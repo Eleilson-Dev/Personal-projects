@@ -16,7 +16,7 @@ import { WindowLoad } from '../../WindowLoad';
 
 export const CreatePizza = () => {
   const { loadingState, setLoadingState, windowLoad } = useUserContext();
-  const { setPizzasList } = useLists();
+  const { setLists } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -42,7 +42,8 @@ export const CreatePizza = () => {
     };
 
     const requestConfig = {
-      setList: setPizzasList,
+      listName: 'pizzasList',
+      setLists,
       setLoadingState,
       productData: formData,
       endPoint: category,

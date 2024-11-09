@@ -5,11 +5,9 @@ import { api } from '../../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
-import { useLists } from '../../hooks/useLists';
 
 export const LoginWithGoogle = () => {
   const { setLoadingState, setUser } = useUserContext();
-  const { setBurgersList } = useLists();
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
@@ -17,7 +15,6 @@ export const LoginWithGoogle = () => {
       const { access_token } = codeResponse;
 
       try {
-        setBurgersList([]);
         setLoadingState((prev) => ({ ...prev, formLoad: true }));
 
         const { data } = await api.post('/users/login/google', {
@@ -28,7 +25,7 @@ export const LoginWithGoogle = () => {
 
         toast.success('Google login success');
         setUser(data.userWithGoogle);
-        navigate('/');
+        navigate('/menu/hamburguers');
       } catch (error) {
         console.error('Erro durante o login com Google:', error);
         toast.error('Google login error');

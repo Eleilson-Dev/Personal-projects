@@ -20,7 +20,7 @@ import { ChangeImage } from '../../../fragments/ChangeImage';
 export const EditPizza = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setPizzasList } = useLists();
+  const { setLists } = useLists();
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -70,7 +70,8 @@ export const EditPizza = () => {
     await updateProduct({
       id,
       productUpdateData,
-      setList: setPizzasList,
+      listName: 'pizzasList',
+      setLists,
       endPoint: cateory,
       setLoadingState,
     });

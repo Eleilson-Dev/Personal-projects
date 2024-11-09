@@ -20,7 +20,7 @@ import { WindowLoad } from '../../WindowLoad';
 export const EditCake = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setCakesList } = useLists();
+  const { setLists } = useLists();
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -71,7 +71,8 @@ export const EditCake = () => {
     await updateProduct({
       id,
       productUpdateData,
-      setList: setCakesList,
+      listName: 'cakesList',
+      setLists,
       endPoint: category,
       setLoadingState,
     });

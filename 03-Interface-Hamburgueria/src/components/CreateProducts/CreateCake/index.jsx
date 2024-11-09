@@ -16,7 +16,7 @@ import { WindowLoad } from '../../WindowLoad';
 
 export const CreateCake = () => {
   const { loadingState, setLoadingState, windowLoad } = useUserContext();
-  const { setCakesList } = useLists();
+  const { setLists } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -41,7 +41,8 @@ export const CreateCake = () => {
     };
 
     const requestConfig = {
-      setList: setCakesList,
+      listName: 'cakesList',
+      setLists,
       setLoadingState,
       productData: formData,
       endPoint: category,

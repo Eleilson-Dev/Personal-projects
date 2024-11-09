@@ -9,7 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { changeProductVisibility } from '../../utils/changeProductVisibility';
 import { deleteProduct } from '../../utils/deleteProduct';
 
-export const ProductActions = ({ item, visibility, list, setList }) => {
+export const ProductActions = ({
+  item,
+  visibility,
+  list,
+  listName,
+  setLists,
+}) => {
   const { user, setLoadingState } = useUserContext();
 
   const [isDeleting, setIsDeleting] = useState(false);
@@ -21,15 +27,16 @@ export const ProductActions = ({ item, visibility, list, setList }) => {
     changeProductVisibility(
       item,
       list,
-      setList,
+      listName,
+      setLists,
       setLoadingState,
       setIsChangingVisibility
     );
-  }, [item, list, setList, setLoadingState]);
+  }, [item, list, setLists, setLoadingState]);
 
   const deleteItem = useCallback(() => {
-    deleteProduct(item, setList, setLoadingState, setIsDeleting);
-  }, [item, setList, setLoadingState]);
+    deleteProduct(item, listName, setLists, setLoadingState, setIsDeleting);
+  }, [item, setLists, setLoadingState]);
 
   const handleEdit = (item) => {
     const endPoint = item.category.name.slice(0, -1);

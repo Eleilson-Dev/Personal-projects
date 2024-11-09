@@ -20,7 +20,7 @@ import { ChangeImage } from '../../../fragments/ChangeImage';
 export const EditSavory = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setSavorysList } = useLists();
+  const { setLists } = useLists();
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -70,7 +70,8 @@ export const EditSavory = () => {
     await updateProduct({
       id,
       productUpdateData,
-      setList: setSavorysList,
+      listName: 'savorysList',
+      setLists,
       endPoint: category,
       setLoadingState,
     });

@@ -20,7 +20,7 @@ import { ChangeImage } from '../../../fragments/ChangeImage';
 export const EditSoda = () => {
   const { productType, id } = useParams();
   const { loadingState, setLoadingState } = useUserContext();
-  const { setSodasList } = useLists();
+  const { setLists } = useLists();
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -70,7 +70,8 @@ export const EditSoda = () => {
     await updateProduct({
       id,
       productUpdateData,
-      setList: setSodasList,
+      listName: 'sodasList',
+      setLists,
       endPoint: category,
       setLoadingState,
     });

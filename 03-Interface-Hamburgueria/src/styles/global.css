@@ -56,12 +56,9 @@ body {
   padding: 1rem;
 }
 
-.mainConteiner {
-  margin-top: 10rem;
-}
-
 ::-webkit-scrollbar {
   width: 0;
+  height: 0;
 }
 
 ::-webkit-scrollbar-track {

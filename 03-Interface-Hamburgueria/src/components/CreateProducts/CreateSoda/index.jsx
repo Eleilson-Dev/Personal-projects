@@ -16,7 +16,7 @@ import { ChangeImage } from '../../../fragments/ChangeImage';
 
 export const CreateSoda = () => {
   const { loadingState, setLoadingState, windowLoad } = useUserContext();
-  const { setSodasList } = useLists();
+  const { setLists } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -42,7 +42,8 @@ export const CreateSoda = () => {
     };
 
     const requestConfig = {
-      setList: setSodasList,
+      listName: 'sodasList',
+      setLists,
       setLoadingState,
       productData: formData,
       endPoint: category,

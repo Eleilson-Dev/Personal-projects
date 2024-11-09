@@ -5,7 +5,8 @@ import { getToken } from '../tokenActions';
 export const changeProductVisibility = async (
   item,
   list,
-  setList,
+  listName,
+  setLists,
   setLoadingState,
   setIsChangingVisibility
 ) => {
@@ -26,13 +27,14 @@ export const changeProductVisibility = async (
       }
     );
 
-    setList((prevMenu) =>
-      prevMenu.map((menuItem) =>
+    setLists((prevLists) => ({
+      ...prevLists,
+      [listName]: prevLists[listName].map((menuItem) =>
         menuItem.id === item.id
           ? { ...menuItem, visibility: newVisibility }
           : menuItem
-      )
-    );
+      ),
+    }));
 
     toast.success(
       newVisibility ? 'Produto visível na lista' : 'Produto ocultado na lista'

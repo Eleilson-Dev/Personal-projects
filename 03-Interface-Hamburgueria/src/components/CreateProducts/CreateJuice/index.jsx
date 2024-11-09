@@ -16,7 +16,7 @@ import { WindowLoad } from '../../WindowLoad';
 
 export const CreateJuice = () => {
   const { loadingState, setLoadingState, windowLoad } = useUserContext();
-  const { setJuicesList } = useLists();
+  const { setLists } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -42,7 +42,8 @@ export const CreateJuice = () => {
     };
 
     const requestConfig = {
-      setList: setJuicesList,
+      listName: 'juicesList',
+      setLists,
       setLoadingState,
       productData: formData,
       endPoint: category,

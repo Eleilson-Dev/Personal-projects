@@ -2,59 +2,59 @@ import styles from './styles.module.css';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
-import { getToken } from '../../../utils/tokenActions';
 import { CardMenu } from '../../../components/CardMenu';
-import { useUserContext } from '../../../hooks/useUserContext';
-import { fetchLoadData } from '../../../utils/fetchLoadData';
 import { useLists } from '../../../hooks/useLists';
+import { fetchLoadData } from '../../../utils/fetchLoadData';
+import { getToken } from '../../../utils/tokenActions';
 
 export const HamburguersList = () => {
-  const { windowLoad, setWindowLoad } = useUserContext();
-  const { burgersList, setBurgersList } = useLists();
+  const { lists, setLists, loading, setLoading } = useLists();
   const [loadItem, setLoadItem] = useState({ state: false, id: null });
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (burgersList.length === 0) {
-      const load = async () => {
-        const requestConfig = {
-          setList: setBurgersList,
-          token: getToken('@TOKEN'),
-          endPoint: 'hamburguers',
-          load: true,
-          setWindowLoad,
-        };
+    if (lists.burgersList.length > 0) {
+      setIsLoaded(true);
+      return;
+    }
 
-        await fetchLoadData(requestConfig);
-        setIsLoaded(true);
+    const loadData = async () => {
+      const requestConfig = {
+        listName: 'burgersList',
+        setLists,
+        token: getToken('@TOKEN'),
+        endPoint: 'hamburguers',
+        setLoading,
       };
 
-      load();
-    } else {
-      setIsLoaded(true);
-    }
-  }, [setBurgersList]);
+      await fetchLoadData(requestConfig);
+    };
 
-  const sortedList = [...burgersList].sort((a, b) => a.id - b.id);
+    loadData();
+  }, [lists.burgersList.length, setLists, setLoading]);
+
+  const sortedList = [...lists.burgersList].sort((a, b) => a.id - b.id);
 
   return (
     <>
       <ul className={`${styles.listMenu} ${isLoaded ? styles.fadeIn : ''}`}>
-        {!windowLoad && sortedList.length === 0 && (
+        {!loading && sortedList.length === 0 && (
           <h2>Nenhum produto a ser exibido!</h2>
         )}
-        {sortedList.map((item) => (
-          <CardMenu
-            key={uuidv4()}
-            item={item}
-            loadItem={loadItem}
-            setLoadItem={setLoadItem}
-            img={item.imageUrl}
-            type={item.category.name}
-            list={burgersList}
-            setList={setBurgersList}
-          />
-        ))}
+        {!loading &&
+          sortedList.map((item) => (
+            <CardMenu
+              key={uuidv4()}
+              item={item}
+              loadItem={loadItem}
+              setLoadItem={setLoadItem}
+              img={item.imageUrl}
+              type={item.category.name}
+              list={lists.burgersList}
+              listName="burgersList"
+              setLists={setLists}
+            />
+          ))}
       </ul>
     </>
   );

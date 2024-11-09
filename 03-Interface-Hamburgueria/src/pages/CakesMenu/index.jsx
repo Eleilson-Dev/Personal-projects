@@ -1,15 +1,9 @@
-import { useUserContext } from '../../hooks/useUserContext';
 import { CakesList } from './CakesList';
 import { WindowLoad } from '../../components/WindowLoad';
+import { useLists } from '../../hooks/useLists';
 
 export const CakesMenu = () => {
-  const { windowLoad } = useUserContext();
+  const { loading } = useLists();
 
-  return (
-    <>
-      {windowLoad && <WindowLoad />}
-
-      <CakesList />
-    </>
-  );
+  return <>{loading ? <WindowLoad /> : <CakesList />}</>;
 };

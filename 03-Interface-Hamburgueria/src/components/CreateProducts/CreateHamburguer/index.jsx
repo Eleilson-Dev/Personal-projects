@@ -16,7 +16,7 @@ import { WindowLoad } from '../../WindowLoad';
 
 export const CreateHamburguer = () => {
   const { loadingState, setLoadingState, windowLoad } = useUserContext();
-  const { setBurgersList } = useLists();
+  const { setLists } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -42,7 +42,8 @@ export const CreateHamburguer = () => {
     };
 
     const requestConfig = {
-      setList: setBurgersList,
+      listName: 'burgersList',
+      setLists,
       setLoadingState,
       productData: formData,
       endPoint: category,

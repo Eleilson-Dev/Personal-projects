@@ -4,7 +4,8 @@ import { getToken } from '../tokenActions';
 
 export const deleteProduct = async (
   item,
-  setList,
+  listName,
+  setLists,
   setLoadingState,
   setIsDeleting
 ) => {
@@ -18,11 +19,12 @@ export const deleteProduct = async (
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    setList((prevMenu) =>
-      prevMenu.filter((menuItem) => {
+    setLists((prevLists) => ({
+      ...prevLists,
+      [listName]: prevLists[listName].filter((menuItem) => {
         return menuItem.id !== item.id;
-      })
-    );
+      }),
+    }));
 
     toast.success(`${item.name} deletado da lista`);
   } catch (error) {

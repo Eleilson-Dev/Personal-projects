@@ -17,6 +17,7 @@ import { ResetPassword } from '../../pages/ResetPassword';
 import { EditProducts } from '../../components/EditProducts';
 import { CreateProducts } from '../../components/CreateProducts';
 import { RenderMenu } from '../../components/RenderMenu';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export const RoutesMain = () => {
   return (

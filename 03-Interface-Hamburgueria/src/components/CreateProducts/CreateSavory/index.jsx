@@ -16,7 +16,7 @@ import { WindowLoad } from '../../WindowLoad';
 
 export const CreateSavory = () => {
   const { loadingState, setLoadingState, windowLoad } = useUserContext();
-  const { setSavorysList } = useLists();
+  const { setLists } = useLists();
   const { productType } = useParams();
   const [imageFile, setImageFile] = useState(null);
   const [hasImg, setHasImg] = useState(null);
@@ -42,7 +42,8 @@ export const CreateSavory = () => {
     };
 
     const requestConfig = {
-      setList: setSavorysList,
+      listName: 'savorysList',
+      setLists,
       setLoadingState,
       productData: formData,
       endPoint: category,
